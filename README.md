@@ -1,4 +1,4 @@
-# 🔐 Karthigaikselvam R - Portfolio
+# 🔐 Karthigaiselvam R - Portfolio
 
 > **Security Researcher & Full Stack Developer**  
 > *Exploring the intersection of secure infrastructure and modern web experiences.*
