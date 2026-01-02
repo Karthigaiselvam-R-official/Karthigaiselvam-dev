@@ -1,0 +1,119 @@
+.skills {
+    background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 50%, var(--bg-dark) 100%);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.sectionTag {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: var(--primary-light);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 16px;
+}
+
+.subtitle {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.categoriesGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.category {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 30px;
+}
+
+.categoryTitle {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    color: var(--primary-light);
+}
+
+.skillsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skillCard {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    cursor: default;
+    transition: var(--transition-normal);
+}
+
+.skillCard:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-glow);
+}
+
+.skillIcon {
+    font-size: 1.3rem;
+}
+
+.skillName {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.skillLevel {
+    width: 60px;
+    height: 6px;
+    background: var(--bg-card);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.skillProgress {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+}
+
+@media (max-width: 1024px) {
+    .categoriesGrid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .category {
+        padding: 20px;
+    }
+
+    .skillCard {
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+    }
+
+    .skillLevel {
+        display: none;
+    }
+}
