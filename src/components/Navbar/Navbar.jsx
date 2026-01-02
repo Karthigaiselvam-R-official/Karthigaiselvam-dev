@@ -33,9 +33,12 @@ function Navbar() {
                 <motion.a
                     href="#home"
                     className={styles.logo}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.02 }}
                 >
-                    <span className="gradient-text">K</span>arthigaiselvam
+                    <span className={styles.logoSymbol}>&lt;</span>
+                    <span className={styles.logoText}>Karthigai</span>
+                    <span className={styles.logoAccent}>.R</span>
+                    <span className={styles.logoSymbol}>/&gt;</span>
                 </motion.a>
 
                 {/* Desktop Menu */}
@@ -48,6 +51,7 @@ function Navbar() {
                             transition={{ delay: index * 0.1 }}
                         >
                             <a href={link.href} className={styles.navLink}>
+                                <span className={styles.linkNumber}>0{index + 1}.</span>
                                 {link.name}
                             </a>
                         </motion.li>
@@ -57,8 +61,8 @@ function Navbar() {
                 <motion.a
                     href="#contact"
                     className={`btn btn-primary ${styles.ctaBtn}`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                 >
                     Hire Me
                 </motion.a>
@@ -82,12 +86,13 @@ function Navbar() {
                 animate={isMobileMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: '100%' }}
             >
                 <ul className={styles.mobileLinks}>
-                    {navLinks.map((link) => (
+                    {navLinks.map((link, index) => (
                         <li key={link.name}>
                             <a
                                 href={link.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
+                                <span className={styles.linkNumber}>0{index + 1}.</span>
                                 {link.name}
                             </a>
                         </li>

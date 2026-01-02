@@ -16,19 +16,27 @@
     font-weight: 700;
     display: inline-block;
     margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.logoAccent {
+    color: var(--primary);
 }
 
 .tagline {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
+    line-height: 1.7;
     max-width: 300px;
 }
 
 .footerNav h4,
 .footerConnect h4 {
-    font-size: 1rem;
+    font-size: 0.85rem;
     margin-bottom: 20px;
-    color: var(--text-primary);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .footerNav ul {
@@ -39,27 +47,27 @@
 }
 
 .footerNav a {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
     transition: var(--transition-fast);
 }
 
 .footerNav a:hover {
-    color: var(--primary-light);
+    color: var(--primary);
 }
 
 .socialIcons {
     display: flex;
-    gap: 16px;
+    gap: 12px;
 }
 
 .socialIcons a {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-dark);
+    background: var(--bg-darker);
     border: 1px solid var(--border-color);
     border-radius: 50%;
     color: var(--text-secondary);
@@ -68,8 +76,8 @@
 
 .socialIcons a:hover {
     border-color: var(--primary);
-    color: var(--primary-light);
-    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    box-shadow: var(--glow-primary);
 }
 
 .footerBottom {
@@ -81,14 +89,21 @@
 }
 
 .footerBottom p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
 }
 
-.madeWith span {
-    color: #ef4444;
+.madeWith {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
+.madeWith svg {
+    color: var(--accent);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .footerContent {
         grid-template-columns: 1fr;
