@@ -1,6 +1,6 @@
 # 🔐 Karthigaiselvam R - Portfolio
 
-> **Security Researcher & Full Stack Developer**  
+> **Security Researcher & Software Developer**  
 > *Exploring the intersection of secure infrastructure and modern web experiences.*
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
