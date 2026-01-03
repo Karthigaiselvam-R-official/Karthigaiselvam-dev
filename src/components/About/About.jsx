@@ -1,5 +1,5 @@
-import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
 import styles from './About.module.css'
 
 // SVG Icons
@@ -39,93 +39,6 @@ const Download = () => (
     </svg>
 )
 
-const Trophy = () => (
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
-        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
-        <path d="M4 22h16" />
-        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
-        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
-        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
-    </svg>
-)
-
-const ImageCarousel = ({ images }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        if (!images || images.length <= 1) return;
-        const interval = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % images.length);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, [images]);
-
-    if (!images || images.length === 0) return null;
-
-    return (
-        <div className={styles.cardImageWrapper}>
-            <AnimatePresence mode="popLayout">
-                <motion.img
-                    key={currentIndex}
-                    src={images[currentIndex]}
-                    alt="Achievement"
-                    className={styles.cardBg}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1 }}
-                />
-            </AnimatePresence>
-            <div className={styles.cardOverlay}></div>
-        </div>
-    );
-};
-
-// Achievements Data
-const achievements = [
-    {
-        title: 'Hack4Purpose 2024',
-        place: 'Top 100 Winning Teams',
-        prize: 'National Level Recognition',
-        icon: <Trophy />,
-        images: [
-            '/images/hack4purpose_1.png',
-            '/images/hack4purpose_2.png',
-            '/images/hack4purpose_3.png',
-            '/images/hack4purpose_4.png'
-        ],
-        link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_hello-everyone-i-am-thrilled-to-activity-7240367648004300802-xcs7?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD9jGL0BFl_4ZtOzROAOLsKEnN_tfXUp8Z0',
-        color: 'primary'
-    },
-    {
-        title: 'IIIT-Delhi Pitch-Cafe 7.0',
-        place: 'First Runner-up (2nd)',
-        prize: '₹20,000 Cash Prize',
-        icon: <Trophy />,
-        images: [
-            '/images/pitchcafe_1.png',
-            '/images/pitchcafe_2.png',
-            '/images/pitchcafe_3.png'
-        ],
-        link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_im-pleased-to-announce-that-our-team-achieved-activity-7240364228069441537-H7Wm?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD9jGL0BFl_4ZtOzROAOLsKEnN_tfXUp8Z0',
-        color: 'secondary'
-    },
-    {
-        title: 'Y2E Ideathon',
-        place: 'First Runner-up (2nd)',
-        prize: '₹10,000 Cash Prize',
-        icon: <Trophy />,
-        images: [
-            '/images/y2e_1.png',
-            '/images/y2e_2.png',
-            '/images/y2e_3.png',
-            '/images/y2e_4.png'
-        ],
-        link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_entrepreneurship-cybersecurity-innovation-activity-7240362391954186240--oqp?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD9jGL0BFl_4ZtOzROAOLsKEnN_tfXUp8Z0',
-        color: 'accent'
-    }
-]
 
 const highlights = [
     {
@@ -277,40 +190,6 @@ function About() {
                             Download Resume
                         </motion.a>
                     </motion.div>
-                </motion.div>
-
-                {/* Achievements Section */}
-                <motion.div
-                    className={styles.achievementsSection}
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                    transition={{ delay: 0.7 }}
-                >
-                    <h3 className={styles.achievementsTitle}>Key Achievements</h3>
-                    <div className={styles.achievementsGrid}>
-                        {achievements.map((item, index) => (
-                            <motion.a
-                                key={index}
-                                href={item.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={styles.achievementCard}
-                                whileHover={{ y: -10, rotateX: 5 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                            >
-                                <ImageCarousel images={item.images} />
-                                <div className={`${styles.achievementIcon} ${styles[item.color]}`}>
-                                    {item.icon}
-                                </div>
-                                <div className={styles.achievementInfo}>
-                                    <h4>{item.title}</h4>
-                                    <span className={styles.place}>{item.place}</span>
-                                    <span className={styles.prize}>{item.prize}</span>
-                                </div>
-                                <div className={`${styles.glowEffect} ${styles[item.color]}`}></div>
-                            </motion.a>
-                        ))}
-                    </div>
                 </motion.div>
 
             </div>
