@@ -1,8 +1,9 @@
 .section {
     padding: 100px 0;
+    background: var(--bg-darker);
     position: relative;
-    overflow: hidden;
-    background: var(--bg-dark);
+    overflow: visible;
+    min-height: 150vh;
 }
 
 .sectionHeader {
@@ -14,241 +15,149 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    background: rgba(0, 255, 136, 0.05);
-    border: 1px solid rgba(0, 255, 136, 0.2);
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid var(--primary);
     border-radius: 50px;
-    font-size: 0.85rem;
+    padding: 8px 18px;
+    font-size: 0.8rem;
     color: var(--primary);
     margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    color: var(--text-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
 }
 
-/* Timeline Container */
-.timeline {
+/* 3D Tilted Ring Container */
+.ringContainer {
     position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px 0;
-}
-
-.timelineLine {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    background: linear-gradient(to bottom,
-            transparent 0%,
-            var(--primary) 15%,
-            var(--secondary) 50%,
-            var(--accent) 85%,
-            transparent 100%);
-    transform: translateX(-50%);
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
-}
-
-/* Timeline Item */
-.timelineItem {
-    position: relative;
-    width: 50%;
-    margin-bottom: 60px;
-    padding-right: 40px;
-}
-
-.timelineItem.right {
-    left: 50%;
-    padding-right: 0;
-    padding-left: 40px;
-}
-
-/* Timeline Dot */
-.timelineDot {
-    position: absolute;
-    top: 24px;
-    right: -8px;
-    width: 16px;
-    height: 16px;
-    background: var(--bg-dark);
-    border: 2px solid var(--primary);
-    border-radius: 50%;
-    z-index: 2;
-    box-shadow: 0 0 0 4px rgba(0, 255, 136, 0.1);
-    transition: all 0.3s ease;
-}
-
-.timelineItem.right .timelineDot {
-    right: auto;
-    left: -8px;
-}
-
-.timelineItem:hover .timelineDot {
-    background: var(--primary);
-    transform: scale(1.2);
-    box-shadow: 0 0 0 6px rgba(0, 255, 136, 0.2);
-}
-
-.timelineDot.secondary {
-    border-color: var(--secondary);
-}
-
-.timelineItem:hover .timelineDot.secondary {
-    background: var(--secondary);
-    box-shadow: 0 0 0 6px rgba(0, 212, 255, 0.2);
-}
-
-.timelineDot.accent {
-    border-color: var(--accent);
-}
-
-.timelineItem:hover .timelineDot.accent {
-    background: var(--accent);
-    box-shadow: 0 0 0 6px rgba(255, 0, 110, 0.2);
-}
-
-/* Card */
-.card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 24px;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.card.primary {
-    border-left-color: var(--primary);
-}
-
-.card.secondary {
-    border-left-color: var(--secondary);
-}
-
-.card.accent {
-    border-left-color: var(--accent);
-}
-
-.cardHeader {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
-}
-
-.iconBox {
-    width: 48px;
-    height: 48px;
+    height: 700px;
+    perspective: 2000px;
+    transform-style: preserve-3d;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
 }
 
-.iconBox.primary {
-    color: var(--primary);
-    background: rgba(0, 255, 136, 0.1);
+/* Ring Card - IMPORTANT: backface-visibility visible to show mirrored content at back */
+.ringCard {
+    position: absolute;
+    width: 320px;
+    padding: 24px;
+    background: linear-gradient(145deg, rgba(18, 18, 25, 0.97), rgba(10, 10, 14, 0.99));
+    border: 2px solid;
+    border-radius: 18px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    /* CRITICAL: Keep visible so cards at back show their backface (mirrored text) */
+    backface-visibility: visible;
 }
 
-.iconBox.secondary {
-    color: var(--secondary);
-    background: rgba(0, 212, 255, 0.1);
+.cardGlow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 18px;
 }
 
-.iconBox.accent {
-    color: var(--accent);
-    background: rgba(255, 0, 110, 0.1);
+.cardContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.headerText h3 {
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-    color: var(--text-primary);
+.cardTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.headerText h4 {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.date {
+.cardIcon {
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 16px;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid;
+    border-radius: 12px;
+}
+
+.cardIcon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.cardDate {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
     font-family: 'JetBrains Mono', monospace;
 }
 
-.description {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
+.cardRole {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 8px 0 4px;
+    line-height: 1.3;
 }
 
-.skills {
+.cardCompany {
+    font-size: 0.9rem;
+    color: #ffd700;
+    margin: 0;
+}
+
+.cardSkills {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    margin-top: 10px;
 }
 
 .skillTag {
-    font-size: 0.75rem;
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    color: var(--text-primary);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.2s ease;
-}
-
-.card:hover .skillTag {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    padding: 5px 12px;
+    font-size: 0.68rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid;
+    border-radius: 50px;
+    color: rgba(255, 255, 255, 0.75);
+    font-family: 'JetBrains Mono', monospace;
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .ringContainer {
+        height: 650px;
+        perspective: 1600px;
+    }
+
+    .ringCard {
+        width: 280px;
+        padding: 20px;
+    }
+}
+
 @media (max-width: 768px) {
-    .timelineLine {
-        left: 20px;
-        transform: none;
+    .ringContainer {
+        height: 600px;
+        perspective: 1200px;
     }
 
-    .timelineItem {
-        width: 100%;
-        padding-left: 50px;
-        padding-right: 0;
-        margin-bottom: 40px;
+    .ringCard {
+        width: 260px;
+        padding: 18px;
     }
 
-    .timelineItem.right {
-        left: 0;
-        padding-left: 50px;
-    }
-
-    .timelineDot {
-        left: 12px !important;
-        right: auto !important;
-    }
-
-    .title {
-        font-size: 2rem;
+    .cardRole {
+        font-size: 1rem;
     }
 }
