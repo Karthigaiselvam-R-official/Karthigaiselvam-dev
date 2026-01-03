@@ -7,9 +7,8 @@ import AchievementCarousel from './components/AchievementCarousel/AchievementCar
 import Experience from './components/Experience/Experience'
 import Skills from './components/Skills/Skills'
 import Projects from './components/Projects/Projects'
-import Playground from './components/Playground/Playground'
-import Tools from './components/Tools/Tools'
-import Connect from './components/Connect/Connect'
+
+
 import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
 import styles from './App.module.css'
@@ -31,9 +30,8 @@ function App() {
                 <Experience />
                 <Skills />
                 <Projects />
-                <Playground />
-                <Tools />
-                <Connect />
+
+
                 <Contact />
             </main>
             <Footer />
