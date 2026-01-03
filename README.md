@@ -10,6 +10,30 @@
 
 A highly interactive, cyber-security themed portfolio website built to showcase penetration testing achievements, software development projects, and professional experience.
 
+---
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="public/images/image.png" alt="Hero Section" width="100%"/>
+</p>
+
+<p align="center">
+  <img src="public/images/image copy.png" alt="About Section" width="48%"/>
+  <img src="public/images/image copy 2.png" alt="Experience Section" width="48%"/>
+</p>
+
+<p align="center">
+  <img src="public/images/image copy 3.png" alt="Skills Section" width="48%"/>
+  <img src="public/images/image copy 4.png" alt="Projects Section" width="48%"/>
+</p>
+
+<p align="center">
+  <img src="public/images/image copy 5.png" alt="Contact Section" width="100%"/>
+</p>
+
+---
+
 ## ✨ Key Features
 
 - **🎨 Cyber Aesthetic**: Custom neon design system with glassmorphism, matrix rain, and glitch effects.
