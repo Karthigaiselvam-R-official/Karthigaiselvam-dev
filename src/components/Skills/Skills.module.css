@@ -1,228 +1,219 @@
+/* Main Container */
 .skills {
     position: relative;
-    background: linear-gradient(180deg, var(--bg-darker) 0%, var(--bg-dark) 50%, var(--bg-darker) 100%);
+    min-height: 100vh;
+    padding: 80px 20px;
+    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%);
+    overflow: hidden;
 }
 
-/* Cloud Section */
-.cloudSection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-    margin-bottom: 60px;
-    cursor: grab;
-}
-
-.cloudSection:active {
-    cursor: grabbing;
-}
-
-.cloudWrapper {
+.graphContainer {
     position: relative;
     width: 100%;
+    height: 800px;
+    /* Large canvas for the graph */
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* SVG Connections */
+.connections {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through to nodes */
+    z-index: 0;
+    /* Allow lines to extend beyond the box if needed */
+    overflow: visible;
+}
+
+/* Nodes */
+.node {
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-/* Global TagCloud Styles applied by JS lib */
-:global(.tagcloud) {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--primary);
-}
-
-:global(.tagcloud--item) {
+    /* Use pill shape for text fitting */
+    border-radius: 30px;
+    padding: 10px 18px;
+    min-width: 60px;
+    background: #050510;
+    /* Opaque */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
     cursor: pointer;
-    padding: 2px 4px;
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-:global(.tagcloud--item:hover) {
-    color: var(--bg-dark);
-    background: var(--primary);
-    border-radius: 4px;
-    box-shadow: var(--glow-primary);
-}
-
-.category {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
-    padding: 32px 24px;
-    transition: var(--transition-normal);
-}
-
-.category:hover {
-    border-color: var(--primary);
-}
-
-.category.primary:hover {
-    border-color: var(--primary);
-}
-
-.category.secondary:hover {
-    border-color: var(--secondary);
-}
-
-.category.accent:hover {
-    border-color: var(--accent);
-}
-
-.categoryHeader {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 28px;
-}
-
-.categoryLine {
-    flex: 1;
-    height: 1px;
-    background: var(--border-color);
-}
-
-.categoryTitle {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-}
-
-.category.primary .categoryTitle {
-    color: var(--primary);
-}
-
-.category.secondary .categoryTitle {
-    color: var(--secondary);
-}
-
-.category.accent .categoryTitle {
-    color: var(--accent);
-}
-
-.skillsList {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.skillCard {
+.nodeContent {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: 20px 16px;
-    background: var(--bg-darker);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    cursor: default;
-    transition: var(--transition-normal);
-}
-
-.skillCard:hover {
-    border-color: var(--primary);
-    background: rgba(0, 255, 136, 0.02);
-}
-
-.skillIcon {
-    width: 36px;
-    height: 36px;
-    color: var(--primary);
-}
-
-.skillIcon svg {
-    width: 100%;
-    height: 100%;
-}
-
-.category.secondary .skillIcon {
-    color: var(--secondary);
-}
-
-.category.accent .skillIcon {
-    color: var(--accent);
-}
-
-.skillName {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-align: center;
-}
-
-/* Additional Skills */
-.additionalSkills {
-    text-align: center;
-    padding: 32px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
-}
-
-.additionalLabel {
-    display: block;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.additionalTags {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    position: relative;
+    pointer-events: none;
 }
 
-.skillTag {
-    padding: 8px 16px;
-    background: var(--bg-darker);
-    border: 1px solid var(--border-color);
-    border-radius: 50px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+/* Label Inside */
+.nodeLabel {
     font-family: 'JetBrains Mono', monospace;
-    transition: var(--transition-fast);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+    text-align: center;
 }
 
-.skillTag:hover {
-    border-color: var(--primary);
-    color: var(--primary);
+/* Node Types */
+.core {
+    /* Keep Core as a large circle */
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    padding: 0;
+    z-index: 100 !important;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+
+    /* FORCE CENTER - Disable Transform, Use Margins */
+    transform: none !important;
+    margin-left: -75px;
+    /* Half of 150px */
+    margin-top: -75px;
+    /* Half of 150px */
+}
+
+.core .nodeLabel {
+    /* Reset position to float inside */
+    position: static;
+    transform: none;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    color: #fff;
+    background: transparent;
+    border: none;
+    white-space: normal;
+    max-width: 130px;
+    line-height: 1.2;
+}
+
+/* Push content up so text sits in the true center */
+.core .nodeContent {
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+.category {
+    /* Categories as Fixed Ovals (Elliptical) */
+    width: 150px;
+    height: 60px;
+    border-radius: 30px;
+    /* Pill shape */
+    padding: 0;
+    z-index: 15;
+    background: #0a0a1a;
+    border-color: rgba(255, 255, 255, 0.4);
+
+    /* FORCE CENTER - Fixed Geometry */
+    transform: none !important;
+    margin-left: -75px;
+    /* Half of 150 */
+    margin-top: -30px;
+    /* Half of 60 */
+
+    /* Ensure content centers */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category .nodeLabel {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    /* No wrap for pills */
+    text-align: center;
+    width: 100%;
+}
+
+.skill {
+    /* Skills as compact pills (variable width) */
+    padding: 8px 20px;
+    /* Ensure they are centered on the coordinate */
+    transform: translate(-50%, -50%) !important;
+    /* Remove opacity hiding the line */
+    background: rgba(5, 5, 16, 0.4);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skill .nodeLabel {
+    font-size: 0.8rem;
+    /* Slightly larger */
+    color: #e0e0e0;
+}
+
+/* Orbit Ring */
+.orbitRing {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.core .orbitRing {
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+}
+
+/* Avatar */
+.coreAvatar {
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 5px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-    .skillsGrid {
-        grid-template-columns: 1fr;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
-@media (max-width: 480px) {
-    .category {
-        padding: 24px 16px;
+@media (max-width: 768px) {
+    .graphContainer {
+        height: 600px;
+        transform: scale(0.8);
+        /* Scale down entire graph */
+        transform-origin: center center;
     }
 
-    .skillsList {
-        gap: 8px;
+    .nodeLabel {
+        display: none;
+        /* Hide labels on mobile to reduce clutter? Or show only on hover? */
     }
 
-    .skillCard {
-        padding: 14px 10px;
+    .node:hover .nodeLabel {
+        display: block;
+        /* Show on tap/hover */
     }
 
-    .skillIcon {
-        width: 28px;
-        height: 28px;
-    }
-
-    .skillName {
-        font-size: 0.75rem;
+    .core .nodeLabel,
+    .category .nodeLabel {
+        display: block;
+        /* Always show main labels */
     }
 }
