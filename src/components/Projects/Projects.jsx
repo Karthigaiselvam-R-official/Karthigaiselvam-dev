@@ -1,8 +1,10 @@
-import { motion, useInView } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import styles from './Projects.module.css'
 
-// SVG Icons
+// ... (Keep existing SVG Icons and Constants: Github, Star, GitFork, Folder, ArrowRight, Loader, FEATURED_REPOS, GITHUB_USERNAME, projectDescriptions, projectImages) ...
+
+// Keep SVG Icons
 const Github = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -43,7 +45,6 @@ const Loader = () => (
     </svg>
 )
 
-// Featured repos to fetch from GitHub
 const FEATURED_REPOS = [
     'AsusTufFanControl_Linux',
     'Smart_Attendance',
@@ -54,7 +55,6 @@ const FEATURED_REPOS = [
 
 const GITHUB_USERNAME = 'Karthigaiselvam-R-official'
 
-// Project descriptions (fallback and enhanced)
 const projectDescriptions = {
     'AsusTufFanControl_Linux': 'A powerful, expert-level system control utility for ASUS TUF and ROG laptops on Linux. Features advanced Fan Control, Battery Health management, and Aura Sync RGB customization with Qt6/QML.',
     'Vulnerability_Scanner': 'Automated security scanning tool for modern web applications. Detects SQLi, XSS, CSRF, and SSRF vulnerabilities with high accuracy.',
@@ -70,8 +70,11 @@ const projectImages = {
 }
 
 function Projects() {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-100px" })
+    const containerRef = useRef(null)
+    const { scrollYProgress } = useScroll({ target: containerRef })
+    // Only scroll the featured projects slider horizontally
+    const x = useTransform(scrollYProgress, [0, 1], ["1%", "-75%"])
+
     const [repos, setRepos] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -145,125 +148,127 @@ function Projects() {
         return colors[language] || '#8892a0'
     }
 
+    const featuredProjects = repos.filter(r => r.featured)
+    const otherProjects = repos.filter(r => !r.featured)
+
     return (
-        <section id="projects" className={`section ${styles.projects}`}>
-            <div className="hex-grid"></div>
-            <div className="container">
-                <motion.div
-                    className="section-header"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                >
-                    <span className="section-tag">
-                        <Folder />
-                        My Work
-                    </span>
-                    <h2 className="section-title">
-                        Featured <span className="gradient-text">Projects</span>
-                    </h2>
-                    <p className="section-subtitle">
-                        Security tools and applications - fetched live from GitHub
-                        {loading && <Loader />}
-                    </p>
-                </motion.div>
+        <section id="projects" className={styles.projectsWrapper} ref={containerRef}>
+            <div className={styles.stickyContainer}>
+                <div className="container">
+                    <motion.div
+                        className="section-header"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <span className="section-tag">
+                            <Folder />
+                            My Work
+                        </span>
+                        <h2 className="section-title">
+                            Featured <span className="gradient-text">Project Vault</span>
+                        </h2>
+                        <p className="section-subtitle">
+                            Security tools and applications - fetched live from GitHub
+                            {loading && <Loader />}
+                        </p>
+                    </motion.div>
+                </div>
 
-                <motion.div ref={ref} className={styles.projectsGrid}>
-                    {repos.filter(r => r.featured).map((repo, index) => (
-                        <motion.article
-                            key={repo.name}
-                            className={styles.projectCard}
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                            transition={{ delay: index * 0.1 }}
-                            whileHover={{ y: -8 }}
-                        >
-                            {/* Project Image */}
-                            {repo.image && (
-                                <div className={styles.projectImageWrapper}>
-                                    <img src={repo.image} alt={repo.name} className={styles.projectImage} />
-                                    <div className={styles.imageOverlay}></div>
-                                </div>
-                            )}
+                <div className={styles.sliderContainer}>
+                    <motion.div className={styles.slider} style={{ x }}>
+                        {featuredProjects.map((repo, index) => (
+                            <motion.article
+                                key={repo.name}
+                                className={styles.projectCard}
+                                whileHover={{ scale: 1.02, y: -10 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                {/* Project Image */}
+                                {repo.image && (
+                                    <div className={styles.projectImageWrapper}>
+                                        <img src={repo.image} alt={repo.name} className={styles.projectImage} />
+                                        <div className={styles.imageOverlay}></div>
+                                    </div>
+                                )}
 
-                            {/* Terminal Header */}
-                            <div className={styles.cardHeader}>
-                                <div className={styles.dots}>
-                                    <span className={styles.dot}></span>
-                                    <span className={styles.dot}></span>
-                                    <span className={styles.dot}></span>
+                                {/* Terminal Header */}
+                                <div className={styles.cardHeader}>
+                                    <div className={styles.dots}>
+                                        <span className={styles.dot}></span>
+                                        <span className={styles.dot}></span>
+                                        <span className={styles.dot}></span>
+                                    </div>
+                                    <span className={styles.cardPath}>~/{repo.name.toLowerCase()}</span>
+                                    <div className={styles.cardLinks}>
+                                        <a
+                                            href={repo.html_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={styles.cardLink}
+                                            aria-label="View on GitHub"
+                                        >
+                                            <Github />
+                                        </a>
+                                    </div>
                                 </div>
-                                <span className={styles.cardPath}>~/{repo.name.toLowerCase()}</span>
-                                <div className={styles.cardLinks}>
+
+                                {/* Card Content */}
+                                <div className={styles.cardContent}>
+                                    <h3 className={styles.projectTitle}>{repo.name.replace(/_/g, ' ')}</h3>
+                                    <p className={styles.projectDescription}>{repo.customDescription}</p>
+
+                                    {/* Tags */}
+                                    <div className={styles.projectTags}>
+                                        {repo.topics?.slice(0, 4).map((tag) => (
+                                            <span key={tag} className={styles.tag}>{tag}</span>
+                                        )) || (
+                                                <span className={styles.tag}>{repo.language || 'Code'}</span>
+                                            )}
+                                    </div>
+                                </div>
+
+                                {/* Card Footer */}
+                                <div className={styles.cardFooter}>
+                                    <div className={styles.projectMeta}>
+                                        <span className={styles.language}>
+                                            <span
+                                                className={styles.languageDot}
+                                                style={{ background: getLanguageColor(repo.language) }}
+                                            ></span>
+                                            {repo.language || 'Unknown'}
+                                        </span>
+                                        <span className={styles.stars}>
+                                            <Star />
+                                            {repo.stargazers_count}
+                                        </span>
+                                        <span className={styles.forks}>
+                                            <GitFork />
+                                            {repo.forks_count}
+                                        </span>
+                                    </div>
                                     <a
                                         href={repo.html_url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className={styles.cardLink}
-                                        aria-label="View on GitHub"
+                                        className={styles.viewProject}
                                     >
-                                        <Github />
+                                        View Code
+                                        <ArrowRight />
                                     </a>
                                 </div>
-                            </div>
+                            </motion.article>
+                        ))}
+                    </motion.div>
+                </div>
+            </div>
 
-                            {/* Card Content */}
-                            <div className={styles.cardContent}>
-                                <h3 className={styles.projectTitle}>{repo.name.replace(/_/g, ' ')}</h3>
-                                <p className={styles.projectDescription}>{repo.customDescription}</p>
-
-                                {/* Tags */}
-                                <div className={styles.projectTags}>
-                                    {repo.topics?.slice(0, 4).map((tag) => (
-                                        <span key={tag} className={styles.tag}>{tag}</span>
-                                    )) || (
-                                            <span className={styles.tag}>{repo.language || 'Code'}</span>
-                                        )}
-                                </div>
-                            </div>
-
-                            {/* Card Footer */}
-                            <div className={styles.cardFooter}>
-                                <div className={styles.projectMeta}>
-                                    <span className={styles.language}>
-                                        <span
-                                            className={styles.languageDot}
-                                            style={{ background: getLanguageColor(repo.language) }}
-                                        ></span>
-                                        {repo.language || 'Unknown'}
-                                    </span>
-                                    <span className={styles.stars}>
-                                        <Star />
-                                        {repo.stargazers_count}
-                                    </span>
-                                    <span className={styles.forks}>
-                                        <GitFork />
-                                        {repo.forks_count}
-                                    </span>
-                                </div>
-                                <a
-                                    href={repo.html_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={styles.viewProject}
-                                >
-                                    View Code
-                                    <ArrowRight />
-                                </a>
-                            </div>
-                        </motion.article>
-                    ))}
-                </motion.div>
-
-                {/* Other Projects */}
-                <motion.div
-                    className={styles.otherProjects}
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ delay: 0.5 }}
-                >
-                    <h3 className={styles.otherTitle}>Other Projects</h3>
+            {/* Other Projects Section (Static below the scroll) */}
+            <div className="container" style={{ paddingBottom: '100px' }}>
+                <div className={styles.otherProjects}>
+                    <h3 className={styles.otherTitle}>More Archives</h3>
                     <div className={styles.otherGrid}>
-                        {repos.filter(r => !r.featured).map((repo, index) => (
+                        {otherProjects.map((repo, index) => (
                             <motion.a
                                 key={repo.name}
                                 href={repo.html_url}
@@ -271,8 +276,8 @@ function Projects() {
                                 rel="noopener noreferrer"
                                 className={styles.otherCard}
                                 initial={{ opacity: 0, y: 20 }}
-                                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                                transition={{ delay: 0.6 + index * 0.1 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
                                 whileHover={{ y: -5, borderColor: 'var(--primary)' }}
                             >
                                 <div className={styles.otherHeader}>
@@ -296,15 +301,9 @@ function Projects() {
                             </motion.a>
                         ))}
                     </div>
-                </motion.div>
-
+                </div>
                 {/* View All Button */}
-                <motion.div
-                    className={styles.viewMore}
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ delay: 0.8 }}
-                >
+                <div className={styles.viewMore}>
                     <a
                         href={`https://github.com/${GITHUB_USERNAME}`}
                         target="_blank"
@@ -314,7 +313,7 @@ function Projects() {
                         <Github />
                         View All Projects
                     </a>
-                </motion.div>
+                </div>
             </div>
         </section>
     )

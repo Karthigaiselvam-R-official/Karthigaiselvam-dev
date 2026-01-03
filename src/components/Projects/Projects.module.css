@@ -1,13 +1,44 @@
-.projects {
+/* Horizontal Scroll Wrapper */
+.projectsWrapper {
     position: relative;
     background: var(--bg-dark);
 }
 
-.projectsGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 48px;
+.stickyContainer {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.sliderContainer {
+    width: 100%;
+    margin-top: 40px;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    gap: 40px;
+    padding-left: 5vw;
+    /* Start slightly off-center */
+}
+
+/* Projects Grid (Now Horizontal Items) */
+.projectCard {
+    /* Fixed width for horizontal scroll items */
+    min-width: 450px;
+    max-width: 450px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-normal);
 }
 
 /* Spinner */
