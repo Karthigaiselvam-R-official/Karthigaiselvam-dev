@@ -144,8 +144,7 @@ function About() {
                                 About Me
                             </span>
                             <h2 className="section-title">
-                                Security Researcher &<br />
-                                <span className="gradient-text">Software Developer</span>
+                                <span className="gradient-text">Security Researcher &<br />Software Developer</span>
                             </h2>
                         </div>
 
