@@ -149,7 +149,7 @@ const AchievementCarousel = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                 >
-                    Key <span className={styles.highlight}>Achievements</span>
+                    <span className="gradient-text">Key Achievements</span>
                 </motion.h2>
 
                 <div className={styles.carouselWrapper}>
