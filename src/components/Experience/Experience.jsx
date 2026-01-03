@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion'
+import { useRef, useMemo, useState } from 'react'
 import styles from './Experience.module.css'
 
 // Icons
@@ -40,9 +40,26 @@ const Target = () => (
     </svg>
 )
 
+const CloseIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+)
+
 const experiences = [
     {
         id: 0,
+        role: "Cybersecurity Intern",
+        company: "Learnflu",
+        date: "Jan 2025 - May 2025",
+        skills: ["Defensive Security", "Threat Intelligence", "SOC Analysis", "Incident Response"],
+        image: "/images/Karthigaiselvam RLearnflu.png",
+        icon: <Briefcase />,
+        color: '#ffaa00'
+    },
+    {
+        id: 1,
         role: "Cybersecurity Virtual Intern",
         company: "Palo Alto Networks",
         date: "Jul 2024 – Sep 2024",
@@ -52,7 +69,7 @@ const experiences = [
         color: '#00ff88'
     },
     {
-        id: 1,
+        id: 2,
         role: "Cyber Security Project Lead",
         company: "RecuritNxt Technologies",
         date: "Nov 2023 – May 2024",
@@ -62,7 +79,7 @@ const experiences = [
         color: '#00d4ff'
     },
     {
-        id: 2,
+        id: 3,
         role: "Android Penetration Tester",
         company: "THECYBERHOST Pvt. Ltd.",
         date: "Aug 2023 – Sep 2023",
@@ -72,7 +89,7 @@ const experiences = [
         color: '#bd00ff'
     },
     {
-        id: 3,
+        id: 4,
         role: "Software Developer",
         company: "AirosSpace R&D Pvt. Ltd.",
         date: "Mar 2023 – Jun 2023",
@@ -83,120 +100,115 @@ const experiences = [
     }
 ]
 
+// --- WAVE PHYSICS CONSTANTS ---
+const WAVE_AMPLITUDE_X = 450      // Horizontal swing width
+const ROTATION_INTENSITY_Y = 50   // Y-axis rotation degrees
+const ROTATION_INTENSITY_Z = 8    // Z-axis tilt degrees
+const SPACING_FACTOR = 1.2        // Spacing between cards in scroll units
+
 /**
- * TILTED ELLIPTICAL RING CARD
- * 
- * Based on detailed analysis of 14 scroll sequence images:
- * - Cards orbit on a tilted ellipse (like Saturn's rings viewed at ~35° angle)
- * - FRONT (0°): Large, facing camera, bottom-center
- * - RIGHT (90°): Tilted +60°, right side
- * - BACK (180°): Small, showing BACKFACE (text mirrored), top
- * - LEFT (270°): Tilted -60°, left side
+ * WAVE CARD COMPONENT
+ * Physics-based animation with vertical climb, horizontal oscillation
  */
-const RingCard = ({ exp, index, totalCards, scrollRotation }) => {
-    const springConfig = { stiffness: 60, damping: 20 }
+const WaveCard = ({ exp, index, totalItems, scrollYProgress, onCardClick }) => {
+    const Icon = exp.icon?.type || Shield
+    const lastIndex = totalItems - 1
+    const totalTravelDistance = lastIndex * SPACING_FACTOR
 
-    // Ring geometry - tilted ellipse
-    const radiusX = 350      // Horizontal spread
-    const radiusZ = 200      // Depth (front-back distance)
-    const ringTilt = 0.4     // How much the ring is tilted (affects Y position)
-    const radiusY = 150      // Vertical spread of the tilted ellipse
-
-    // Each card starts at a fixed angle (evenly distributed)
-    // 4 cards = 90° apart: 0°, 90°, 180°, 270°
-    const baseAngle = (index * 360) / totalCards
-
-    // Current angle = base angle + scroll rotation
-    // As user scrolls, the entire ring rotates
-    const currentAngle = useTransform(scrollRotation, (rotation) => {
-        return (baseAngle + rotation) % 360
+    // Phase: represents card's position relative to scroll "camera"
+    const phase = useTransform(scrollYProgress, (val) => {
+        const cameraPosition = val * totalTravelDistance
+        const itemStartOffset = index * SPACING_FACTOR
+        return cameraPosition - itemStartOffset
     })
 
-    // Convert to radians for math
-    const angleRad = useTransform(currentAngle, (deg) => (deg * Math.PI) / 180)
-
-    // X position: horizontal position on the ellipse
-    // sin(0°) = 0 (center), sin(90°) = 1 (right), sin(180°) = 0, sin(270°) = -1 (left)
-    const x = useTransform(angleRad, (rad) => Math.sin(rad) * radiusX)
-
-    // Y position: vertical position (tilted ring effect)
-    // Cards at BACK (180°) are HIGHER (negative Y), cards at FRONT (0°) are LOWER (positive Y)
-    const y = useTransform(angleRad, (rad) => {
-        // cos(0°) = 1 (front, lower), cos(180°) = -1 (back, higher)
-        return -Math.cos(rad) * radiusY * ringTilt + 50
+    // Y position: vertical climb with oscillating dip
+    const y = useTransform(phase, (p) => {
+        const climb = p * 120
+        const dip = Math.abs(Math.sin(p)) * 80
+        return -(climb - dip)
     })
 
-    // Z position: depth (front-back)
-    // cos(0°) = 1 (front, closest), cos(180°) = -1 (back, furthest)
-    const z = useTransform(angleRad, (rad) => Math.cos(rad) * radiusZ)
-
-    // RotateY: card rotation to face outward from ring center
-    // At FRONT (0°): rotateY = 0° (faces camera)
-    // At RIGHT (90°): rotateY = 60° (tilted right)
-    // At BACK (180°): rotateY = 180° (shows backface - text mirrored!)
-    // At LEFT (270°): rotateY = -60° (tilted left)
-    const rotateY = useTransform(currentAngle, (deg) => {
-        // Direct mapping: angle on ring = rotateY of card
-        // This makes cards at back show their backface (180°)
-        return deg
+    // X position: horizontal wave oscillation
+    const x = useTransform(phase, (p) => {
+        return -Math.sin(p) * WAVE_AMPLITUDE_X
     })
 
-    // RotateX: slight tilt based on position (tilted ring effect)
-    const rotateX = useTransform(angleRad, (rad) => {
-        return Math.sin(rad) * 10  // ±10° tilt
+    // Scale: depth-based scaling (front = large, back = small)
+    const scale = useTransform(phase, (p) => {
+        const depth = Math.cos(p)
+        return 0.55 + (depth + 1) * 0.45
     })
 
-    // Scale: front cards larger, back cards smaller
-    // map Z from [-200, +200] to [0.6, 1.1]
-    const scale = useTransform(z, [-radiusZ, radiusZ], [0.6, 1.15])
+    // RotateY: card rotation based on wave position
+    const rotateY = useTransform(phase, (p) => {
+        return Math.sin(p) * ROTATION_INTENSITY_Y
+    })
 
-    // Opacity: front cards fully visible, back cards faded
-    const opacity = useTransform(z, [-radiusZ, radiusZ], [0.45, 1])
+    // RotateZ: slight tilt
+    const rotateZ = useTransform(phase, (p) => {
+        return Math.sin(p) * -ROTATION_INTENSITY_Z
+    })
 
-    // Z-index based on Z position (front cards on top)
-    const zIndex = useTransform(z, (val) => Math.round(100 + val))
+    // Opacity: fade distant cards
+    const opacity = useTransform(phase, (p) => {
+        const dist = Math.abs(p)
+        if (dist > 4) return 0
+        return 1 - (dist / 5)
+    })
 
-    // Springs for smooth animation
-    const springX = useSpring(x, springConfig)
+    // Blur: sharp center focus
+    const blur = useTransform(phase, (p) => {
+        const dist = Math.abs(p)
+        if (dist < 0.35) return 'blur(0px)'
+        return `blur(${(dist - 0.35) * 6}px)`
+    })
+
+    // Z-Index: layering
+    const zIndex = useTransform(phase, (p) => {
+        return 100 - Math.round(Math.abs(p) * 10)
+    })
+
+    // Spring configs for smooth motion
+    const springConfig = { damping: 18, stiffness: 80, mass: 0.3 }
     const springY = useSpring(y, springConfig)
-    const springRotateY = useSpring(rotateY, springConfig)
+    const springX = useSpring(x, springConfig)
     const springScale = useSpring(scale, springConfig)
+    const springRotateY = useSpring(rotateY, springConfig)
 
     return (
-        <motion.a
-            href={exp.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.ringCard}
+        <motion.div
+            onClick={() => onCardClick(exp)}
+            className={styles.waveCard}
             style={{
-                x: springX,
                 y: springY,
-                z: z,
-                rotateY: springRotateY,
-                rotateX: rotateX,
+                x: springX,
                 scale: springScale,
+                rotateY: springRotateY,
+                rotateZ: rotateZ,
                 opacity: opacity,
+                filter: blur,
                 zIndex: zIndex,
                 borderColor: exp.color,
-                boxShadow: `0 25px 60px rgba(0,0,0,0.5), 0 0 40px ${exp.color}25`
+                boxShadow: `0 30px 60px rgba(0,0,0,0.6), 0 0 50px ${exp.color}30`
             }}
             whileHover={{
-                scale: 1.15,
-                boxShadow: `0 35px 80px rgba(0,0,0,0.6), 0 0 60px ${exp.color}50`
+                boxShadow: `0 40px 80px rgba(0,0,0,0.7), 0 0 80px ${exp.color}50`,
+                borderColor: exp.color
             }}
             transition={{ duration: 0.3 }}
         >
-            {/* Card Glow Effect */}
+            {/* Card Glow */}
             <div
                 className={styles.cardGlow}
-                style={{ background: `linear-gradient(135deg, ${exp.color}35, transparent 65%)` }}
+                style={{ background: `linear-gradient(135deg, ${exp.color}30, transparent 60%)` }}
             />
 
             {/* Card Content */}
             <div className={styles.cardContent}>
                 <div className={styles.cardTop}>
-                    <div className={styles.cardIcon} style={{ color: exp.color, borderColor: `${exp.color}40` }}>
-                        {exp.icon}
+                    <div className={styles.cardIcon} style={{ color: exp.color, borderColor: `${exp.color}50` }}>
+                        <Icon />
                     </div>
                     <span className={styles.cardDate} style={{ color: exp.color }}>
                         <Calendar /> {exp.date}
@@ -206,56 +218,162 @@ const RingCard = ({ exp, index, totalCards, scrollRotation }) => {
                 <p className={styles.cardCompany}>{exp.company}</p>
                 <div className={styles.cardSkills}>
                     {exp.skills.slice(0, 3).map((skill, i) => (
-                        <span key={i} className={styles.skillTag} style={{ borderColor: `${exp.color}35` }}>
+                        <span key={i} className={styles.skillTag} style={{ borderColor: `${exp.color}40` }}>
                             {skill}
                         </span>
                     ))}
                 </div>
             </div>
-        </motion.a>
+        </motion.div>
     )
 }
 
-const Experience = () => {
-    const containerRef = useRef(null)
-
-    // Track scroll progress within this section
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
-    })
-
-    // Map scroll progress to rotation
-    // Full scroll = 360° (one complete orbit around the ring)
-    const scrollRotation = useTransform(scrollYProgress, [0, 1], [0, 360])
+/**
+ * PARTICLE SYSTEM - Background ambiance
+ */
+const ParticleSystem = () => {
+    const particles = useMemo(() => {
+        return Array.from({ length: 30 }).map((_, i) => ({
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            size: Math.random() * 2 + 1,
+            opacity: Math.random() * 0.4 + 0.1,
+            duration: Math.random() * 15 + 10,
+        }))
+    }, [])
 
     return (
-        <section id="experience" className={styles.section} ref={containerRef}>
-            <div className="container">
+        <div className={styles.particleContainer}>
+            {particles.map((p, i) => (
+                <motion.div
+                    key={i}
+                    className={styles.particle}
+                    style={{
+                        left: `${p.x}%`,
+                        top: `${p.y}%`,
+                        width: p.size,
+                        height: p.size,
+                        opacity: p.opacity,
+                    }}
+                    animate={{
+                        y: [0, -80, 0],
+                        opacity: [p.opacity, p.opacity * 0.5, p.opacity],
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        repeat: Infinity,
+                        ease: "linear",
+                    }}
+                />
+            ))}
+        </div>
+    )
+}
+
+/**
+ * MAIN EXPERIENCE COMPONENT
+ */
+const Experience = () => {
+    const containerRef = useRef(null)
+    const [selectedImage, setSelectedImage] = useState(null)
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ['start start', 'end end']
+    })
+
+    // Clamp and smooth the scroll progress
+    const clampedProgress = useTransform(scrollYProgress, [0, 0.9], [0, 1])
+    const smoothProgress = useSpring(clampedProgress, {
+        damping: 15,
+        stiffness: 90,
+        mass: 0.2
+    })
+
+    return (
+        <section id="experience" className={styles.experienceWrapper} ref={containerRef}>
+            <div className={styles.stickyContainer}>
+                {/* Background Effects */}
+                <div className={styles.backgroundEffects}>
+                    <div className={styles.glowOrb1} />
+                    <div className={styles.glowOrb2} />
+                    <div className={styles.gridOverlay} />
+                    <ParticleSystem />
+                </div>
+
+                {/* Header */}
                 <div className={styles.sectionHeader}>
                     <span className={styles.tag}>
                         <Briefcase />
                         Career Path
                     </span>
                     <h2 className={styles.title}>
-                        Professional <span className="gradient-text">Experience</span>
+                        <span className="gradient-text">Professional Experience</span>
                     </h2>
                 </div>
 
-                {/* 3D Tilted Ring Container */}
-                <div className={styles.ringContainer}>
+                {/* Wave Cards Container */}
+                <div className={styles.waveContainer}>
                     {experiences.map((exp, index) => (
-                        <RingCard
+                        <WaveCard
                             key={exp.id}
                             exp={exp}
                             index={index}
-                            totalCards={experiences.length}
-                            scrollRotation={scrollRotation}
+                            totalItems={experiences.length}
+                            scrollYProgress={smoothProgress}
+                            onCardClick={(e) => {
+                                if (e.image) {
+                                    setSelectedImage(e.image)
+                                } else if (e.link) {
+                                    window.open(e.link, '_blank')
+                                }
+                            }}
                         />
                     ))}
                 </div>
+
+                {/* Completion Indicator */}
+                <motion.div
+                    className={styles.completionBadge}
+                    style={{ opacity: useTransform(smoothProgress, [0.98, 1], [0, 1]) }}
+                >
+                    <Shield /> All Experience Viewed
+                </motion.div>
+
+                {/* Lightbox Modal */}
+                <AnimatePresence>
+                    {selectedImage && (
+                        <motion.div
+                            className={styles.lightboxOverlay}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            <motion.div
+                                className={styles.lightboxContent}
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.8, opacity: 0 }}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <button
+                                    className={styles.closeBtn}
+                                    onClick={() => setSelectedImage(null)}
+                                >
+                                    <CloseIcon />
+                                </button>
+                                <img
+                                    src={selectedImage}
+                                    alt="Internship Details"
+                                    className={styles.lightboxImage}
+                                />
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
-        </section>
+        </section >
     )
 }
 

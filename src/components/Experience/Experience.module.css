@@ -1,14 +1,89 @@
-.section {
-    padding: 100px 0;
-    background: var(--bg-darker);
+/* Main Scroll Wrapper - Large height for scroll-driven animation */
+.experienceWrapper {
     position: relative;
-    overflow: visible;
-    min-height: 150vh;
+    background: var(--bg-darker);
+    height: 700vh;
 }
 
+/* Sticky Container - Stays in view during scroll */
+.stickyContainer {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Items start from top */
+    padding-top: 90px;
+    /* Reduced space from top as requested */
+    overflow: hidden;
+    perspective: 1200px;
+}
+
+/* Background Effects */
+.backgroundEffects {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.glowOrb1 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 500px;
+    background: rgba(0, 255, 136, 0.06);
+    filter: blur(100px);
+    border-radius: 50%;
+}
+
+.glowOrb2 {
+    position: absolute;
+    bottom: 20%;
+    left: 30%;
+    width: 400px;
+    height: 400px;
+    background: rgba(138, 43, 226, 0.05);
+    filter: blur(100px);
+    border-radius: 50%;
+}
+
+.gridOverlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.5;
+}
+
+
+
+/* Particles */
+.particleContainer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+}
+
+/* Section Header */
 .sectionHeader {
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 85px;
+    /* Reduced spacing */
+    z-index: 10;
 }
 
 .tag {
@@ -21,7 +96,7 @@
     padding: 8px 18px;
     font-size: 0.8rem;
     color: var(--primary);
-    margin-bottom: 20px;
+    margin-bottom: 32px;
 }
 
 .title {
@@ -29,38 +104,44 @@
     font-weight: 700;
 }
 
-/* 3D Tilted Ring Container */
-.ringContainer {
+/* Wave Cards Container */
+.waveContainer {
     position: relative;
-    height: 700px;
-    perspective: 2000px;
-    transform-style: preserve-3d;
+    width: 100%;
+    height: 500px;
+    /* Increased to fit taller cards */
     display: flex;
     align-items: center;
     justify-content: center;
+    transform-style: preserve-3d;
+    z-index: 5;
 }
 
-/* Ring Card - IMPORTANT: backface-visibility visible to show mirrored content at back */
-.ringCard {
+/* Wave Card */
+.waveCard {
     position: absolute;
-    width: 320px;
-    padding: 24px;
-    background: linear-gradient(145deg, rgba(18, 18, 25, 0.97), rgba(10, 10, 14, 0.99));
+    width: 300px;
+    height: 400px;
+    /* Reduced slightly as requested */
+    padding: 28px;
+    background: linear-gradient(145deg, rgba(16, 16, 22, 0.98), rgba(8, 8, 12, 0.99));
     border: 2px solid;
-    border-radius: 18px;
+    border-radius: 20px;
     text-decoration: none;
     color: inherit;
     cursor: pointer;
     transform-style: preserve-3d;
-    /* CRITICAL: Keep visible so cards at back show their backface (mirrored text) */
-    backface-visibility: visible;
+    backface-visibility: hidden;
+    will-change: transform, opacity, filter;
+    display: flex;
+    flex-direction: column;
 }
 
 .cardGlow {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    border-radius: 18px;
+    border-radius: 20px;
 }
 
 .cardContent {
@@ -69,6 +150,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    height: 100%;
+    justify-content: space-between;
 }
 
 .cardTop {
@@ -78,14 +161,15 @@
 }
 
 .cardIcon {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid;
-    border-radius: 12px;
+    border-radius: 14px;
+    backdrop-filter: blur(8px);
 }
 
 .cardIcon svg {
@@ -103,29 +187,30 @@
 }
 
 .cardRole {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 600;
     color: #fff;
-    margin: 8px 0 4px;
-    line-height: 1.3;
+    margin: 10px 0 6px;
+    line-height: 1.35;
 }
 
 .cardCompany {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #ffd700;
     margin: 0;
+    font-weight: 500;
 }
 
 .cardSkills {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 .skillTag {
-    padding: 5px 12px;
-    font-size: 0.68rem;
+    padding: 6px 14px;
+    font-size: 0.7rem;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid;
     border-radius: 50px;
@@ -133,31 +218,112 @@
     font-family: 'JetBrains Mono', monospace;
 }
 
+/* Completion Badge */
+.completionBadge {
+    position: absolute;
+    bottom: 20px;
+    /* Moved lower to gain space */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 50px;
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+    z-index: 20;
+}
+
+.completionBadge svg {
+    width: 16px;
+    height: 16px;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
-    .ringContainer {
-        height: 650px;
-        perspective: 1600px;
+    .waveCard {
+        width: 300px;
+        padding: 24px;
     }
 
-    .ringCard {
-        width: 280px;
-        padding: 20px;
+    .waveContainer {
+        height: 380px;
     }
 }
 
 @media (max-width: 768px) {
-    .ringContainer {
-        height: 600px;
-        perspective: 1200px;
+    .experienceWrapper {
+        height: 500vh;
     }
 
-    .ringCard {
-        width: 260px;
-        padding: 18px;
+    .waveCard {
+        width: 280px;
+        padding: 20px;
+    }
+
+    .waveContainer {
+        height: 350px;
     }
 
     .cardRole {
         font-size: 1rem;
     }
+
+    .title {
+        font-size: 2rem;
+    }
+}
+
+/* Lightbox Modal */
+.lightboxOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.lightboxContent {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    cursor: default;
+}
+
+.lightboxImage {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 0 60px rgba(0, 255, 136, 0.3);
+}
+
+.closeBtn {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.closeBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
