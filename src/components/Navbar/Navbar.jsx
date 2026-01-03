@@ -36,8 +36,8 @@ function Navbar() {
                     whileHover={{ scale: 1.02 }}
                 >
                     <span className={styles.logoSymbol}>&lt;</span>
-                    <span className={styles.logoText}>Karthigai</span>
-                    <span className={styles.logoAccent}>.R</span>
+                    <span className={styles.logoText}>Karthi</span>
+                    <span className={styles.logoAccent}>...R</span>
                     <span className={styles.logoSymbol}>/&gt;</span>
                 </motion.a>
 

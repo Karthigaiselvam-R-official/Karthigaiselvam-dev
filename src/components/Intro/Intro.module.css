@@ -1,0 +1,211 @@
+.intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+/* Intro Navigation */
+.introNav {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px;
+    z-index: 5;
+}
+
+.introNav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.introNav a:hover {
+    color: var(--primary, #00ff88);
+}
+
+.introNav a span {
+    color: var(--primary, #00ff88);
+    margin-right: 4px;
+}
+
+/* Lightning Flash Effect */
+.lightning {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(0, 255, 200, 0.4) 30%,
+            rgba(0, 200, 255, 0.3) 60%,
+            transparent 100%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Cyan/Blue Edge Glow (Vignette) */
+.edgeGlow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Radial gradient for edge glow */
+    background: radial-gradient(ellipse at center,
+            transparent 40%,
+            rgba(0, 255, 200, 0.08) 70%,
+            rgba(0, 200, 255, 0.15) 100%);
+    z-index: 0;
+}
+
+/* Subtle animated light sweep */
+.edgeGlow::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg at 50% 50%,
+            transparent 0deg,
+            rgba(0, 255, 200, 0.03) 60deg,
+            transparent 120deg);
+    animation: lightSweep 8s linear infinite;
+}
+
+@keyframes lightSweep {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Vertical Grid Lines */
+.gridLines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.line {
+    width: 1px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Name - Will be scaled via Framer Motion */
+.name {
+    font-size: clamp(3rem, 10vw, 9rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    text-align: center;
+    z-index: 2;
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    white-space: nowrap;
+
+    /* Animated Gradient Text */
+    background: linear-gradient(90deg,
+            #ffffff 0%,
+            #00ffcc 25%,
+            #00d4ff 50%,
+            #bd00ff 75%,
+            #ffffff 100%);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 3s ease-in-out infinite;
+
+    /* Text glow effect */
+    filter: drop-shadow(0 0 30px rgba(0, 255, 200, 0.4)) drop-shadow(0 0 60px rgba(0, 200, 255, 0.2));
+}
+
+/* Role */
+.role {
+    margin-top: 30px;
+    font-size: clamp(0.6rem, 1vw, 0.85rem);
+    color: var(--primary, #00ff88);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-align: center;
+    z-index: 2;
+    line-height: 1.8;
+}
+
+/* Loading dot */
+.dot {
+    position: absolute;
+    left: 50%;
+    bottom: 30%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--primary, #00ff88);
+    border-radius: 50%;
+    z-index: 2;
+    animation: pulse 1.2s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--primary, #00ff88);
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% center;
+    }
+
+    50% {
+        background-position: 100% center;
+    }
+
+    100% {
+        background-position: 0% center;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: translateX(-50%) scale(1.8);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .name {
+        font-size: clamp(2rem, 12vw, 4rem);
+        white-space: normal;
+        padding: 0 20px;
+    }
+
+    .role {
+        padding: 0 20px;
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+    }
+}

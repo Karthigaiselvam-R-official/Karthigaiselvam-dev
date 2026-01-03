@@ -32,33 +32,35 @@
 }
 
 .logoSymbol {
-    color: var(--primary);
-    opacity: 0.6;
+    color: #00ff88;
 }
 
 .logoText {
-    color: var(--text-primary);
+    color: #00d4ff;
 }
 
 .logoAccent {
-    color: var(--primary);
+    color: #00ff88;
 }
 
 .navLinks {
     display: flex;
-    gap: 36px;
+    gap: 20px;
     list-style: none;
 }
 
 .navLink {
     color: var(--text-primary);
     font-family: 'JetBrains Mono', monospace;
-    font-weight: 400;
-    font-size: 0.85rem;
+    font-weight: 500;
+    font-size: 0.8rem;
     position: relative;
-    padding: 5px 0;
-    transition: var(--transition-fast);
+    padding: 10px 18px;
+    transition: all 0.3s ease;
     letter-spacing: 0.5px;
+    border: 2px solid rgba(0, 255, 136, 0.5);
+    border-radius: 8px;
+    background: rgba(0, 255, 136, 0.05);
 }
 
 .linkNumber {
@@ -69,7 +71,12 @@
 }
 
 .navLink:hover {
-    color: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    background: rgba(0, 255, 136, 0.15);
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: scale(1.08) translateY(-3px);
+    z-index: 10;
 }
 
 .ctaBtn {
