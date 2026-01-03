@@ -1,6 +1,6 @@
 import emailjs from '@emailjs/browser'
-import { motion, useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 import Toast from '../Toast/Toast'
 import styles from './Contact.module.css'
 
@@ -64,13 +64,47 @@ const socialLinks = [
     },
 ]
 
+const languages = [
+    "வாங்க வேலை செய்வோம்", // Tamil - shorter
+    "साथ मिलकर काम करें", // Hindi - shorter
+    "Trabajemos Juntos", // Spanish
+    "Travaillons Ensemble", // French
+    "Zusammenarbeiten!", // German - shorter
+    "一緒に働こう", // Japanese - shorter
+    "함께 하자", // Korean - shorter
+    "Работаем вместе", // Russian - shorter
+    "一起工作吧", // Chinese - shorter
+    "Lavoriamo Insieme", // Italian - NEW
+    "Vamos Trabalhar", // Portuguese - NEW
+    "Let's Work Together" // English (Last one)
+]
+
 function Contact() {
     const ref = useRef(null)
     const formRef = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-100px" })
+    const isInView = useInView(ref, { margin: "-100px" })
     const [formData, setFormData] = useState({ name: '', email: '', message: '' })
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [toast, setToast] = useState({ isVisible: false, message: '', type: 'success' })
+    const [currentLangIndex, setCurrentLangIndex] = useState(0)
+
+    // Continuous language cycling animation
+    useEffect(() => {
+        if (!isInView) return
+
+        const interval = setInterval(() => {
+            setCurrentLangIndex(prev => {
+                const next = prev + 1
+                // Loop back to 0 after reaching the end
+                if (next >= languages.length) {
+                    return 0 // Restart from beginning
+                }
+                return next
+            })
+        }, currentLangIndex === languages.length - 1 ? 3000 : 250) // Pause 3s on English, 250ms otherwise
+
+        return () => clearInterval(interval)
+    }, [isInView, currentLangIndex])
 
     const showToast = (message, type = 'success') => {
         setToast({ isVisible: true, message, type })
@@ -134,8 +168,20 @@ function Contact() {
                                 <MessageCircle />
                                 Get In Touch
                             </span>
-                            <h2 className="section-title">
-                                Let's Work <span className="gradient-text">Together</span>
+                            <h2 className="section-title" style={{ minHeight: '1.2em' }}>
+                                <AnimatePresence mode="wait">
+                                    <motion.span
+                                        key={currentLangIndex}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.05 }}
+                                        className="gradient-text"
+                                        style={{ display: 'inline-block' }}
+                                    >
+                                        {languages[currentLangIndex]}
+                                    </motion.span>
+                                </AnimatePresence>
                             </h2>
                         </div>
 
