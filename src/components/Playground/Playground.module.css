@@ -1,0 +1,159 @@
+.playground {
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden;
+    background: var(--bg-darker);
+    perspective: 1000px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.highlight {
+    background: linear-gradient(90deg, #ff00cc, #333399);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.gridContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Create a distinct floor feeling */
+    transform-style: preserve-3d;
+    transform: rotateX(20deg) scale(0.9);
+}
+
+.gridPlane {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 40px;
+}
+
+.gridItem {
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+/* Colors */
+.blue {
+    border-top: 2px solid #00d2ff;
+}
+
+.green {
+    border-top: 2px solid #00ff88;
+}
+
+.red {
+    border-top: 2px solid #ff4d4d;
+}
+
+.cyan {
+    border-top: 2px solid #00ffff;
+}
+
+.yellow {
+    border-top: 2px solid #ffcc00;
+}
+
+.orange {
+    border-top: 2px solid #ff9900;
+}
+
+.purple {
+    border-top: 2px solid #bd00ff;
+}
+
+.pink {
+    border-top: 2px solid #ff00cc;
+}
+
+.gray {
+    border-top: 2px solid #888888;
+}
+
+.itemContent {
+    text-align: center;
+}
+
+.lang {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.itemTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.lines {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    opacity: 0.5;
+}
+
+.lines span {
+    width: 40px;
+    height: 2px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+}
+
+.lines span:nth-child(2) {
+    width: 30px;
+}
+
+.lines span:nth-child(3) {
+    width: 20px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .gridPlane {
+        grid-template-columns: 1fr;
+    }
+
+    .gridContainer {
+        transform: none;
+    }
+
+    .gridItem {
+        width: 100%;
+        max-width: 300px;
+    }
+}

@@ -1,0 +1,109 @@
+.connect {
+    position: relative;
+    padding: 120px 0 160px;
+    background: var(--primary, #00ff88);
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Stars Animation */
+.stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+/* Content */
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+.ctaButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    color: #000;
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 28px 60px;
+    border-radius: 100px;
+    text-decoration: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.ctaButton:hover {
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+}
+
+.cursor {
+    color: var(--primary, #00ff88);
+    font-size: 1.2rem;
+}
+
+.warning {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.6;
+}
+
+/* Curved Bottom Edge */
+.curvedEdge {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: var(--bg-dark, #0a0a0a);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .ctaButton {
+        font-size: 1.3rem;
+        padding: 20px 40px;
+    }
+
+    .warning {
+        font-size: 0.75rem;
+        padding: 0 20px;
+    }
+}
