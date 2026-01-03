@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import TechCloud from './TechCloud'
 import styles from './Skills.module.css'
 
 // SVG Icons for Skills
@@ -150,8 +151,18 @@ function Skills() {
                         Technologies & <span className="gradient-text">Expertise</span>
                     </h2>
                     <p className="section-subtitle">
-                        Specialized in security research and full-stack development
+                        Specialized in security research and software development
                     </p>
+                </motion.div>
+
+                {/* 3D Tech Cloud */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                    transition={{ delay: 0.2 }}
+                    className={styles.cloudSection}
+                >
+                    <TechCloud />
                 </motion.div>
 
                 <motion.div ref={ref} className={styles.skillsGrid}>
@@ -161,7 +172,7 @@ function Skills() {
                             className={`${styles.category} ${styles[category.color]}`}
                             initial={{ opacity: 0, y: 40 }}
                             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                            transition={{ delay: catIndex * 0.15 }}
+                            transition={{ delay: catIndex * 0.15 + 0.3 }}
                         >
                             <div className={styles.categoryHeader}>
                                 <span className={styles.categoryLine}></span>
@@ -176,7 +187,7 @@ function Skills() {
                                         className={styles.skillCard}
                                         initial={{ opacity: 0, scale: 0.8 }}
                                         animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                                        transition={{ delay: catIndex * 0.15 + skillIndex * 0.08 }}
+                                        transition={{ delay: catIndex * 0.15 + skillIndex * 0.08 + 0.3 }}
                                         whileHover={{
                                             scale: 1.05,
                                             y: -5,

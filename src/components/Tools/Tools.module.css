@@ -1,0 +1,81 @@
+.toolsSection {
+    padding: 100px 0;
+    background: #f5f5f5;
+    min-height: 80vh;
+    overflow: hidden;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.label {
+    color: #ff6347;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #222;
+    line-height: 1.4;
+}
+
+.toolsArea {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.toolBubble {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease;
+    user-select: none;
+}
+
+.toolBubble:active {
+    cursor: grabbing;
+}
+
+.toolBubble:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.toolName {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .toolBubble {
+        width: 60px;
+        height: 60px;
+    }
+
+    .toolName {
+        font-size: 0.5rem;
+    }
+}
