@@ -1,7 +1,9 @@
-/* Horizontal Scroll Wrapper */
+/* Horizontal Scroll Wrapper - Large height for scroll-driven animation */
 .projectsWrapper {
     position: relative;
     background: var(--bg-dark);
+    height: 1500vh;
+    /* Very large to prevent skipping cards during fast scroll */
 }
 
 .stickyContainer {
@@ -17,28 +19,51 @@
 .sliderContainer {
     width: 100%;
     margin-top: 40px;
-    overflow: hidden;
+    overflow: visible;
+    padding: 60px 0;
+    /* 3D Perspective for carousel effect */
+    perspective: 1500px;
+    perspective-origin: center center;
 }
 
 .slider {
     display: flex;
     gap: 40px;
     padding-left: 5vw;
-    /* Start slightly off-center */
+    padding-right: 10vw;
+    /* Preserve 3D space for child transforms */
+    transform-style: preserve-3d;
 }
 
-/* Projects Grid (Now Horizontal Items) */
+/* Project Card - 3D Carousel Item */
 .projectCard {
-    /* Fixed width for horizontal scroll items */
-    min-width: 450px;
-    max-width: 450px;
+    min-width: 380px;
+    width: 380px;
+    flex-shrink: 0;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: var(--transition-normal);
+    transition: all 0.4s ease-out;
+    /* 3D Transform support */
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.projectCard:hover {
+    border-color: var(--primary);
+    box-shadow: var(--glow-primary);
+}
+
+/* Active Card - 3D Front with enhanced glow */
+.activeCard {
+    border: 2px solid var(--primary) !important;
+    box-shadow:
+        0 0 40px rgba(0, 255, 136, 0.5),
+        0 0 80px rgba(0, 255, 136, 0.3),
+        0 25px 50px rgba(0, 0, 0, 0.4) !important;
 }
 
 /* Spinner */
@@ -56,22 +81,6 @@
     to {
         transform: rotate(360deg);
     }
-}
-
-/* Terminal-style Project Card */
-.projectCard {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: var(--transition-normal);
-}
-
-.projectCard:hover {
-    border-color: var(--primary);
-    box-shadow: var(--glow-primary);
 }
 
 /* Project Image */
@@ -161,7 +170,7 @@
 /* Card Content */
 .cardContent {
     padding: 24px;
-    flex: 1;
+    /* Don't stretch - let content determine size */
 }
 
 .projectTitle {
@@ -172,10 +181,15 @@
 }
 
 .projectDescription {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     line-height: 1.7;
     color: var(--text-secondary);
     margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .projectTags {
@@ -255,101 +269,32 @@
     gap: 10px;
 }
 
-/* Other Projects */
-.otherProjects {
-    margin-bottom: 48px;
-}
-
-.otherTitle {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-align: center;
-}
-
-.otherGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.otherCard {
-    padding: 24px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    transition: var(--transition-normal);
-    cursor: pointer;
-}
-
-.otherCard:hover {
-    border-color: var(--primary);
-}
-
-.otherHeader {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-    color: var(--primary);
-}
-
-.otherHeader h4 {
-    font-size: 0.95rem;
-    color: var(--text-primary);
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.otherCard p {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 16px;
-}
-
-.otherMeta {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-/* View More */
-.viewMore {
-    text-align: center;
-}
-
 /* Responsive */
-@media (max-width: 1024px) {
-    .projectsGrid {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: none;
-    }
-
-    .otherGrid {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: none;
-    }
-}
-
 @media (max-width: 768px) {
-    .projectsGrid {
-        grid-template-columns: 1fr;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
+    .projectsWrapper {
+        height: 400vh;
     }
 
-    .otherGrid {
-        grid-template-columns: 1fr;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
+    .projectCard {
+        min-width: 320px;
+        width: 320px;
+    }
+
+    .slider {
+        gap: 30px;
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
+    .projectsWrapper {
+        height: 350vh;
+    }
+
+    .projectCard {
+        min-width: 280px;
+        width: 280px;
+    }
+
     .cardContent {
         padding: 18px;
     }
