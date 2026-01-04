@@ -202,8 +202,9 @@
     }
 
     .nodeLabel {
-        display: none;
-        /* Hide labels on mobile to reduce clutter? Or show only on hover? */
+        display: block;
+        font-size: 0.7rem;
+        /* Slightly smaller on mobile */
     }
 
     .node:hover .nodeLabel {

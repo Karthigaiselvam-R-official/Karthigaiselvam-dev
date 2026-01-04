@@ -357,11 +357,25 @@
         align-items: center;
         display: flex;
         flex-direction: column;
+        width: 100%;
+        overflow: hidden;
+        /* Prevent horizontal scroll */
+    }
+
+    .nameWrapper {
+        white-space: normal;
+        /* Allow wrapping */
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .name {
         justify-content: center;
         flex-wrap: wrap;
+        text-align: center;
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        line-height: 1.2;
     }
 
     .roleContainer {

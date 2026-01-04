@@ -256,7 +256,22 @@
         padding: 24px;
     }
 
+    /* Force center alignment for button content */
+    .formBody .btn {
+        width: 100%;
+        justify-content: center;
+        display: flex;
+    }
+
     .socialLink {
         padding: 14px 16px;
+    }
+
+    /* Center Get in Touch / Let's work together */
+    .contactInfo,
+    .contactInfo h2,
+    .contactInfo p {
+        text-align: center !important;
+        align-items: center !important;
     }
 }
