@@ -368,14 +368,19 @@
         width: 100%;
         display: flex;
         justify-content: center;
+        padding: 0 10px;
+        /* Add padding to prevent edge clipping */
     }
 
     .name {
         justify-content: center;
         flex-wrap: wrap;
         text-align: center;
-        font-size: clamp(2rem, 8vw, 3.5rem);
-        line-height: 1.2;
+        /* Drastically reduce font size to fit long name "Karthigaiselvam" */
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        line-height: 1.3;
+        word-break: break-word;
+        /* Ensure it breaks if still too long */
     }
 
     .roleContainer {

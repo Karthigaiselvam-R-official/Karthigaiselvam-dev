@@ -246,13 +246,13 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
-    .waveCard {
-        width: 300px;
-        padding: 24px;
-    }
-
-    .waveContainer {
-        height: 380px;
+    .completionBadge {
+        position: relative !important;
+        bottom: auto !important;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        transform: none !important;
+        left: auto !important;
     }
 }
 

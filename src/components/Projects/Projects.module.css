@@ -367,8 +367,10 @@
 
     .projectCard {
         min-width: 85vw;
-        /* Almost full width for mobile */
+        /* Keep it responsive */
         width: 85vw;
+        max-width: 350px;
+        /* Cap the width so it's not huge on larger phones */
         scroll-snap-align: center;
         margin: 0;
     }

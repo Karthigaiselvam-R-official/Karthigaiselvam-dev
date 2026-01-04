@@ -259,8 +259,10 @@
     /* Force center alignment for button content */
     .formBody .btn {
         width: 100%;
-        justify-content: center;
-        display: flex;
+        justify-content: center !important;
+        display: flex !important;
+        margin: 0 auto !important;
+        text-align: center !important;
     }
 
     .socialLink {
