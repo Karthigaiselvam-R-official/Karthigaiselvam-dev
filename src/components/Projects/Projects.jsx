@@ -45,6 +45,8 @@ const Loader = () => (
 
 // GitHub Config
 const GITHUB_USERNAME = 'Karthigaiselvam-R-official'
+// GitHub Token for 5000 requests/hour (set in .env.local as VITE_GITHUB_TOKEN)
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN || ''
 
 // Custom descriptions for known projects
 const projectDescriptions = {
@@ -91,33 +93,133 @@ function Projects() {
     const [error, setError] = useState(null)
     const [activeIndex, setActiveIndex] = useState(0)
 
-    // Fetch ALL repos from GitHub API
+    // Fetch ALL repos from GitHub API with automatic README image extraction
     useEffect(() => {
+        // Extract ALL valid images from README for 3D carousel
+        const extractAllImagesFromReadme = (readmeContent, repoFullName, defaultBranch) => {
+            if (!readmeContent) return []
+
+            // Decode base64 README content
+            const decodedContent = atob(readmeContent)
+
+            // Find ALL images in the README
+            const mdImageRegex = /!\[.*?\]\((.*?)\)/g
+            const htmlImageRegex = /<img[^>]+src=["']([^"']+)["']/g
+
+            const allImages = []
+            let match
+
+            while ((match = mdImageRegex.exec(decodedContent)) !== null) {
+                allImages.push(match[1])
+            }
+            while ((match = htmlImageRegex.exec(decodedContent)) !== null) {
+                allImages.push(match[1])
+            }
+
+            // Filter out badges and icons, find actual content images
+            const badgePatterns = [
+                'shields.io',
+                'img.shields.io',
+                'badge',
+                'logo=',
+                'style=for-the-badge',
+                '.svg'
+            ]
+
+            const validImages = allImages.filter(url => {
+                const lowerUrl = url.toLowerCase()
+                if (badgePatterns.some(pattern => lowerUrl.includes(pattern))) {
+                    return false
+                }
+                if (lowerUrl.includes('.png') || lowerUrl.includes('.jpg') || lowerUrl.includes('.jpeg') || lowerUrl.includes('.gif') || lowerUrl.includes('.webp')) {
+                    return true
+                }
+                return false
+            })
+
+            // Convert relative paths to raw GitHub URLs
+            return validImages.map(url => {
+                if (!url.startsWith('http')) {
+                    return `https://raw.githubusercontent.com/${repoFullName}/${defaultBranch}/${url}`
+                }
+                return url
+            })
+        }
+
         const fetchRepos = async () => {
             try {
                 setLoading(true)
-                const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`)
 
-                if (!response.ok) throw new Error('Failed to fetch repos')
+                // Build headers with optional token for higher rate limits
+                const headers = { 'Accept': 'application/vnd.github.v3+json' }
+                if (GITHUB_TOKEN) {
+                    headers['Authorization'] = `token ${GITHUB_TOKEN}`
+                }
+
+                const response = await fetch(
+                    `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`,
+                    { headers }
+                )
+
+                if (!response.ok) {
+                    if (response.status === 403) {
+                        throw new Error('Rate limit exceeded. Add VITE_GITHUB_TOKEN to .env.local')
+                    }
+                    throw new Error(`Failed to fetch repos (${response.status})`)
+                }
 
                 const allRepos = await response.json()
 
-                // Filter out forks and process repos
-                const processedRepos = allRepos
-                    .filter(repo => !repo.fork)
-                    .map(repo => ({
-                        ...repo,
-                        customDescription: projectDescriptions[repo.name] || repo.description || 'A project from my GitHub.',
-                        image: projectImages[repo.name] || null,
-                    }))
-                    .sort((a, b) => {
-                        if (b.stargazers_count !== a.stargazers_count) {
-                            return b.stargazers_count - a.stargazers_count
-                        }
-                        return new Date(b.updated_at) - new Date(a.updated_at)
-                    })
+                // Filter out forks
+                const filteredRepos = allRepos.filter(repo => !repo.fork)
 
-                setRepos(processedRepos)
+
+                // Fetch README for each repo to extract ALL images for carousel
+                const reposWithImages = await Promise.all(
+                    filteredRepos.map(async (repo) => {
+                        let images = []
+
+                        // Fetch README with auth token for higher rate limit
+                        try {
+                            const readmeHeaders = { 'Accept': 'application/vnd.github.v3+json' }
+                            if (GITHUB_TOKEN) {
+                                readmeHeaders['Authorization'] = `token ${GITHUB_TOKEN}`
+                            }
+
+                            const readmeResponse = await fetch(
+                                `https://api.github.com/repos/${repo.full_name}/readme`,
+                                { headers: readmeHeaders }
+                            )
+                            if (readmeResponse.ok) {
+                                const readmeData = await readmeResponse.json()
+                                images = extractAllImagesFromReadme(
+                                    readmeData.content,
+                                    repo.full_name,
+                                    repo.default_branch
+                                )
+                            }
+                        } catch (e) {
+                            // Silently fail - some repos may not have README
+                        }
+
+                        return {
+                            ...repo,
+                            customDescription: projectDescriptions[repo.name] || repo.description || 'A project from my GitHub.',
+                            images, // Array of all images for carousel
+                            image: images[0] || null, // First image for backwards compatibility
+                        }
+                    })
+                )
+
+                // Sort by stars then by update date
+                const sortedRepos = reposWithImages.sort((a, b) => {
+                    if (b.stargazers_count !== a.stargazers_count) {
+                        return b.stargazers_count - a.stargazers_count
+                    }
+                    return new Date(b.updated_at) - new Date(a.updated_at)
+                })
+
+                setRepos(sortedRepos)
                 setError(null)
             } catch (err) {
                 console.error('Error fetching repos:', err)
@@ -203,10 +305,34 @@ function Projects() {
                                     whileHover={{ scale: isActive ? 1.12 : 0.95, y: -10 }}
                                     transition={{ duration: 0.3 }}
                                 >
-                                    {/* Project Image */}
-                                    {repo.image && (
+                                    {/* Project Images - 3D Carousel if multiple */}
+                                    {repo.images && repo.images.length > 0 && (
                                         <div className={styles.projectImageWrapper}>
-                                            <img src={repo.image} alt={repo.name} className={styles.projectImage} />
+                                            {repo.images.length === 1 ? (
+                                                // Single image
+                                                <img src={repo.images[0]} alt={repo.name} className={styles.projectImage} />
+                                            ) : (
+                                                // 3D Auto-Carousel for multiple images
+                                                <div
+                                                    className={styles.imageCarousel}
+                                                    style={{
+                                                        '--total-images': repo.images.length,
+                                                        '--animation-duration': `${repo.images.length * 3}s`
+                                                    }}
+                                                >
+                                                    {repo.images.map((img, imgIndex) => (
+                                                        <img
+                                                            key={imgIndex}
+                                                            src={img}
+                                                            alt={`${repo.name} ${imgIndex + 1}`}
+                                                            className={styles.carouselImage}
+                                                            style={{
+                                                                animationDelay: `${imgIndex * 3}s`
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            )}
                                             <div className={styles.imageOverlay}></div>
                                         </div>
                                     )}
