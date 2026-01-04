@@ -407,13 +407,23 @@
     }
 
     .buttons {
-        flex-direction: column;
+        flex-direction: row;
+        /* Keep side-by-side */
         width: 100%;
+        gap: 12px;
+        flex-wrap: wrap;
+        /* efficient wrapping for very small screens */
+        justify-content: center;
     }
 
     .buttons a {
-        width: 100%;
-        justify-content: center;
+        width: auto;
+        /* Let content dictate width */
+        min-width: 140px;
+        /* Ensure hit target size */
+        padding: 12px 20px;
+        /* Slightly reduced padding */
+        font-size: 0.9rem;
     }
 
     .stats {

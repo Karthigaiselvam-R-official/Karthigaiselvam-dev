@@ -93,14 +93,181 @@
     color: var(--text-muted);
 }
 
+/* ===== 2024 CUTTING-EDGE CSS ANIMATION ===== */
+/* Rotating Conic Gradient Border using CSS Houdini @property */
+
+/* Register custom property for smooth angle animation */
+@property --border-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@property --aurora-pos {
+    syntax: "<percentage>";
+    initial-value: 0%;
+    inherits: false;
+}
+
+/* Rotating border animation */
+@keyframes rotateBorder {
+    to {
+        --border-angle: 360deg;
+    }
+}
+
+/* Aurora flow animation */
+@keyframes auroraFlow {
+    0% {
+        --aurora-pos: 0%;
+    }
+
+    50% {
+        --aurora-pos: 100%;
+    }
+
+    100% {
+        --aurora-pos: 0%;
+    }
+}
+
+/* Typewriter cursor blink */
+@keyframes cursorBlink {
+
+    0%,
+    50% {
+        border-right-color: var(--primary);
+    }
+
+    51%,
+    100% {
+        border-right-color: transparent;
+    }
+}
+
+/* Subtle float */
+@keyframes gentleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.copyright {
+    position: relative;
+    display: inline-block;
+    padding: 14px 32px 14px 28px;
+    background:
+        linear-gradient(90deg,
+            rgba(0, 255, 136, 0.1) var(--aurora-pos),
+            rgba(138, 43, 226, 0.08) calc(var(--aurora-pos) + 30%),
+            rgba(0, 200, 255, 0.1) calc(var(--aurora-pos) + 60%),
+            rgba(0, 255, 136, 0.1) calc(var(--aurora-pos) + 100%)),
+        linear-gradient(135deg, rgba(10, 10, 15, 0.95), rgba(15, 15, 20, 0.9));
+    background-size: 200% 100%, 100% 100%;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem !important;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary) !important;
+    border-right: 2px solid var(--primary);
+    animation:
+        auroraFlow 8s ease-in-out infinite,
+        cursorBlink 1s step-end infinite,
+        gentleFloat 4s ease-in-out infinite;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1;
+}
+
+/* ROTATING CONIC GRADIENT BORDER - The signature effect */
+.copyright::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: conic-gradient(from var(--border-angle),
+            #00ff88 0deg,
+            #00d4ff 60deg,
+            #8a2be2 120deg,
+            #ff00ff 180deg,
+            #00d4ff 240deg,
+            #00ff88 300deg,
+            #00ff88 360deg);
+    border-radius: 10px;
+    animation: rotateBorder 4s linear infinite;
+    z-index: -2;
+}
+
+/* Inner mask to create border effect */
+.copyright::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: linear-gradient(135deg, #0a0a0f 0%, #0f0f14 100%);
+    border-radius: 6px;
+    z-index: -1;
+}
+
+/* HOVER: Intensify everything */
+.copyright:hover {
+    transform: scale(1.08) translateY(-4px);
+    box-shadow:
+        0 15px 50px rgba(0, 255, 136, 0.4),
+        0 0 80px rgba(0, 255, 136, 0.2),
+        0 0 120px rgba(138, 43, 226, 0.15);
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    letter-spacing: 3px;
+}
+
+.copyright:hover::before {
+    animation: rotateBorder 1s linear infinite;
+    filter: blur(2px);
+    inset: -5px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .madeWith {
     display: flex;
     align-items: center;
     gap: 6px;
+    background: linear-gradient(90deg,
+            var(--primary),
+            #ffffff,
+            var(--secondary, #8a2be2),
+            var(--primary));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5s ease-in-out infinite;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 1;
 }
 
 .madeWith svg {
-    color: var(--accent);
+    display: none;
 }
 
 /* Responsive */

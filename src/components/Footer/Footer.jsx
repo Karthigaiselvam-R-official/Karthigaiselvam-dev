@@ -94,11 +94,11 @@ function Footer() {
 
                 {/* Bottom */}
                 <div className={styles.footerBottom}>
-                    <p>
+                    <p className={styles.copyright}>
                         © {currentYear} Karthigaiselvam R. All rights reserved.
                     </p>
                     <p className={styles.madeWith}>
-                        Made with <Heart /> using React & Framer Motion
+                        Crafted with passion & purpose
                     </p>
                 </div>
             </div>

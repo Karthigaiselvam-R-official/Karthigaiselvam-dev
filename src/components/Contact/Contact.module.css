@@ -48,9 +48,10 @@
 
 /* Social Links */
 .socialLinks {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Side-by-side on desktop */
+    gap: 16px;
 }
 
 .socialLink {
@@ -214,12 +215,16 @@
     min-height: 120px;
 }
 
-.formBody .btn {
-    width: 100%;
+/* Button Alignment (Desktop Default) */
+.formBody :global(.btn) {
+    width: auto;
+    min-width: 200px;
+    margin: 0 auto;
+    display: flex;
     justify-content: center;
 }
 
-.formBody .btn:disabled {
+.formBody :global(.btn):disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
@@ -237,17 +242,59 @@
         gap: 60px;
     }
 
-    .contactInfo {
-        text-align: center;
+    /* Center Get in Touch / Let's work together / Description */
+    .contactInfo,
+    .contactInfo .section-header,
+    .contactInfo h2,
+    .contactInfo p {
+        text-align: center !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 
-    .contactInfo .section-header {
-        text-align: center !important;
+    .contactInfo .section-header .section-tag {
+        margin: 0 auto 20px auto !important;
+        display: inline-flex !important;
     }
 
     .socialLinks {
-        max-width: 400px;
+        max-width: 100%;
         margin: 0 auto;
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px;
+    }
+
+    .socialLink {
+        justify-content: center;
+        padding: 14px 10px;
+        text-align: center;
+    }
+
+    .socialIcon {
+        margin-right: -4px;
+        /* Adjust visual balance */
+    }
+
+    .socialArrow {
+        display: none;
+        /* Hide arrow on mobile to save space */
+    }
+
+    /* Universal Mobile/Tablet Fix for Button Alignment */
+    .formBody :global(.btn) {
+        width: auto !important;
+        min-width: 200px;
+        /* Ensure decent tap target */
+        margin: 0 auto !important;
+        /* Center it */
+        padding: 14px 32px !important;
+        /* Standard button padding */
+        justify-content: center !important;
+        display: flex !important;
+        text-align: center !important;
     }
 }
 
@@ -258,10 +305,13 @@
 
     /* Force center alignment for button content */
     .formBody .btn {
-        width: 100%;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
         justify-content: center !important;
         display: flex !important;
-        margin: 0 auto !important;
         text-align: center !important;
     }
 
@@ -269,11 +319,5 @@
         padding: 14px 16px;
     }
 
-    /* Center Get in Touch / Let's work together */
-    .contactInfo,
-    .contactInfo h2,
-    .contactInfo p {
-        text-align: center !important;
-        align-items: center !important;
-    }
+
 }

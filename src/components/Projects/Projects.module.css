@@ -335,30 +335,27 @@
     .sliderContainer {
         width: 100vw;
         margin-left: -1rem;
-        /* Offset container padding if needed */
         margin-right: -1rem;
         padding: 20px 0;
-        overflow: hidden;
+        overflow: visible;
+        /* Allow shadows to bleed */
     }
 
     .slider {
         display: flex;
         gap: 20px;
-        padding: 20px 5vw;
-        /* Balanced padding on both sides */
+        /* Padding calculation: (100vw - 75vw) / 2 = 12.5vw. 
+           Using 12.5vw ensures the first card is centered. 
+           The peeking happens naturally because the container is 100vw. */
+        padding: 40px 12.5vw;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         transform: none !important;
-        /* Override JS scroll transform */
-        /* Hide scrollbar but allow scroll */
         scrollbar-width: none;
         -ms-overflow-style: none;
         touch-action: pan-x pan-y;
-        /* Explicitly allow swipe */
         -webkit-overflow-scrolling: touch;
-        /* Smooth scroll on iOS */
         justify-content: flex-start;
-        /* Ensure start alignment for scrolling */
     }
 
     .slider::-webkit-scrollbar {
@@ -366,30 +363,41 @@
     }
 
     .projectCard {
-        min-width: 85vw;
-        /* Keep it responsive */
-        width: 85vw;
+        min-width: 75vw;
+        /* Reduced from 85vw */
+        width: 75vw;
         max-width: 350px;
-        /* Cap the width so it's not huge on larger phones */
         scroll-snap-align: center;
         margin: 0;
+
+        opacity: 1 !important;
+        transform: none !important;
+        scale: 1 !important;
+        z-index: 1 !important;
+        filter: none !important;
     }
 
+    /* Disable active state visual pop on mobile */
     .activeCard {
-        transform: none;
-        /* Reduce 3D effect on mobile for performance/layout */
-        border-width: 1px !important;
+        transform: none !important;
+        border: 1px solid var(--border-color) !important;
+        box-shadow: none !important;
+    }
+
+    /* Standard hover/active for touch */
+    .projectCard:active {
+        transform: scale(0.98) !important;
     }
 }
 
 @media (max-width: 480px) {
     .projectCard {
-        min-width: 90vw;
-        width: 90vw;
+        min-width: 75vw !important;
+        width: 75vw !important;
     }
 
     .cardContent {
-        padding: 18px;
+        padding: 16px;
     }
 
     .projectTitle {
