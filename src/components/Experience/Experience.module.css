@@ -259,19 +259,47 @@
 @media (max-width: 768px) {
     .experienceWrapper {
         height: auto !important;
-        /* Allow natural height */
         min-height: 100vh;
-        padding-bottom: 60px;
+        padding-bottom: 80px;
+        /* More bottom padding */
+        overflow: visible;
     }
 
     .stickyContainer {
         position: relative !important;
         height: auto !important;
         top: 0 !important;
-        overflow: visible !important;
-        padding-top: 40px !important;
-        display: block !important;
-        /* Stack blocking instead of flex center */
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px !important;
+    }
+
+    .waveContainer {
+        position: relative !important;
+        height: auto !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        /* Explicit gap between cards */
+        padding: 20px 0;
+        transform-style: flat !important;
+        /* Disable 3D completely */
+    }
+
+    .waveCard {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 90%;
+        max-width: 350px;
+        margin: 0 0 40px 0 !important;
+        /* Explicit bottom margin */
+        height: auto !important;
+        /* Allow content to dictate height */
+        min-height: 380px;
     }
 
     .waveCard {

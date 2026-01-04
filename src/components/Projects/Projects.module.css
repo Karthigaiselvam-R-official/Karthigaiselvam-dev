@@ -344,8 +344,8 @@
     .slider {
         display: flex;
         gap: 20px;
-        padding: 20px 20px 40px 20px;
-        /* Add padding for scrollbar/touch area */
+        padding: 20px 5vw;
+        /* Balanced padding on both sides */
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         transform: none !important;
@@ -357,6 +357,8 @@
         /* Explicitly allow swipe */
         -webkit-overflow-scrolling: touch;
         /* Smooth scroll on iOS */
+        justify-content: flex-start;
+        /* Ensure start alignment for scrolling */
     }
 
     .slider::-webkit-scrollbar {
