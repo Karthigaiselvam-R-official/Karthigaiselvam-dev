@@ -361,8 +361,9 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        overflow: hidden;
-        /* Prevent horizontal scroll */
+        width: 100%;
+        overflow: visible;
+        /* Allow floating elements to show */
     }
 
     .nameWrapper {
@@ -868,7 +869,7 @@
 }
 
 /* First command (nmap) - Yellow/Gold - Top Right Outside */
-.floatingCmd:first-of-type {
+.cmdTop {
     top: -45px !important;
     right: -20px !important;
     left: auto !important;
@@ -878,7 +879,7 @@
 }
 
 /* Second command (sudo) - Orange - Bottom Center */
-.floatingCmd:last-of-type {
+.cmdBottom {
     bottom: -45px !important;
     left: 50% !important;
     right: auto !important;
@@ -971,10 +972,71 @@
 /* Mobile: Hide floating elements */
 @media (max-width: 768px) {
 
+    /* Enable floating elements but scale them down */
+    .heroVisual {
+        justify-content: center;
+        padding: 60px 0 120px 0;
+        /* Massive bottom padding to hold the icons */
+        margin-top: 20px;
+        min-height: auto;
+        position: relative;
+    }
+
+    .holoTerminal {
+        max-width: 85%;
+        /* Slightly smaller to give horizontal breathing room */
+    }
+
     .floatingCmd,
     .portBadge,
-    .pulseRing,
-    .cveBadge,
+    .cveBadge {
+        display: flex !important;
+        /* Force show */
+        transform-origin: center;
+    }
+
+    /* Mobile-specific positions using transform scale */
+
+    /* nmap - Top Right */
+    .cmdTop {
+        top: -15px !important;
+        /* Moved up to clear terminal */
+        right: 0px !important;
+        left: auto !important;
+        transform: scale(0.65);
+        white-space: nowrap;
+    }
+
+    /* sudo - Bottom Right */
+    .cmdBottom {
+        bottom: 55px !important;
+        /* Moved up from 30px to clear "Scroll" text */
+        right: 0px !important;
+        left: auto !important;
+        transform: scale(0.65);
+    }
+
+    /* PORT 443 - Top Left */
+    .portBadge {
+        top: -15px;
+        /* Moved up to clear terminal */
+        left: 0px;
+        right: auto;
+        transform: scale(0.65);
+        padding: 8px 12px;
+    }
+
+    /* CVE - Bottom Left */
+    .cveBadge {
+        top: auto;
+        bottom: 30px;
+        /* Inside the bottom padding */
+        left: 0px;
+        right: auto;
+        transform: scale(0.65);
+    }
+
+    /* Hide decorative lines if too customized */
     .circuitLines {
         display: none;
     }

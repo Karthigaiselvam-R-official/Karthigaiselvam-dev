@@ -34,7 +34,8 @@
 .expBadge {
     position: absolute;
     bottom: -20px;
-    right: -20px;
+    right: 0;
+    /* Flush right */
     background: var(--bg-card);
     border: 1px solid var(--primary);
     padding: 20px;
@@ -320,6 +321,13 @@
 
     .expBadge {
         right: 0;
+        bottom: -80px;
+        /* Push below terminal content to fix overlap */
+    }
+
+    .terminalWrapper {
+        margin-bottom: 60px;
+        /* Make space for the badge */
     }
 }
 

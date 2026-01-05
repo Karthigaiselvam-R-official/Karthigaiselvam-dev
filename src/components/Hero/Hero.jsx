@@ -435,8 +435,7 @@ function Hero() {
 
                     {/* Floating Terminal Commands */}
                     <motion.div
-                        className={styles.floatingCmd}
-                        style={{ top: '-25px', right: '10%' }}
+                        className={`${styles.floatingCmd} ${styles.cmdTop}`}
                         initial={{ opacity: 1 }}
                         animate={{ y: [0, -3, 0] }}
                         transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
@@ -445,8 +444,7 @@ function Hero() {
                     </motion.div>
 
                     <motion.div
-                        className={styles.floatingCmd}
-                        style={{ bottom: '-35px', left: '20px' }}
+                        className={`${styles.floatingCmd} ${styles.cmdBottom}`}
                         initial={{ opacity: 1 }}
                         animate={{ y: [0, 3, 0] }}
                         transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
