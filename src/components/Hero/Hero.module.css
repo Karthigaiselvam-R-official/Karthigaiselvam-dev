@@ -1011,7 +1011,7 @@
     .cmdBottom {
         bottom: 55px !important;
         /* Moved up from 30px to clear "Scroll" text */
-        right: 0px !important;
+        right: -10px !important;
         left: auto !important;
         transform: scale(0.65);
     }

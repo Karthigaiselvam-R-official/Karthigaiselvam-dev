@@ -503,8 +503,14 @@ a {
 }
 
 .section-title {
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
+  /* Increased size for bolder headers */
   margin-bottom: 16px;
+  word-break: keep-all;
+  /* Keep words/phrases together */
+  overflow-wrap: break-word;
+  /* Prevent overflow if too long */
+  line-height: 1.25;
 }
 
 .section-subtitle {
