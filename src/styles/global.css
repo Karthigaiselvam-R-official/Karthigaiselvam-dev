@@ -503,18 +503,31 @@ a {
 }
 
 .section-title {
-  font-size: clamp(1.2rem, 5vw, 3.5rem);
-  /* Reduced min-size significantly to fit single line */
+  font-size: clamp(1.5rem, 5vw, 3.5rem);
   margin-bottom: 16px;
-  word-break: keep-all;
-  /* Force keep on one line if possible */
-  white-space: nowrap;
-  /* CRITICAL: Force one line as requested ("entire row") */
-  overflow: visible;
-  /* Ensure it doesn't clip */
   line-height: 1.25;
-  letter-spacing: -0.03em;
-  /* Condense to help fit */
+}
+
+/* Mobile: Intro Logic (768px) */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: clamp(1.4rem, 7vw, 2.5rem);
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    width: 100%;
+    line-height: 1.3;
+  }
+}
+
+/* Very small screens: Intro Logic (375px) */
+@media (max-width: 375px) {
+  .section-title {
+    font-size: clamp(1.2rem, 6.5vw, 1.8rem);
+    letter-spacing: -0.03em;
+    padding: 0 4px;
+    width: 100%;
+  }
 }
 
 .section-subtitle {
