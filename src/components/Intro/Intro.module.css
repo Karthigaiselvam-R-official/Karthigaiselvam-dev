@@ -198,14 +198,50 @@
 /* Mobile */
 @media (max-width: 768px) {
     .name {
-        font-size: clamp(2rem, 12vw, 4rem);
+        /* Use smaller font to fit full name on one line */
+        font-size: clamp(1.4rem, 7vw, 2.5rem);
         white-space: normal;
-        padding: 0 20px;
+        /* Allow word-level wrapping only, NOT character breaking */
+        word-break: keep-all;
+        overflow-wrap: normal;
+        padding: 0 12px;
+        max-width: 100%;
+        line-height: 1.3;
     }
 
     .role {
-        padding: 0 20px;
-        font-size: 0.55rem;
-        letter-spacing: 2px;
+        padding: 0 16px;
+        font-size: 0.5rem;
+        letter-spacing: 1.5px;
+        line-height: 1.6;
+    }
+
+    .introNav {
+        gap: 20px;
+        top: 20px;
+    }
+
+    .introNav a {
+        font-size: 0.7rem;
+    }
+}
+
+/* Very small screens (iPhone SE, older devices) */
+@media (max-width: 375px) {
+    .name {
+        /* Even smaller font for very small screens */
+        font-size: clamp(1.2rem, 6.5vw, 1.8rem);
+        letter-spacing: -0.03em;
+        padding: 0 8px;
+    }
+
+    .role {
+        font-size: 0.42rem;
+        letter-spacing: 0.8px;
+        padding: 0 10px;
+    }
+
+    .dot {
+        bottom: 25%;
     }
 }

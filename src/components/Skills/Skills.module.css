@@ -192,29 +192,97 @@
     border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Mobile Skills Grid - Hidden by default on desktop */
+.mobileSkillsGrid {
+    display: none;
+}
+
+/* Responsive - Tablet */
+@media (max-width: 1024px) {
     .graphContainer {
-        height: 600px;
-        transform: scale(0.8);
-        /* Scale down entire graph */
+        height: 500px;
+        transform: scale(0.7);
         transform-origin: center center;
     }
+}
 
-    .nodeLabel {
-        display: block;
+/* Responsive - Mobile: Hide complex graph, show simple grid */
+@media (max-width: 768px) {
+    .skills {
+        padding: 60px 16px;
+        min-height: auto;
+    }
+
+    .graphContainer {
+        display: none !important;
+    }
+
+    /* Mobile Skills Grid */
+    .mobileSkillsGrid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0;
+        max-width: 100%;
+    }
+
+    .mobileCategory {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 16px;
+        margin-top: 16px;
+        margin-bottom: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobileCategory:first-child {
+        margin-top: 0;
+    }
+
+    .mobileCategoryTitle {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .mobileSkillBadge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 16px;
+        background: rgba(5, 5, 16, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 25px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #e0e0e0;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .mobileSkillBadge:active {
+        transform: scale(0.95);
+        background: rgba(5, 5, 16, 0.95);
+    }
+}
+
+/* Very small screens */
+@media (max-width: 375px) {
+    .skills {
+        padding: 40px 12px;
+    }
+
+    .mobileSkillBadge {
+        padding: 10px 12px;
         font-size: 0.7rem;
-        /* Slightly smaller on mobile */
     }
 
-    .node:hover .nodeLabel {
-        display: block;
-        /* Show on tap/hover */
-    }
-
-    .core .nodeLabel,
-    .category .nodeLabel {
-        display: block;
-        /* Always show main labels */
+    .mobileCategoryTitle {
+        font-size: 0.8rem;
     }
 }

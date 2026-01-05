@@ -300,24 +300,56 @@
 
 @media (max-width: 480px) {
     .formBody {
-        padding: 24px;
+        padding: 20px;
     }
 
-    /* Force center alignment for button content */
-    .formBody .btn {
-        width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        justify-content: center !important;
-        display: flex !important;
-        text-align: center !important;
+    .socialLinks {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
     }
 
     .socialLink {
-        padding: 14px 16px;
+        padding: 12px 10px;
+        font-size: 0.85rem;
     }
 
+    .socialName {
+        font-size: 0.8rem;
+    }
+}
 
+/* Very small screens */
+@media (max-width: 375px) {
+    .formBody {
+        padding: 16px;
+    }
+
+    .formGroup input,
+    .formGroup textarea {
+        padding: 12px 14px;
+        font-size: 0.85rem;
+    }
+
+    .socialLinks {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .socialLink {
+        padding: 10px 8px;
+        gap: 8px;
+    }
+
+    .socialIcon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .socialName {
+        font-size: 0.75rem;
+    }
+
+    .description {
+        font-size: 0.9rem;
+    }
 }

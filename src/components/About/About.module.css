@@ -322,3 +322,35 @@
         right: 0;
     }
 }
+
+/* Very small screens */
+@media (max-width: 375px) {
+    .highlightsGrid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .highlightCard {
+        padding: 12px;
+    }
+
+    .highlightContent h4 {
+        font-size: 0.9rem;
+    }
+
+    .highlightContent p {
+        font-size: 0.8rem;
+    }
+
+    .achievementCard {
+        min-height: 280px;
+    }
+
+    .achievementInfo h4 {
+        font-size: 1rem;
+    }
+
+    .expNumber {
+        font-size: 1.6rem;
+    }
+}

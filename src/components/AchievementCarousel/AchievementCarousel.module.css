@@ -235,29 +235,90 @@
 
 @media (max-width: 768px) {
     .container {
-        padding: 0 20px;
+        padding: 0 16px;
     }
 
     .carousel3D {
-        height: 300px;
+        height: 280px;
     }
 
     .carouselCard {
-        width: 220px;
-        height: 260px;
+        width: 200px;
+        height: 240px;
     }
 
     .achievementHeader h3 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .prize {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .achievementDot {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
+    }
+
+    .achievementIndicators {
+        gap: 14px;
+        margin-top: 40px;
+    }
+
+    .sectionTitle {
+        font-size: 1.8rem;
+        margin-bottom: 40px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 375px) {
+    .container {
+        padding: 0 12px;
+    }
+
+    .carousel3D {
+        height: 240px;
+    }
+
+    .carouselCard {
+        width: 170px;
+        height: 210px;
+    }
+
+    .achievementHeader h3 {
+        font-size: 0.95rem;
+    }
+
+    .achievementDescription {
+        font-size: 0.85rem;
+    }
+
+    .prize {
+        font-size: 1rem;
+    }
+
+    .place {
+        font-size: 0.9rem;
+    }
+
+    .achievementDot {
+        width: 28px;
+        height: 28px;
+    }
+
+    .dotLabel {
+        font-size: 0.75rem;
+    }
+
+    .knowMoreBtn {
+        padding: 10px 20px;
+        font-size: 0.7rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
     }
 }
 

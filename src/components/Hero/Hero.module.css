@@ -403,7 +403,11 @@
 @media (max-width: 600px) {
     .name {
         flex-wrap: wrap;
-        font-size: 2.5rem;
+        font-size: clamp(1.6rem, 8vw, 2.2rem);
+    }
+
+    .roleContainer {
+        font-size: 1rem;
     }
 
     .buttons {
@@ -419,11 +423,11 @@
     .buttons a {
         width: auto;
         /* Let content dictate width */
-        min-width: 140px;
+        min-width: 120px;
         /* Ensure hit target size */
-        padding: 12px 20px;
+        padding: 10px 16px;
         /* Slightly reduced padding */
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .stats {
@@ -432,6 +436,410 @@
     }
 
     .statDivider {
+        display: none;
+    }
+
+    .description {
+        font-size: 0.95rem;
+        max-width: 100%;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 375px) {
+    .name {
+        font-size: clamp(1.3rem, 7vw, 1.8rem);
+        gap: 8px;
+    }
+
+    .roleContainer {
+        font-size: 0.85rem;
+    }
+
+    .statusBadge {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+    }
+
+    .buttons a {
+        min-width: 100px;
+        padding: 10px 14px;
+        font-size: 0.8rem;
+    }
+
+    .statNumber {
+        font-size: 1.4rem;
+    }
+
+    .statLabel {
+        font-size: 0.65rem;
+    }
+}
+
+/* =============================================
+   HOLOGRAPHIC CYBER TERMINAL - NEW DESIGN
+   ============================================= */
+
+/* Holographic Terminal Container */
+.holoTerminal {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(135deg,
+            rgba(0, 20, 30, 0.95) 0%,
+            rgba(0, 10, 20, 0.98) 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    z-index: 10;
+    box-shadow:
+        0 0 30px rgba(0, 255, 136, 0.15),
+        0 0 60px rgba(0, 212, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Animated glowing border */
+.holoBorder {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 2px;
+    background: linear-gradient(90deg,
+            #00ff88 0%,
+            #00d4ff 25%,
+            #bd00ff 50%,
+            #00d4ff 75%,
+            #00ff88 100%);
+    background-size: 300% 100%;
+    animation: borderGlow 3s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+@keyframes borderGlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
+/* Corner accents */
+.cornerAccent {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.cornerAccent::before,
+.cornerAccent::after {
+    content: '';
+    position: absolute;
+    background: #00ff88;
+    box-shadow: 0 0 10px #00ff88;
+}
+
+.topLeft {
+    top: 0;
+    left: 0;
+}
+
+.topRight {
+    top: 0;
+    right: 0;
+}
+
+.bottomLeft {
+    bottom: 0;
+    left: 0;
+}
+
+.bottomRight {
+    bottom: 0;
+    right: 0;
+}
+
+.topLeft::before {
+    width: 3px;
+    height: 20px;
+    top: 0;
+    left: 0;
+}
+
+.topLeft::after {
+    width: 20px;
+    height: 3px;
+    top: 0;
+    left: 0;
+}
+
+.topRight::before {
+    width: 3px;
+    height: 20px;
+    top: 0;
+    right: 0;
+}
+
+.topRight::after {
+    width: 20px;
+    height: 3px;
+    top: 0;
+    right: 0;
+}
+
+.bottomLeft::before {
+    width: 3px;
+    height: 20px;
+    bottom: 0;
+    left: 0;
+}
+
+.bottomLeft::after {
+    width: 20px;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+}
+
+.bottomRight::before {
+    width: 3px;
+    height: 20px;
+    bottom: 0;
+    right: 0;
+}
+
+.bottomRight::after {
+    width: 20px;
+    height: 3px;
+    bottom: 0;
+    right: 0;
+}
+
+/* Scanlines overlay */
+.holoScanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent 0px,
+            transparent 2px,
+            rgba(0, 0, 0, 0.1) 2px,
+            rgba(0, 0, 0, 0.1) 4px);
+    pointer-events: none;
+    z-index: 15;
+    opacity: 0.5;
+}
+
+/* Terminal Header */
+.holoHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(0, 255, 136, 0.05);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.holoHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.holoStatus {
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    animation: statusPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 10px #00ff88;
+}
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+.holoTitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #00ff88;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.holoHeaderRight {
+    display: flex;
+    gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(0, 255, 136, 0.6);
+}
+
+.holoTime {
+    color: #00d4ff;
+}
+
+/* Terminal Body */
+.holoBody {
+    padding: 16px;
+    min-height: 280px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.8;
+}
+
+.holoLine {
+    display: flex;
+    gap: 12px;
+    min-height: 1.8em;
+}
+
+.lineNumber {
+    color: rgba(255, 255, 255, 0.2);
+    user-select: none;
+    min-width: 20px;
+}
+
+/* Blinking cursor */
+.holoCursor {
+    opacity: 0;
+    color: #00ff88;
+    animation: none;
+}
+
+.holoCursor.visible {
+    opacity: 1;
+}
+
+/* Terminal Footer */
+.holoFooter {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(0, 255, 136, 0.1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.holoFooterItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pulsingDot {
+    width: 6px;
+    height: 6px;
+    background: #50fa7b;
+    border-radius: 50%;
+    animation: statusPulse 1.5s ease-in-out infinite;
+}
+
+/* Network Radar Background */
+.radarContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.radarCircle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(0, 255, 136, 0.15);
+    border-radius: 50%;
+}
+
+.radarSweep {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.8), transparent);
+    transform-origin: left center;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+.networkNode {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #00ff88;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #00ff88;
+}
+
+/* Data Stream Effect */
+.dataStream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.streamLine {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(0, 255, 136, 0.6) 50%,
+            transparent 100%);
+}
+
+/* Mobile: Simplified version */
+@media (max-width: 768px) {
+    .holoTerminal {
+        max-width: 100%;
+    }
+
+    .radarContainer,
+    .dataStream {
+        display: none;
+    }
+
+    .holoBody {
+        min-height: 200px;
+        font-size: 0.7rem;
+    }
+
+    .holoFooter {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .holoFooterItem:last-child {
         display: none;
     }
 }

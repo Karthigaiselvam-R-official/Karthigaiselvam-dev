@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState, useRef } from 'react'
 import styles from './Hero.module.css'
 
 // SVG Icons
@@ -29,13 +29,6 @@ const Lock = () => (
     </svg>
 )
 
-const Code = () => (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 18 22 12 16 6" />
-        <polyline points="8 6 2 12 8 18" />
-    </svg>
-)
-
 // Typewriter effect for roles
 const roles = [
     "Security Researcher",
@@ -43,6 +36,218 @@ const roles = [
     "Software Developer",
     "Cyber Security Enthusiast",
 ]
+
+// ============================================
+// HOLOGRAPHIC CYBER TERMINAL - NEW DESIGN
+// ============================================
+
+// Animated typing terminal with real cursor
+const HoloTerminal = () => {
+    const [lines, setLines] = useState([])
+    const [currentLine, setCurrentLine] = useState(0)
+    const [currentChar, setCurrentChar] = useState(0)
+    const [showCursor, setShowCursor] = useState(true)
+
+    const codeLines = [
+        { text: '> Initializing security scan...', color: '#888', delay: 0 },
+        { text: '> Target: Karthigaiselvam.dev', color: '#00ff88', delay: 100 },
+        { text: '', color: '#fff', delay: 50 },
+        { text: 'class SecurityResearcher:', color: '#ff79c6', delay: 80 },
+        { text: '    def __init__(self):', color: '#8be9fd', delay: 80 },
+        { text: '        self.name = "Karthigaiselvam"', color: '#f1fa8c', delay: 60 },
+        { text: '        self.role = "Security Researcher"', color: '#f1fa8c', delay: 60 },
+        { text: '        self.status = "ACTIVE"', color: '#50fa7b', delay: 60 },
+        { text: '', color: '#fff', delay: 50 },
+        { text: '> Scan complete. No vulnerabilities found.', color: '#00ff88', delay: 100 },
+        { text: '> System secured ✓', color: '#50fa7b', delay: 150 },
+    ]
+
+    // Cursor blink
+    useEffect(() => {
+        const cursorInterval = setInterval(() => {
+            setShowCursor(prev => !prev)
+        }, 530)
+        return () => clearInterval(cursorInterval)
+    }, [])
+
+    // Typing animation
+    useEffect(() => {
+        if (currentLine >= codeLines.length) return
+
+        const line = codeLines[currentLine]
+
+        if (currentChar < line.text.length) {
+            const timeout = setTimeout(() => {
+                setCurrentChar(prev => prev + 1)
+            }, 30 + Math.random() * 20)
+            return () => clearTimeout(timeout)
+        } else {
+            // Line complete, add to lines and move to next
+            const timeout = setTimeout(() => {
+                setLines(prev => [...prev, { ...line, text: line.text }])
+                setCurrentLine(prev => prev + 1)
+                setCurrentChar(0)
+            }, line.delay)
+            return () => clearTimeout(timeout)
+        }
+    }, [currentLine, currentChar])
+
+    return (
+        <div className={styles.holoTerminal}>
+            {/* Corner accents */}
+            <div className={`${styles.cornerAccent} ${styles.topLeft}`} />
+            <div className={`${styles.cornerAccent} ${styles.topRight}`} />
+            <div className={`${styles.cornerAccent} ${styles.bottomLeft}`} />
+            <div className={`${styles.cornerAccent} ${styles.bottomRight}`} />
+
+            {/* Scan lines */}
+            <div className={styles.holoScanlines} />
+
+            {/* Glowing border */}
+            <div className={styles.holoBorder} />
+
+            {/* Header */}
+            <div className={styles.holoHeader}>
+                <div className={styles.holoHeaderLeft}>
+                    <span className={styles.holoStatus} />
+                    <span className={styles.holoTitle}>SYSTEM TERMINAL</span>
+                </div>
+                <div className={styles.holoHeaderRight}>
+                    <span>v2.0.26</span>
+                    <span className={styles.holoTime}>
+                        {new Date().toLocaleTimeString('en-US', { hour12: false })}
+                    </span>
+                </div>
+            </div>
+
+            {/* Terminal body */}
+            <div className={styles.holoBody}>
+                {/* Completed lines */}
+                {lines.map((line, i) => (
+                    <motion.div
+                        key={i}
+                        className={styles.holoLine}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <span className={styles.lineNumber}>{String(i + 1).padStart(2, '0')}</span>
+                        <span style={{ color: line.color }}>{line.text}</span>
+                    </motion.div>
+                ))}
+
+                {/* Currently typing line */}
+                {currentLine < codeLines.length && (
+                    <div className={styles.holoLine}>
+                        <span className={styles.lineNumber}>
+                            {String(lines.length + 1).padStart(2, '0')}
+                        </span>
+                        <span style={{ color: codeLines[currentLine].color }}>
+                            {codeLines[currentLine].text.slice(0, currentChar)}
+                        </span>
+                        <span className={`${styles.holoCursor} ${showCursor ? styles.visible : ''}`}>█</span>
+                    </div>
+                )}
+            </div>
+
+            {/* Footer status bar */}
+            <div className={styles.holoFooter}>
+                <span className={styles.holoFooterItem}>
+                    <span className={styles.pulsingDot} /> CONNECTED
+                </span>
+                <span className={styles.holoFooterItem}>ENCRYPTION: AES-256</span>
+                <span className={styles.holoFooterItem}>FIREWALL: ACTIVE</span>
+            </div>
+        </div>
+    )
+}
+
+// Radar/Network visualization behind terminal
+const NetworkRadar = () => {
+    return (
+        <div className={styles.radarContainer}>
+            {/* Radar circles */}
+            {[1, 2, 3, 4].map((i) => (
+                <motion.div
+                    key={i}
+                    className={styles.radarCircle}
+                    style={{
+                        width: `${i * 100}px`,
+                        height: `${i * 100}px`,
+                    }}
+                    animate={{
+                        opacity: [0.1, 0.3, 0.1],
+                        scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                        duration: 3,
+                        delay: i * 0.5,
+                        repeat: Infinity,
+                        ease: 'easeInOut'
+                    }}
+                />
+            ))}
+
+            {/* Radar sweep */}
+            <motion.div
+                className={styles.radarSweep}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+            />
+
+            {/* Network nodes */}
+            {Array.from({ length: 8 }).map((_, i) => {
+                const angle = (i / 8) * Math.PI * 2
+                const radius = 80 + Math.random() * 60
+                return (
+                    <motion.div
+                        key={i}
+                        className={styles.networkNode}
+                        style={{
+                            left: `calc(50% + ${Math.cos(angle) * radius}px)`,
+                            top: `calc(50% + ${Math.sin(angle) * radius}px)`,
+                        }}
+                        animate={{
+                            opacity: [0.3, 1, 0.3],
+                            scale: [0.8, 1.2, 0.8]
+                        }}
+                        transition={{
+                            duration: 2 + Math.random() * 2,
+                            delay: i * 0.3,
+                            repeat: Infinity,
+                            ease: 'easeInOut'
+                        }}
+                    />
+                )
+            })}
+        </div>
+    )
+}
+
+// Data stream effect
+const DataStream = () => {
+    return (
+        <div className={styles.dataStream}>
+            {Array.from({ length: 6 }).map((_, i) => (
+                <motion.div
+                    key={i}
+                    className={styles.streamLine}
+                    style={{ left: `${10 + i * 15}%` }}
+                    animate={{
+                        y: ['-100%', '100%'],
+                        opacity: [0, 1, 1, 0]
+                    }}
+                    transition={{
+                        duration: 2 + Math.random(),
+                        delay: i * 0.4,
+                        repeat: Infinity,
+                        ease: 'linear'
+                    }}
+                />
+            ))}
+        </div>
+    )
+}
 
 function Hero() {
     const [roleIndex, setRoleIndex] = useState(0)
@@ -121,7 +326,7 @@ function Hero() {
                         <span>Available for Work</span>
                     </motion.div>
 
-                    {/* Simplified & Solid Name Structure */}
+                    {/* Name */}
                     <motion.div
                         className={styles.nameWrapper}
                         initial={{ opacity: 0, x: -50 }}
@@ -129,12 +334,8 @@ function Hero() {
                         transition={{ delay: 0.3 }}
                     >
                         <h1 className={styles.name}>
-                            <span className={styles.firstName}>
-                                {firstName}
-                            </span>
-                            <span className={styles.lastName}>
-                                {lastName}
-                            </span>
+                            <span className={styles.firstName}>{firstName}</span>
+                            <span className={styles.lastName}>{lastName}</span>
                         </h1>
                     </motion.div>
 
@@ -214,53 +415,21 @@ function Hero() {
                     </motion.div>
                 </motion.div>
 
-                {/* Hero Visual - Terminal */}
+                {/* ====== NEW HOLOGRAPHIC TERMINAL VISUAL ====== */}
                 <motion.div
                     className={styles.heroVisual}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5, duration: 0.8 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.5, duration: 0.8, type: 'spring' }}
                 >
-                    <div className={`terminal ${styles.codeBlock}`}>
-                        <div className="terminal-header">
-                            <span className="terminal-dot red"></span>
-                            <span className="terminal-dot yellow"></span>
-                            <span className="terminal-dot green"></span>
-                            <span className="terminal-title">security_researcher.py</span>
-                        </div>
-                        <div className="terminal-body">
-                            <code>
-                                <span className={styles.keyword}>class</span>{' '}
-                                <span className={styles.className}>SecurityResearcher</span>:<br />
-                                <br />
-                                {'    '}<span className={styles.keyword}>def</span>{' '}
-                                <span className={styles.function}>__init__</span>(self):<br />
-                                {'        '}self.<span className={styles.property}>name</span> = <span className={styles.string}>"Karthigaiselvam"</span><br />
-                                {'        '}self.<span className={styles.property}>role</span> = <span className={styles.string}>"Security Researcher"</span><br />
-                                {'        '}self.<span className={styles.property}>focus</span> = [<br />
-                                {'            '}<span className={styles.string}>"Red Teaming"</span>,<br />
-                                {'            '}<span className={styles.string}>"Vulnerability Assessment"</span>,<br />
-                                {'            '}<span className={styles.string}>"Tool Development"</span><br />
-                                {'        '}]<br />
-                            </code>
-                        </div>
-                    </div>
+                    {/* Background radar effect */}
+                    <NetworkRadar />
 
-                    {/* Floating Icons */}
-                    <motion.div
-                        className={`${styles.floatingIcon} ${styles.icon1}`}
-                        animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
-                        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                    >
-                        <Shield />
-                    </motion.div>
-                    <motion.div
-                        className={`${styles.floatingIcon} ${styles.icon2}`}
-                        animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
-                        transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-                    >
-                        <Lock />
-                    </motion.div>
+                    {/* Data streams */}
+                    <DataStream />
+
+                    {/* Main holographic terminal */}
+                    <HoloTerminal />
                 </motion.div>
             </div>
 
