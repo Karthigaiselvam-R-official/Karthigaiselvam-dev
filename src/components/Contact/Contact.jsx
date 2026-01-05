@@ -177,7 +177,14 @@ function Contact() {
                                         exit={{ opacity: 0 }}
                                         transition={{ duration: 0.05 }}
                                         className="gradient-text"
-                                        style={{ display: 'inline-block' }}
+                                        style={{
+                                            display: 'inline-block',
+                                            // Fix: For Tamil (Index 0), compress width (scaleX) to fit without breaking or losing height
+                                            transform: currentLangIndex === 0 ? 'scaleX(0.85)' : 'none',
+                                            transformOrigin: 'center',
+                                            whiteSpace: 'nowrap', // Force single line
+                                            width: currentLangIndex === 0 ? '100%' : 'auto'
+                                        }}
                                     >
                                         {languages[currentLangIndex]}
                                     </motion.span>
