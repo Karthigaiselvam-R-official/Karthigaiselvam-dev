@@ -430,6 +430,88 @@ function Hero() {
 
                     {/* Main holographic terminal */}
                     <HoloTerminal />
+
+                    {/* === CREATIVE FLOATING ELEMENTS === */}
+
+                    {/* Floating Terminal Commands */}
+                    <motion.div
+                        className={styles.floatingCmd}
+                        style={{ top: '-25px', right: '10%' }}
+                        initial={{ opacity: 1 }}
+                        animate={{ y: [0, -3, 0] }}
+                        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                    >
+                        $ nmap -sV
+                    </motion.div>
+
+                    <motion.div
+                        className={styles.floatingCmd}
+                        style={{ bottom: '-35px', left: '20px' }}
+                        initial={{ opacity: 1 }}
+                        animate={{ y: [0, 3, 0] }}
+                        transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                    >
+                        $ sudo ./exploit
+                    </motion.div>
+
+                    {/* Port Badge - Left Side */}
+                    <motion.div
+                        className={styles.portBadge}
+                        initial={{ opacity: 1 }}
+                        animate={{ y: [0, -2, 0] }}
+                        transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                    >
+                        <span className={styles.portLabel}>PORT</span>
+                        <span className={styles.portNumber}>443</span>
+                        <span className={styles.portStatus}>OPEN</span>
+                    </motion.div>
+
+
+
+                    {/* CVE Badge */}
+                    <motion.div
+                        className={styles.cveBadge}
+                        animate={{
+                            y: [-3, 3, -3],
+                            boxShadow: [
+                                '0 0 15px rgba(255,0,100,0.3)',
+                                '0 0 25px rgba(255,0,100,0.5)',
+                                '0 0 15px rgba(255,0,100,0.3)'
+                            ]
+                        }}
+                        transition={{ repeat: Infinity, duration: 3 }}
+                    >
+                        <span className={styles.cveText}>CVE-2026</span>
+                    </motion.div>
+
+                    {/* Circuit Lines */}
+                    <svg className={styles.circuitLines} viewBox="0 0 100 100">
+                        <motion.path
+                            d="M0 50 H30 L40 30 H70 L80 50 H100"
+                            stroke="rgba(0,255,136,0.3)"
+                            strokeWidth="1"
+                            fill="none"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+                        />
+                        <motion.circle
+                            cx="40"
+                            cy="30"
+                            r="3"
+                            fill="#00ff88"
+                            animate={{ opacity: [0, 1, 0] }}
+                            transition={{ duration: 1, repeat: Infinity, delay: 0.5 }}
+                        />
+                        <motion.circle
+                            cx="70"
+                            cy="30"
+                            r="3"
+                            fill="#00d4ff"
+                            animate={{ opacity: [0, 1, 0] }}
+                            transition={{ duration: 1, repeat: Infinity, delay: 1 }}
+                        />
+                    </svg>
                 </motion.div>
             </div>
 
