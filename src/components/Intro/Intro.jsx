@@ -22,7 +22,7 @@ const Intro = ({ onComplete }) => {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    {/* Lightning Flash - Multiple flashes */}
+                    {/* Lightning Flash - Starts AFTER name finishes appearing */}
                     <motion.div
                         className={styles.lightning}
                         initial={{ opacity: 0 }}
@@ -30,7 +30,8 @@ const Intro = ({ onComplete }) => {
                             opacity: [0, 0.6, 0, 0.3, 0, 0.1, 0]
                         }}
                         transition={{
-                            duration: 0.8,
+                            delay: 1.5, // Wait for letter animation to finish (approx 1.2s)
+                            duration: 0.6,
                             times: [0, 0.1, 0.2, 0.4, 0.5, 0.7, 1],
                             ease: "easeOut"
                         }}
@@ -44,9 +45,9 @@ const Intro = ({ onComplete }) => {
                         transition={{ delay: 0.3, duration: 1 }}
                     />
 
-                    {/* Vertical Grid Lines */}
+                    {/* Vertical Grid Lines - Reduced count for performance */}
                     <div className={styles.gridLines}>
-                        {[...Array(25)].map((_, i) => (
+                        {[...Array(15)].map((_, i) => (
                             <motion.span
                                 key={i}
                                 className={styles.line}
@@ -57,25 +58,48 @@ const Intro = ({ onComplete }) => {
                         ))}
                     </div>
 
-                    {/* Name - Smooth 1.5s zoom out */}
+                    {/* Name - Staggered Letter Animation */}
                     <motion.h1
                         className={styles.name}
-                        initial={{
-                            scale: 5,
-                            opacity: 0,
-                            filter: 'blur(10px)'
-                        }}
-                        animate={{
-                            scale: 1,
-                            opacity: 1,
-                            filter: 'blur(0px)'
-                        }}
-                        transition={{
-                            duration: 1.5,
-                            ease: [0.25, 0.1, 0.25, 1], // Smooth cubic-bezier
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: {
+                                opacity: 1,
+                                transition: {
+                                    staggerChildren: 0.05,
+                                    delayChildren: 0.3
+                                }
+                            }
                         }}
                     >
-                        KARTHIGAISELVAM R
+                        {Array.from("KARTHIGAISELVAM R").map((char, index) => (
+                            <motion.span
+                                key={index}
+                                variants={{
+                                    hidden: {
+                                        opacity: 0,
+                                        y: 20,
+                                        filter: 'blur(10px)',
+                                        scale: 1.5
+                                    },
+                                    visible: {
+                                        opacity: 1,
+                                        y: 0,
+                                        filter: 'blur(0px)',
+                                        scale: 1
+                                    }
+                                }}
+                                className={styles.gradientChar}
+                                style={{
+                                    display: 'inline-block',
+                                    whiteSpace: 'pre',
+                                }}
+                            >
+                                {char}
+                            </motion.span>
+                        ))}
                     </motion.h1>
 
                     {/* Role - Fade in after name settles */}

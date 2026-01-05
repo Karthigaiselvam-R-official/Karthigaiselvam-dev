@@ -140,6 +140,21 @@
     filter: drop-shadow(0 0 30px rgba(0, 255, 200, 0.4)) drop-shadow(0 0 60px rgba(0, 200, 255, 0.2));
 }
 
+/* Gradient Character for Staggered Animation */
+.gradientChar {
+    background: linear-gradient(90deg,
+            #ffffff 0%,
+            #00ffcc 25%,
+            #00d4ff 50%,
+            #bd00ff 75%,
+            #ffffff 100%);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
 /* Role */
 .role {
     margin-top: 30px;
