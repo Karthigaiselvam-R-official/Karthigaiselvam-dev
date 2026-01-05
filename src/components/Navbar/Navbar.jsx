@@ -22,6 +22,23 @@ function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    // Scroll Lock when Mobile Menu is open
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden'
+            document.documentElement.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+            document.documentElement.style.overflow = ''
+        }
+
+        // Cleanup ensures we don't leave the page locked if component unmounts
+        return () => {
+            document.body.style.overflow = ''
+            document.documentElement.style.overflow = ''
+        }
+    }, [isMobileMenuOpen])
+
     return (
         <motion.nav
             className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}
@@ -92,11 +109,22 @@ function Navbar() {
                                 href={link.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
-                                <span className={styles.linkNumber}>0{index + 1}.</span>
                                 {link.name}
+                                <span className={styles.linkNumber}>0{index + 1}</span>
                             </a>
                         </li>
                     ))}
+
+                    {/* Mobile CTA Button */}
+                    <li style={{ width: '100%', listStyle: 'none' }}>
+                        <a
+                            href="#contact"
+                            className={styles.mobileCta}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            Start Project
+                        </a>
+                    </li>
                 </ul>
             </motion.div>
         </motion.nav>
