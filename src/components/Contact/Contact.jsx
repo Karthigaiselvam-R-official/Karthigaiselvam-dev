@@ -178,11 +178,12 @@ function Contact() {
                                         transition={{ duration: 0.05 }}
                                         className="gradient-text"
                                         style={{
-                                            display: 'inline-block',
+                                            display: 'block', // Force full width block to ensure centering
+                                            width: '100%',
+                                            textAlign: 'center',
                                             // Fix: Reduce font size for Tamil (Index 0) to fit single line without breaking
                                             fontSize: currentLangIndex === 0 ? '0.75em' : 'inherit',
-                                            whiteSpace: 'nowrap', // Force single line
-                                            width: 'auto'
+                                            whiteSpace: 'nowrap' // Force single line
                                         }}
                                     >
                                         {languages[currentLangIndex]}
