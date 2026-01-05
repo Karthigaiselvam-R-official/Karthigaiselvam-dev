@@ -179,11 +179,10 @@ function Contact() {
                                         className="gradient-text"
                                         style={{
                                             display: 'inline-block',
-                                            // Fix: For Tamil (Index 0), compress width (scaleX) to fit without breaking or losing height
-                                            transform: currentLangIndex === 0 ? 'scaleX(0.85)' : 'none',
-                                            transformOrigin: 'center',
+                                            // Fix: Reduce font size for Tamil (Index 0) to fit single line without breaking
+                                            fontSize: currentLangIndex === 0 ? '0.75em' : 'inherit',
                                             whiteSpace: 'nowrap', // Force single line
-                                            width: currentLangIndex === 0 ? '100%' : 'auto'
+                                            width: 'auto'
                                         }}
                                     >
                                         {languages[currentLangIndex]}
