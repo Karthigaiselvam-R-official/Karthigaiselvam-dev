@@ -503,16 +503,18 @@ a {
 }
 
 .section-title {
-  font-size: clamp(1.6rem, 5vw, 3.2rem);
-  /* Slightly reduced to prevent break */
+  font-size: clamp(1.2rem, 5vw, 3.5rem);
+  /* Reduced min-size significantly to fit single line */
   margin-bottom: 16px;
   word-break: keep-all;
-  /* Keep words/phrases together */
-  overflow-wrap: break-word;
-  /* Prevent overflow if too long */
+  /* Force keep on one line if possible */
+  white-space: nowrap;
+  /* CRITICAL: Force one line as requested ("entire row") */
+  overflow: visible;
+  /* Ensure it doesn't clip */
   line-height: 1.25;
-  letter-spacing: -0.02em;
-  /* Condense slightly to fit better */
+  letter-spacing: -0.03em;
+  /* Condense to help fit */
 }
 
 .section-subtitle {
