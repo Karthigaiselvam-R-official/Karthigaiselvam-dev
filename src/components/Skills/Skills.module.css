@@ -254,18 +254,22 @@
         align-items: center;
         justify-content: center;
         padding: 8px 4px;
-        /* Fix: Reduce padding to make room for text */
         background: rgba(5, 5, 16, 0.8);
         border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 25px;
+        border-radius: 20px;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.7rem;
-        /* Fix: Smaller font for long words */
+        font-size: 0.65rem;
+        /* Reduced for "Reverse Engineering" */
+        line-height: 1.2;
+        /* Tight wrap */
         font-weight: 500;
         color: #e0e0e0;
         text-align: center;
         height: 100%;
-        /* Ensure uniform height in grid */
+        min-height: 48px;
+        /* Consistent size */
+        word-wrap: break-word;
+        /* Handle overflow */
         transition: all 0.3s ease;
     }
 
