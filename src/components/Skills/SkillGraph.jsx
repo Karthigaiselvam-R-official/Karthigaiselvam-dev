@@ -22,13 +22,15 @@ const skillData = {
             color: '#00ff88',
             children: [
                 { id: 'pentest', label: 'Pentesting', type: 'skill' },
-                { id: 'websec', label: 'Web Sec', type: 'skill' },
-                { id: 'android', label: 'Android', type: 'skill' },
-                { id: 'network', label: 'Network Sec', type: 'skill' },
+                { id: 'websec', label: 'Web App Security', type: 'skill' },
+                { id: 'network', label: 'Network Security', type: 'skill' },
+                { id: 'malware', label: 'Malware Analysis', type: 'skill' },
+                { id: 'reveng', label: 'Reverse Engineering', type: 'skill' },
                 { id: 'burp', label: 'Burp Suite', type: 'skill' },
                 { id: 'meta', label: 'Metasploit', type: 'skill' },
                 { id: 'nmap', label: 'Nmap', type: 'skill' },
                 { id: 'wireshark', label: 'Wireshark', type: 'skill' },
+                { id: 'nessus', label: 'Nessus', type: 'skill' },
             ]
         },
         {
@@ -39,11 +41,13 @@ const skillData = {
             children: [
                 { id: 'python', label: 'Python', type: 'skill' },
                 { id: 'cpp', label: 'C++', type: 'skill' },
+                { id: 'go', label: 'Go', type: 'skill' },
+                { id: 'bash', label: 'Bash', type: 'skill' },
                 { id: 'js', label: 'JavaScript', type: 'skill' },
                 { id: 'react', label: 'React', type: 'skill' },
                 { id: 'node', label: 'Node.js', type: 'skill' },
-                { id: 'qt', label: 'Qt6 / QML', type: 'skill' },
                 { id: 'sql', label: 'SQL', type: 'skill' },
+                { id: 'solidity', label: 'Solidity', type: 'skill' },
             ]
         },
         {
@@ -53,9 +57,10 @@ const skillData = {
             color: '#bd00ff',
             children: [
                 { id: 'linux', label: 'Linux', type: 'skill' },
-                { id: 'bash', label: 'Bash', type: 'skill' },
                 { id: 'git', label: 'Git', type: 'skill' },
                 { id: 'docker', label: 'Docker', type: 'skill' },
+                { id: 'risk', label: 'Risk Management', type: 'skill' },
+                { id: 'incident', label: 'Incident Response', type: 'skill' },
             ]
         }
     ]
@@ -87,8 +92,22 @@ const SkillGraph = () => {
             const startAngle = angle - angleSpan / 2
 
             cat.children.forEach((skill, j) => {
-                // Distribute skills in a fan around the category
-                const skillAngle = startAngle + (j / (skillCount - 1)) * angleSpan * 0.8 + (angleSpan * 0.1)
+                // Fix: Custom spread for each category based on density/preference
+                const isSecurity = cat.id === 'security'
+                const isOps = cat.id === 'ops'
+
+                let spreadFactor = 0.7 // Default (Dev)
+                let startOffset = 0.15 // Default offset
+
+                if (isSecurity) {
+                    spreadFactor = 1.03 // Wide for Security
+                    startOffset = -0.01
+                } else if (isOps) {
+                    spreadFactor = 0.65 // Reduce gap for Ops (User request)
+                    startOffset = 0.17 // Center the tighter cluster
+                }
+
+                const skillAngle = startAngle + (j / (skillCount - 1)) * angleSpan * spreadFactor + (angleSpan * startOffset)
                 const skillRadius = 45 // 45% from center
                 const sx = 50 + Math.cos(skillAngle) * skillRadius * 1.5
                 const sy = 50 + Math.sin(skillAngle) * skillRadius

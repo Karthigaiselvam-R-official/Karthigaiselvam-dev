@@ -1,3 +1,4 @@
+import React from 'react'
 import { motion } from 'framer-motion'
 import { Cpu } from 'lucide-react'
 import SkillGraph from './SkillGraph'
@@ -9,19 +10,19 @@ const skillCategories = [
         id: 'security',
         label: 'Cyber Security',
         color: '#00ff88',
-        skills: ['Pentesting', 'Web Sec', 'Android', 'Network Sec', 'Burp Suite', 'Metasploit', 'Nmap', 'Wireshark']
+        skills: ['Pentesting', 'Web App Sec', 'Network Sec', 'Malware Analysis', 'Reverse Eng', 'Burp Suite', 'Metasploit', 'Nmap', 'Wireshark', 'Nessus']
     },
     {
         id: 'dev',
         label: 'Development',
         color: '#00d4ff',
-        skills: ['Python', 'C++', 'JavaScript', 'React', 'Node.js', 'Qt6 / QML', 'SQL']
+        skills: ['Python', 'C++', 'Go', 'Bash', 'JavaScript', 'React', 'Node.js', 'SQL', 'Solidity']
     },
     {
         id: 'ops',
         label: 'Ops & Tools',
         color: '#bd00ff',
-        skills: ['Linux', 'Bash', 'Git', 'Docker']
+        skills: ['Linux', 'Git', 'Docker', 'Risk Mgmt', 'Incident Response']
     }
 ]
 
@@ -48,37 +49,58 @@ const Skills = () => {
                 {/* Mobile: Simple Grid View */}
                 <div className={styles.mobileSkillsGrid}>
                     {skillCategories.map((category) => (
-                        <motion.div
-                            key={category.id}
-                            className={styles.mobileCategory}
-                            style={{ borderColor: category.color }}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <h3
-                                className={styles.mobileCategoryTitle}
-                                style={{ color: category.color }}
-                            >
-                                {category.label}
-                            </h3>
-                        </motion.div>
-                    ))}
-                    {skillCategories.map((category) => (
-                        category.skills.map((skill, index) => (
+                        <React.Fragment key={category.id}>
+                            {/* Category Header */}
                             <motion.div
-                                key={`${category.id}-${skill}`}
-                                className={styles.mobileSkillBadge}
-                                style={{ borderColor: `${category.color}40` }}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
+                                className={styles.mobileCategory}
+                                style={{ borderColor: category.color }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.05 }}
                             >
-                                {skill}
+                                <h3
+                                    className={styles.mobileCategoryTitle}
+                                    style={{ color: category.color }}
+                                >
+                                    {category.label}
+                                </h3>
                             </motion.div>
-                        ))
-                    )).flat()}
+
+                            {/* Skills for this Category */}
+                            {category.skills.map((skill, index) => {
+                                // Logic to center the last item if the total count is odd
+                                const isOddCount = category.skills.length % 2 !== 0
+                                const isLastItem = index === category.skills.length - 1
+                                const shouldCenter = isOddCount && isLastItem
+
+                                return (
+                                    <motion.div
+                                        key={`${category.id}-${skill}`}
+                                        className={styles.mobileSkillBadge}
+                                        style={{
+                                            // Fix: Use full solid color (no transparency)
+                                            borderColor: category.color,
+                                            // Fix: Apply category color to text
+                                            color: category.color,
+                                            boxShadow: `0 0 10px ${category.color}20`,
+                                            // Fix: Center the last item if odd
+                                            ...(shouldCenter ? {
+                                                gridColumn: 'span 2',
+                                                width: '50%',
+                                                margin: '0 auto'
+                                            } : {})
+                                        }}
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: index * 0.05 }}
+                                    >
+                                        {skill}
+                                    </motion.div>
+                                )
+                            })}
+                        </React.Fragment>
+                    ))}
                 </div>
             </div>
 
