@@ -120,6 +120,8 @@
     margin: 0;
     color: #ffd700;
     text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .bioFloatingCard .bio strong {
