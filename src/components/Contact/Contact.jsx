@@ -169,9 +169,8 @@ function Contact() {
                                 Get In Touch
                             </span>
                             <h2 className="section-title" style={{
-                                minHeight: '2.5em',
+                                height: '1.5em',
                                 textAlign: 'center',
-                                maxWidth: '100%',
                                 overflow: 'hidden'
                             }}>
                                 <AnimatePresence mode="wait">
@@ -184,9 +183,9 @@ function Contact() {
                                         className="gradient-text"
                                         style={{
                                             display: 'inline-block',
-                                            maxWidth: '100%',
-                                            wordBreak: 'keep-all',
-                                            overflowWrap: 'normal'
+                                            whiteSpace: 'nowrap',
+                                            // Reduce font size for longer languages
+                                            fontSize: [0, 1, 3, 7].includes(currentLangIndex) ? '0.7em' : '1em'
                                         }}
                                     >
                                         {languages[currentLangIndex]}
