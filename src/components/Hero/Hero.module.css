@@ -796,8 +796,58 @@
     height: 6px;
     background: #00ff88;
     border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px #00ff88;
+
+    @keyframes radar-sweep {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes pulse-circle {
+
+        0%,
+        100% {
+            opacity: 0.1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        50% {
+            opacity: 0.3;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+    }
+
+    @keyframes data-flow {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+    }
+
+    .radarSweepAnim {
+        animation: radar-sweep 4s linear infinite;
+    }
+
+    .radarCircleAnim {
+        animation: pulse-circle 3s ease-in-out infinite;
+    }
+
+    .dataLineAnim {
+        animation: data-flow 3s linear infinite;
+    }
 }
 
 /* Data Stream Effect */

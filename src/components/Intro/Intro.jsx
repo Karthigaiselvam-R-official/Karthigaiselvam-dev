@@ -6,11 +6,11 @@ const Intro = ({ onComplete }) => {
     const [isVisible, setIsVisible] = useState(true)
 
     useEffect(() => {
-        // Total intro duration: 3.5 seconds
+        // Total intro duration: 3.3 seconds (User requested longer duration for name completion)
         const timer = setTimeout(() => {
             setIsVisible(false)
             if (onComplete) onComplete()
-        }, 3500)
+        }, 3300)
         return () => clearTimeout(timer)
     }, [onComplete])
 
@@ -20,9 +20,9 @@ const Intro = ({ onComplete }) => {
                 <motion.div
                     className={styles.intro}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.4 }}
                 >
-                    {/* Lightning Flash - Starts AFTER name finishes appearing */}
+                    {/* Lightning Flash - Accelerated */}
                     <motion.div
                         className={styles.lightning}
                         initial={{ opacity: 0 }}
@@ -30,8 +30,8 @@ const Intro = ({ onComplete }) => {
                             opacity: [0, 0.6, 0, 0.3, 0, 0.1, 0]
                         }}
                         transition={{
-                            delay: 1.5, // Wait for letter animation to finish (approx 1.2s)
-                            duration: 0.6,
+                            delay: 1.0,
+                            duration: 0.5,
                             times: [0, 0.1, 0.2, 0.4, 0.5, 0.7, 1],
                             ease: "easeOut"
                         }}
@@ -42,10 +42,10 @@ const Intro = ({ onComplete }) => {
                         className={styles.edgeGlow}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 1 }}
+                        transition={{ delay: 0.2, duration: 0.8 }}
                     />
 
-                    {/* Vertical Grid Lines - Reduced count for performance */}
+                    {/* Vertical Grid Lines */}
                     <div className={styles.gridLines}>
                         {[...Array(15)].map((_, i) => (
                             <motion.span
@@ -53,12 +53,12 @@ const Intro = ({ onComplete }) => {
                                 className={styles.line}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ delay: 0.1 + i * 0.02, duration: 0.5 }}
+                                transition={{ delay: 0.05 + i * 0.01, duration: 0.4 }}
                             />
                         ))}
                     </div>
 
-                    {/* Name - Staggered Letter Animation */}
+                    {/* Name - Staggered Letter Animation (No Blur for Speed) */}
                     <motion.h1
                         className={styles.name}
                         initial="hidden"
@@ -68,8 +68,8 @@ const Intro = ({ onComplete }) => {
                             visible: {
                                 opacity: 1,
                                 transition: {
-                                    staggerChildren: 0.05,
-                                    delayChildren: 0.3
+                                    staggerChildren: 0.04,
+                                    delayChildren: 0.1
                                 }
                             }
                         }}
@@ -81,13 +81,12 @@ const Intro = ({ onComplete }) => {
                                     hidden: {
                                         opacity: 0,
                                         y: 20,
-                                        filter: 'blur(10px)',
-                                        scale: 1.5
+                                        scale: 1.2
+                                        // Removed blur for mobile performance
                                     },
                                     visible: {
                                         opacity: 1,
                                         y: 0,
-                                        filter: 'blur(0px)',
                                         scale: 1
                                     }
                                 }}

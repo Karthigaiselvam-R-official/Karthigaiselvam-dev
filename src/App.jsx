@@ -1,17 +1,17 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import Intro from './components/Intro/Intro'
 import Navbar from './components/Navbar/Navbar'
 import Hero from './components/Hero/Hero'
-import About from './components/About/About'
-import AchievementCarousel from './components/AchievementCarousel/AchievementCarousel'
-import Experience from './components/Experience/Experience'
-import Skills from './components/Skills/Skills'
-import Projects from './components/Projects/Projects'
-
-
-import Contact from './components/Contact/Contact'
-import Footer from './components/Footer/Footer'
 import styles from './App.module.css'
+
+// Lazy Load heavy components below the fold
+const About = lazy(() => import('./components/About/About'))
+const AchievementCarousel = lazy(() => import('./components/AchievementCarousel/AchievementCarousel'))
+const Experience = lazy(() => import('./components/Experience/Experience'))
+const Skills = lazy(() => import('./components/Skills/Skills'))
+const Projects = lazy(() => import('./components/Projects/Projects'))
+const Contact = lazy(() => import('./components/Contact/Contact'))
+const Footer = lazy(() => import('./components/Footer/Footer'))
 
 function App() {
     const [introComplete, setIntroComplete] = useState(false)
@@ -25,16 +25,21 @@ function App() {
             <Navbar />
             <main>
                 <Hero />
-                <About />
-                <AchievementCarousel />
-                <Experience />
-                <Skills />
-                <Projects />
 
-
-                <Contact />
+                {/* Defer loading of non-critical sections */}
+                <Suspense fallback={<div style={{ height: '100px' }}></div>}>
+                    <About />
+                    <AchievementCarousel />
+                    <Experience />
+                    <Skills />
+                    <Projects />
+                    <Contact />
+                </Suspense>
             </main>
-            <Footer />
+
+            <Suspense fallback={null}>
+                <Footer />
+            </Suspense>
         </div>
     )
 }

@@ -219,6 +219,7 @@ function Contact() {
                                     animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                     transition={{ delay: 0.3 + index * 0.1 }}
                                     whileHover={{ scale: 1.02, x: 5 }}
+                                    aria-label={`Visit my ${link.name} profile`}
                                 >
                                     <span className={styles.socialIcon}>{link.icon}</span>
                                     <span className={styles.socialName}>{link.name}</span>

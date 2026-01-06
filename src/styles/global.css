@@ -18,7 +18,8 @@
   /* Text */
   --text-primary: #e0e0e0;
   --text-secondary: #8892a0;
-  --text-muted: #505868;
+  --text-muted: #9ca3af;
+  /* Fix: Lighter gray for AA contrast compliance */
   --text-code: #00ff88;
 
   /* Gradients */

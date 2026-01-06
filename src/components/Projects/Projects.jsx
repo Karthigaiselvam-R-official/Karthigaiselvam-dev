@@ -351,7 +351,7 @@ function Projects() {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className={styles.cardLink}
-                                                aria-label="View on GitHub"
+                                                aria-label={`View ${repo.name} on GitHub`}
                                             >
                                                 <Github />
                                             </a>
@@ -397,6 +397,7 @@ function Projects() {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className={styles.viewProject}
+                                            aria-label={`View source code for ${repo.name}`}
                                         >
                                             View Code
                                             <ArrowRight />
