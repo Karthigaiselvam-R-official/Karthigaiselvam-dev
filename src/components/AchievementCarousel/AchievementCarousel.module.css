@@ -146,29 +146,42 @@
 /* Image Dot Indicators (below carousel) */
 .imageIndicators {
     position: absolute;
-    bottom: 0;
+    bottom: -20px;
+    /* Adjusted since dots are now taller wrappers */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 8px;
+    gap: 0px;
+    /* Gap handled by wrapper padding/size */
+}
+
+.imageDotWrapper {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .imageDot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    border: none;
-    cursor: pointer;
+    display: block;
     transition: all 0.3s ease;
 }
 
-.imageDot:hover {
-    transform: scale(1.3);
+.imageDotWrapper:hover .imageDot {
+    transform: scale(1.5);
 }
 
-.activeImageDot {
+.activeImageDotWrapper .imageDot {
     box-shadow: 0 0 10px currentColor;
-    transform: scale(1.4);
+    transform: scale(1.5);
 }
 
 /* Achievement Navigation Dots */
@@ -180,8 +193,8 @@
 }
 
 .achievementDot {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     border: 2px solid;
     cursor: pointer;
@@ -377,8 +390,8 @@
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;

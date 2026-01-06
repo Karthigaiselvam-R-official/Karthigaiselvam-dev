@@ -32,7 +32,7 @@ const Skills = () => {
             <div className="container" style={{ position: 'relative', zIndex: 2 }}>
                 <div className="section-header" style={{ textAlign: 'center', marginBottom: '20px' }}>
                     <span className="section-tag">
-                        <Cpu size={14} style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'text-bottom' }} />
+                        <Cpu size={14} style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'text-bottom' }} aria-hidden="true" />
                         Technical Arsenal
                     </span>
                     <h2 className="section-title">

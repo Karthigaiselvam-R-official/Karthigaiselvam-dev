@@ -218,12 +218,17 @@ const AchievementCarousel = () => {
                             {currentImages.map((_, index) => (
                                 <button
                                     key={index}
-                                    className={`${styles.imageDot} ${index === imageIndex ? styles.activeImageDot : ''}`}
+                                    className={`${styles.imageDotWrapper} ${index === imageIndex ? styles.activeImageDotWrapper : ''}`}
                                     onClick={() => setImageIndex(index)}
-                                    style={{
-                                        backgroundColor: index === imageIndex ? currentAchievement.color : 'rgba(255,255,255,0.3)'
-                                    }}
-                                />
+                                    aria-label={`View image ${index + 1} of ${currentImages.length}`}
+                                >
+                                    <span
+                                        className={styles.imageDot}
+                                        style={{
+                                            backgroundColor: index === imageIndex ? currentAchievement.color : 'rgba(255,255,255,0.3)'
+                                        }}
+                                    />
+                                </button>
                             ))}
                         </div>
                     </div>
@@ -252,6 +257,7 @@ const AchievementCarousel = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 style={{ borderColor: currentAchievement.color, color: currentAchievement.color }}
+                                aria-label={`View ${currentAchievement.title} details on LinkedIn`}
                             >
                                 VIEW ON LINKEDIN
                             </motion.a>
@@ -273,6 +279,7 @@ const AchievementCarousel = () => {
                                 backgroundColor: index === activeAchievement ? achievement.color : 'rgba(255,255,255,0.2)',
                                 borderColor: achievement.color
                             }}
+                            aria-label={`View achievement: ${achievement.title}`}
                         >
                             <span className={styles.dotLabel}>{index + 1}</span>
                         </button>
@@ -298,7 +305,11 @@ const AchievementCarousel = () => {
                             transition={{ duration: 0.3 }}
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <button className={styles.closeBtn} onClick={closeLightbox}>
+                            <button
+                                className={styles.closeBtn}
+                                onClick={closeLightbox}
+                                aria-label="Close full size view"
+                            >
                                 <CloseIcon />
                             </button>
                             <img

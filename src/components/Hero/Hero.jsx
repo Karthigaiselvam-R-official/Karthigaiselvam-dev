@@ -162,46 +162,59 @@ const HoloTerminal = () => {
     )
 }
 
-// Radar/Network visualization behind terminal
-// Radar/Network visualization behind terminal (Optimized: CSS Animation)
+// Radar/Network visualization behind terminal - FIXED VERSION
 const NetworkRadar = () => {
     return (
         <div className={styles.radarContainer}>
-            {/* Radar circles */}
+            {/* Radar circles - wrapper for positioning, inner for animation */}
             {[1, 2, 3, 4].map((i) => (
                 <div
                     key={i}
-                    className={`${styles.radarCircle} ${styles.radarCircleAnim}`}
+                    className={styles.radarCircleWrapper}
                     style={{
                         width: `${i * 100}px`,
                         height: `${i * 100}px`,
-                        animationDelay: `${i * 0.5}s`
                     }}
-                />
+                >
+                    <motion.div
+                        className={styles.radarCircleInner}
+                        animate={{
+                            opacity: [0.1, 0.3, 0.1],
+                        }}
+                        transition={{
+                            duration: 3,
+                            delay: i * 0.5,
+                            repeat: Infinity,
+                            ease: 'easeInOut'
+                        }}
+                    />
+                </div>
             ))}
 
-            {/* Radar sweep */}
-            <div className={`${styles.radarSweep} ${styles.radarSweepAnim}`} />
+            {/* Radar sweep - use transform-origin instead */}
+            <motion.div
+                className={styles.radarSweep}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+            />
 
-            {/* Network nodes */}
-            {Array.from({ length: 8 }).map((_, i) => {
+            {/* Network nodes - fixed positioning */}
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
                 const angle = (i / 8) * Math.PI * 2
-                const radius = 80 + Math.random() * 60
+                const radius = 100 + i * 10 // Deterministic radius
                 return (
                     <motion.div
                         key={i}
                         className={styles.networkNode}
                         style={{
-                            left: `calc(50% + ${Math.cos(angle) * radius}px)`,
-                            top: `calc(50% + ${Math.sin(angle) * radius}px)`,
+                            left: `calc(50% + ${Math.cos(angle) * radius}px - 3px)`,
+                            top: `calc(50% + ${Math.sin(angle) * radius}px - 3px)`,
                         }}
-                        initial={{ opacity: 0.3, scale: 0.8 }}
                         animate={{
                             opacity: [0.3, 1, 0.3],
-                            scale: [0.8, 1.2, 0.8]
                         }}
                         transition={{
-                            duration: 2 + Math.random() * 2,
+                            duration: 2 + i * 0.3,
                             delay: i * 0.3,
                             repeat: Infinity,
                             ease: 'easeInOut'
@@ -213,18 +226,24 @@ const NetworkRadar = () => {
     )
 }
 
-// Data stream effect (Optimized: CSS Animation)
+// Data stream effect
 const DataStream = () => {
     return (
         <div className={styles.dataStream}>
             {Array.from({ length: 6 }).map((_, i) => (
-                <div
+                <motion.div
                     key={i}
-                    className={`${styles.streamLine} ${styles.dataLineAnim}`}
-                    style={{
-                        left: `${10 + i * 15}%`,
-                        animationDelay: `${i * 0.4}s`,
-                        animationDuration: `${2 + Math.random()}s`
+                    className={styles.streamLine}
+                    style={{ left: `${10 + i * 15}%` }}
+                    animate={{
+                        y: ['-100%', '100%'],
+                        opacity: [0, 1, 1, 0]
+                    }}
+                    transition={{
+                        duration: 2 + Math.random(),
+                        delay: i * 0.4,
+                        repeat: Infinity,
+                        ease: 'linear'
                     }}
                 />
             ))}
@@ -370,7 +389,6 @@ function Hero() {
                             className={`btn ${styles.btnPrimary}`}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            aria-label="View Projects Section"
                         >
                             <Terminal />
                             View Projects
@@ -381,7 +399,6 @@ function Hero() {
                             className="btn btn-secondary"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            aria-label="Go to Contact Section"
                         >
                             Get In Touch
                             <ArrowRight />

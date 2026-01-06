@@ -81,19 +81,26 @@
 .highlightsGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 16px;
     margin: 32px 0;
+}
+
+/* Center last item if alone in row */
+.highlightsGrid>*:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    justify-self: center;
 }
 
 .highlightCard {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-color);
-    padding: 20px;
+    padding: 12px 14px;
     border-radius: var(--border-radius);
     transition: var(--transition-normal);
     display: flex;
     align-items: flex-start;
-    gap: 16px;
+    gap: 10px;
 }
 
 .highlightCard:hover {
@@ -118,10 +125,13 @@
     color: var(--warning);
 }
 
+.highlightContent h3,
 .highlightContent h4 {
-    font-size: 1rem;
-    margin-bottom: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 2px;
     color: var(--text-primary);
+    white-space: nowrap;
+    font-weight: 600;
 }
 
 .highlightContent p {

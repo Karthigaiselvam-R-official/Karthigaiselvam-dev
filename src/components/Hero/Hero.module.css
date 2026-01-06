@@ -758,7 +758,7 @@
     animation: statusPulse 1.5s ease-in-out infinite;
 }
 
-/* Network Radar Background */
+/* Network Radar Background - FIXED */
 .radarContainer {
     position: absolute;
     top: 50%;
@@ -770,11 +770,18 @@
     z-index: 1;
 }
 
-.radarCircle {
+/* Wrapper handles positioning only */
+.radarCircleWrapper {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+/* Inner element handles animation only */
+.radarCircleInner {
+    width: 100%;
+    height: 100%;
     border: 1px solid rgba(0, 255, 136, 0.15);
     border-radius: 50%;
 }
@@ -786,7 +793,8 @@
     width: 50%;
     height: 2px;
     background: linear-gradient(90deg, rgba(0, 255, 136, 0.8), transparent);
-    transform-origin: left center;
+    transform-origin: 0% 50%;
+    /* Rotate from left center */
     box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
 }
 
@@ -796,58 +804,8 @@
     height: 6px;
     background: #00ff88;
     border-radius: 50%;
-
-    @keyframes radar-sweep {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes pulse-circle {
-
-        0%,
-        100% {
-            opacity: 0.1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        50% {
-            opacity: 0.3;
-            transform: translate(-50%, -50%) scale(1.05);
-        }
-    }
-
-    @keyframes data-flow {
-        0% {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
-
-        50% {
-            opacity: 1;
-        }
-
-        100% {
-            transform: translateY(100%);
-            opacity: 0;
-        }
-    }
-
-    .radarSweepAnim {
-        animation: radar-sweep 4s linear infinite;
-    }
-
-    .radarCircleAnim {
-        animation: pulse-circle 3s ease-in-out infinite;
-    }
-
-    .dataLineAnim {
-        animation: data-flow 3s linear infinite;
-    }
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #00ff88;
 }
 
 /* Data Stream Effect */

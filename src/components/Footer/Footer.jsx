@@ -62,7 +62,7 @@ function Footer() {
 
                     {/* Quick Links */}
                     <nav className={styles.footerNav}>
-                        <h4>Quick Links</h4>
+                        <h3>Quick Links</h3>
                         <ul>
                             {footerLinks.map((link) => (
                                 <li key={link.name}>
@@ -74,7 +74,7 @@ function Footer() {
 
                     {/* Connect */}
                     <div className={styles.footerConnect}>
-                        <h4>Connect</h4>
+                        <h3>Connect</h3>
                         <div className={styles.socialIcons}>
                             {socialIcons.map((item) => (
                                 <motion.a

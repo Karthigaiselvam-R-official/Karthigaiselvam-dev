@@ -168,7 +168,7 @@ function Contact() {
                                 <MessageCircle />
                                 Get In Touch
                             </span>
-                            <h2 className="section-title" style={{ minHeight: '1.2em' }}>
+                            <h2 className="section-title" style={{ minHeight: '1.2em', minWidth: '350px', textAlign: 'center' }}>
                                 <AnimatePresence mode="wait">
                                     <motion.span
                                         key={currentLangIndex}
@@ -178,12 +178,8 @@ function Contact() {
                                         transition={{ duration: 0.05 }}
                                         className="gradient-text"
                                         style={{
-                                            display: 'block', // Force full width block to ensure centering
-                                            width: '100%',
-                                            textAlign: 'center',
-                                            // Fix: Reduce font size for Tamil (Index 0) to fit single line without breaking
-                                            fontSize: currentLangIndex === 0 ? '0.75em' : 'inherit',
-                                            whiteSpace: 'nowrap' // Force single line
+                                            display: 'inline-block',
+                                            whiteSpace: 'nowrap'
                                         }}
                                     >
                                         {languages[currentLangIndex]}

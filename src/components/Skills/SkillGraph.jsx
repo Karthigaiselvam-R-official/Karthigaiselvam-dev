@@ -3,11 +3,10 @@ import { useState, useEffect, useMemo } from 'react'
 import styles from './Skills.module.css'
 
 const Fingerprint = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.8 }}>
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.8 }} aria-hidden="true">
         <path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10v.8c0 1.25-.97 2.2-2.12 2.2-1.03 0-1.88-.84-1.88-1.88V12c0-3.31-2.69-6-6-6s-6 2.69-6 6v2.5c0 1.5 1.13 2.7 2.63 2.7h.37c2.2 0 4-1.8 4-4 0-1.1-.9-2-2-2s-2 .9-2 2v2" />
     </svg>
 )
-
 
 // Skill Data Structure
 const skillData = {
@@ -121,7 +120,7 @@ const SkillGraph = () => {
 
     return (
         <div className={styles.graphContainer}>
-            <svg className={styles.connections}>
+            <svg className={styles.connections} aria-hidden="true">
                 {nodes.edgesList.map((edge, i) => {
                     const fromNode = nodes.nodeList.find(n => n.id === edge.from)
                     const toNode = nodes.nodeList.find(n => n.id === edge.to)
@@ -174,6 +173,8 @@ const Node = ({ node }) => {
             whileHover={{ scale: 1.2, zIndex: 100 }}
             drag
             dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
+            role="img"
+            aria-label={node.label}
         >
             <div className={styles.nodeContent} style={{ color: node.color || '#fff' }}>
                 {node.level === 0 ? <div style={{ marginBottom: 5 }}><Fingerprint /></div> : null}
@@ -186,6 +187,7 @@ const Node = ({ node }) => {
                     animate={{ rotate: 360 }}
                     transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
                     style={{ borderColor: node.color }}
+                    aria-hidden="true"
                 />
             )}
         </motion.div>
