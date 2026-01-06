@@ -316,6 +316,15 @@
     .socialName {
         font-size: 0.8rem;
     }
+
+    /* Fix: Center the 3rd item (Email) since it's an orphan in 2-col grid */
+    .socialLink:nth-child(3) {
+        grid-column: span 2;
+        width: 48%;
+        /* Match 2-col grid item width */
+        margin: 0 auto;
+        justify-self: center;
+    }
 }
 
 /* Very small screens */
