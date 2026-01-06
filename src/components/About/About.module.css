@@ -68,8 +68,10 @@
 }
 
 .bio {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     max-width: 600px;
+    font-size: 0.92rem;
+    line-height: 1.7;
 }
 
 .bio strong {
@@ -77,12 +79,82 @@
     font-weight: 600;
 }
 
+/* =============================================
+   Option 3: Floating Card with Glow Border
+   ============================================= */
+.bioFloatingCard {
+    position: relative;
+    margin-bottom: 8px;
+    padding: 3px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #00ff88, #00d4ff, #bd00ff, #00ff88);
+    background-size: 400% 400%;
+    animation: borderGlow 6s ease infinite, floatCard 4s ease-in-out infinite;
+    box-shadow:
+        0 0 20px rgba(0, 255, 136, 0.2),
+        0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.bioFloatingCard::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #00ff88, #00d4ff, #bd00ff, #00ff88);
+    background-size: 400% 400%;
+    animation: borderGlow 6s ease infinite;
+    z-index: -1;
+    filter: blur(12px);
+    opacity: 0.4;
+}
+
+.bioFloatingCard .bio {
+    position: relative;
+    background: rgba(10, 15, 25, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 0;
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+.bioFloatingCard .bio strong {
+    color: #ffd700;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+@keyframes borderGlow {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+}
+
+@keyframes floatCard {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
 /* Highlights Grid */
 .highlightsGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-    margin: 32px 0;
+    margin: 12px 0;
 }
 
 /* Center last item if alone in row */

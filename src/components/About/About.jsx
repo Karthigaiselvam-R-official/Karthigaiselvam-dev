@@ -101,8 +101,8 @@ function About() {
                                 <span className={styles.outputSection}>
                                     <span className={styles.outputKey}>Name:</span> Karthigaiselvam R<br />
                                     <span className={styles.outputKey}>Role:</span> Security Researcher<br />
-                                    <span className={styles.outputKey}>Education:</span> B.E. CS (Cyber Security)<br />
-                                    <span className={styles.outputKey}>College:</span> Chennai Institute of Tech<br />
+                                    <span className={styles.outputKey}>Education:</span> B.E. CSE (Cyber Security)<br />
+                                    <span className={styles.outputKey}>College:</span> Chennai Institute of Technology<br />
                                     <span className={styles.outputKey}>CGPA:</span> 9.09 / 10<br />
                                     <span className={styles.outputKey}>Batch:</span> 2022 - 2026<br />
                                 </span>
@@ -139,7 +139,7 @@ function About() {
                         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                         transition={{ delay: 0.3, duration: 0.6 }}
                     >
-                        <div className="section-header" style={{ textAlign: 'center', marginBottom: '32px' }}>
+                        <div className="section-header" style={{ textAlign: 'center', marginBottom: '12px' }}>
                             <span className="section-tag">
                                 <Shield />
                                 About Me
@@ -149,11 +149,16 @@ function About() {
                             </h2>
                         </div>
 
-                        <p className={styles.bio}>
-                            I'm <strong>Karthigaiselvam R</strong>, a B.E. Computer Science (Cyber Security) student at
-                            <strong> Chennai Institute of Technology</strong> with a 9.09 CGPA. I specialize in
-                            penetration testing, web application security, and building secure applications.
-                        </p>
+                        <motion.div
+                            className={styles.bioFloatingCard}
+                            initial={{ opacity: 0 }}
+                            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                            transition={{ delay: 0.5 }}
+                        >
+                            <p className={styles.bio}>
+                                I'm Karthigaiselvam R — a developer with a security-first mindset. Pursuing B.E. CSE (Cyber Security) at Chennai Institute of Technology with 9.09 CGPA. Completed 5 industry internships at Palo Alto Networks, RecruitNxt Technologies, THECYBERHOST, Learnflu & AirosSpace R&D — building expertise across mobile pentesting, cloud security & threat intelligence.
+                            </p>
+                        </motion.div>
 
                         {/* Highlights Grid */}
                         <div className={styles.highlightsGrid}>
@@ -177,7 +182,7 @@ function About() {
                             ))}
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
                             <motion.a
                                 href="https://drive.google.com/file/d/1TfsRE5sKNhvGdxzgWtq-4RAZnt-JfFSO/view"
                                 target="_blank"
