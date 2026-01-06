@@ -262,10 +262,22 @@ function Hero() {
     useEffect(() => {
         const fetchGitHubStats = async () => {
             try {
-                const response = await fetch('https://api.github.com/users/Karthigaiselvam-R-official')
+                // Use Token if available to avoid Rate Limits (60 vs 5000 req/hr)
+                const token = import.meta.env.VITE_GITHUB_TOKEN
+                const headers = {
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+                if (token) {
+                    headers['Authorization'] = `token ${token}`
+                }
+
+                const response = await fetch('https://api.github.com/users/Karthigaiselvam-R-official', { headers })
+
                 if (response.ok) {
                     const data = await response.json()
                     setGithubStats(prev => ({ ...prev, repos: data.public_repos }))
+                } else {
+                    console.error('GitHub API Error:', response.status)
                 }
             } catch (err) {
                 console.error('Error fetching GitHub stats:', err)
@@ -409,7 +421,7 @@ function Hero() {
                         </div>
                         <div className={styles.statDivider}></div>
                         <div className={styles.stat}>
-                            <span className={styles.statNumber}>{githubStats.repos || '10'}+</span>
+                            <span className={styles.statNumber}>{githubStats.repos || '17'}+</span>
                             <span className={styles.statLabel}>GitHub Repos</span>
                         </div>
                     </motion.div>
