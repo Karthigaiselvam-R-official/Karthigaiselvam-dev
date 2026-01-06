@@ -55,7 +55,7 @@ const heroQuotes = [
 
     `Some dream of a safer internet. I'm building it — one secure application at a time. Code is my canvas. Security is my signature. Together, they create experiences worth protecting.`,
 
-    `I am two minds in one — the builder who dreams and the breaker who tests those dreams. Developer. Researcher. Both voices in harmony. Building software that doesn't just run — it survives.`
+    `I am two minds in one — the builder who dreams and the breaker who tests those dreams. Developer, Researcher. Both voices in harmony. Building software that doesn't just run — it survives.`
 ]
 
 // ============================================

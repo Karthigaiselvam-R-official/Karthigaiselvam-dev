@@ -725,7 +725,7 @@
     overflow: hidden;
     min-height: 140px;
     height: auto;
-    text-align: left
+    text-align: left;
 }
 
 .comboCard::before {
@@ -1700,8 +1700,16 @@
     }
 
     .holoTerminal {
-        max-width: 85%;
-        /* Slightly smaller to give horizontal breathing room */
+        max-width: 98%;
+        /* Maximized width */
+    }
+
+    .holoBody {
+        min-height: 300px;
+        /* Increased stable height to prevent resizing/jumping */
+        font-size: 0.65rem;
+        /* Optimized font size */
+        padding: 15px;
     }
 
     .floatingCmd,
