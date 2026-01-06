@@ -168,7 +168,12 @@ function Contact() {
                                 <MessageCircle />
                                 Get In Touch
                             </span>
-                            <h2 className="section-title" style={{ minHeight: '1.2em', minWidth: '350px', textAlign: 'center' }}>
+                            <h2 className="section-title" style={{
+                                minHeight: '2.5em',
+                                textAlign: 'center',
+                                maxWidth: '100%',
+                                overflow: 'hidden'
+                            }}>
                                 <AnimatePresence mode="wait">
                                     <motion.span
                                         key={currentLangIndex}
@@ -179,7 +184,9 @@ function Contact() {
                                         className="gradient-text"
                                         style={{
                                             display: 'inline-block',
-                                            whiteSpace: 'nowrap'
+                                            maxWidth: '100%',
+                                            wordBreak: 'keep-all',
+                                            overflowWrap: 'normal'
                                         }}
                                     >
                                         {languages[currentLangIndex]}

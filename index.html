@@ -18,12 +18,23 @@
     content="Security Researcher & Software Developer specializing in penetration testing and building secure applications." />
   <meta property="og:type" content="website" />
 
-  <!-- Fonts -->
+  <!-- Fonts - Optimized for Performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical font weights for faster FCP -->
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+  <!-- Non-blocking font loading -->
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
+    rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet">
+  </noscript>
 
   <title>Karthigaiselvam R | Security Researcher & Developer</title>
 </head>
@@ -55,6 +66,7 @@
         font-weight: 900;
         background: linear-gradient(90deg, #fff, #00ffcc);
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: center;
         opacity: 0;
