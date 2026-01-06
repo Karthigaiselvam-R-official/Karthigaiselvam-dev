@@ -37,6 +37,27 @@ const roles = [
     "Cyber Security Enthusiast",
 ]
 
+// Dynamic hero quotes - randomly selected on page load
+const heroQuotes = [
+    `Developer by day, security researcher by obsession. I create elegant software while constantly questioning: "How could this be exploited?" — then I fix it before anyone else finds out.`,
+
+    `The best defense is knowing how to attack. I build software that creates — and break systems to understand their limits. A Security Researcher who codes with purpose and a Developer who thinks like an adversary.`,
+
+    `Code is poetry. Security is its shield. Crafting digital experiences that inspire confidence. I blend the art of software creation with the science of security — because great software deserves to be unbreakable.`,
+
+    `Heroes don't wait for vulnerabilities to be exploited. From the first line of code to the final deployment — I build with security in mind, defend with developer expertise, and protect what matters.`,
+
+    `In a world of vulnerabilities, I choose to be the solution. Driven by curiosity, guided by precision. I transform ideas into resilient applications and challenges into opportunities for better security.`,
+
+    `Every vulnerability I find today protects someone tomorrow. Born from curiosity, shaped by code. I'm a developer who asks "what if?" and a security researcher who answers "not on my watch."`,
+
+    `The line between creation and destruction is thin — I walk it with intention. Building systems that scale. Breaking assumptions that don't. A developer's heart with a hacker's instinct. Where innovation meets vigilance, that's where you'll find me.`,
+
+    `Some dream of a safer internet. I'm building it — one secure application at a time. Code is my canvas. Security is my signature. Together, they create experiences worth protecting.`,
+
+    `I am two minds in one — the builder who dreams and the breaker who tests those dreams. Developer. Researcher. Both voices in harmony. Building software that doesn't just run — it survives.`
+]
+
 // ============================================
 // HOLOGRAPHIC CYBER TERMINAL - NEW DESIGN
 // ============================================
@@ -257,6 +278,36 @@ function Hero() {
     const [isDeleting, setIsDeleting] = useState(false)
     const [githubStats, setGithubStats] = useState({ repos: 0, stars: 0 })
 
+    // Random quote selected once on page load
+    const [quoteIndex] = useState(() => Math.floor(Math.random() * heroQuotes.length))
+
+    // Typewriter effect for quote (Option E)
+    const [typedQuote, setTypedQuote] = useState('')
+    const [quoteTypingComplete, setQuoteTypingComplete] = useState(false)
+    const [typingStarted, setTypingStarted] = useState(false)
+
+    // Start typing after card animation completes (1s delay)
+    useEffect(() => {
+        const startDelay = setTimeout(() => {
+            setTypingStarted(true)
+        }, 1000)
+        return () => clearTimeout(startDelay)
+    }, [])
+
+    // Typewriter animation
+    useEffect(() => {
+        if (!typingStarted) return
+        const quote = heroQuotes[quoteIndex]
+        if (typedQuote.length < quote.length) {
+            const timeout = setTimeout(() => {
+                setTypedQuote(quote.slice(0, typedQuote.length + 1))
+            }, 25) // Speed: 25ms per character
+            return () => clearTimeout(timeout)
+        } else {
+            setQuoteTypingComplete(true)
+        }
+    }, [typedQuote, quoteIndex, typingStarted])
+
     const firstName = "Karthigaiselvam"
     const lastName = "R"
 
@@ -365,17 +416,28 @@ function Hero() {
                         <span className={styles.cursor}></span>
                     </motion.div>
 
-                    {/* Description */}
-                    <motion.p
-                        className={styles.description}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
+                    {/* Description - COMBO: Neon Border + Typewriter + Glitch */}
+                    <motion.div
+                        className={styles.comboWrapper}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.8 }}
                     >
-                        B.E. Computer Science (Cyber Security) at <span className={styles.highlight}>Chennai Institute of Technology</span>.
-                        Specializing in <span className={styles.highlight}>penetration testing</span>,
-                        <span className={styles.highlight}> web application security</span>, and building tools that matter.
-                    </motion.p>
+                        <div className={styles.comboCard}>
+                            {/* Invisible placeholder to reserve full space */}
+                            <p className={styles.comboPlaceholder} aria-hidden="true">
+                                {heroQuotes[quoteIndex]}
+                            </p>
+                            {/* Visible typed text */}
+                            <p
+                                className={`${styles.comboText} ${quoteTypingComplete ? styles.comboGlitch : ''}`}
+                                data-text={typedQuote}
+                            >
+                                {typedQuote}
+                                {!quoteTypingComplete && <span className={styles.comboCursor}>|</span>}
+                            </p>
+                        </div>
+                    </motion.div>
 
                     {/* CTA Buttons */}
                     <motion.div
@@ -498,26 +560,18 @@ function Hero() {
 
                     {/* Circuit Lines */}
                     <svg className={styles.circuitLines} viewBox="0 0 100 100">
-                        <motion.path
-                            d="M0 50 H30 L40 30 H70 L80 50 H100"
-                            stroke="rgba(0,255,136,0.3)"
-                            strokeWidth="1"
-                            fill="none"
-                            initial={{ pathLength: 0 }}
-                            animate={{ pathLength: 1 }}
-                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                        />
+
                         <motion.circle
-                            cx="40"
-                            cy="30"
+                            cx="180"
+                            cy="-5"
                             r="3"
                             fill="#00ff88"
                             animate={{ opacity: [0, 1, 0] }}
                             transition={{ duration: 1, repeat: Infinity, delay: 0.5 }}
                         />
                         <motion.circle
-                            cx="70"
-                            cy="30"
+                            cx="200"
+                            cy="-5"
                             r="3"
                             fill="#00d4ff"
                             animate={{ opacity: [0, 1, 0] }}
