@@ -253,15 +253,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 12px 16px;
+        padding: 8px 4px;
+        /* Fix: Reduce padding to make room for text */
         background: rgba(5, 5, 16, 0.8);
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 25px;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
+        /* Fix: Smaller font for long words */
         font-weight: 500;
         color: #e0e0e0;
         text-align: center;
+        height: 100%;
+        /* Ensure uniform height in grid */
         transition: all 0.3s ease;
     }
 
