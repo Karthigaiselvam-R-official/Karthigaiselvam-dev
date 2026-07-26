@@ -15,9 +15,10 @@
     align-items: center;
     justify-content: flex-start;
     /* Align top */
-    padding-top: 120px;
+    padding-top: 96px;
     /* Push down as requested */
     perspective: 1200px;
+    overflow: hidden; /* Prevent badge from bleeding */
 }
 
 /* Background Effects */
@@ -80,7 +81,7 @@
 /* Section Header */
 .sectionHeader {
     text-align: center;
-    margin-bottom: 120px;
+    margin-bottom: 96px;
     /* Increased spacing as requested */
     z-index: 10;
 }
@@ -88,18 +89,18 @@
 .tag {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: rgba(0, 255, 136, 0.1);
     border: 1px solid var(--primary);
     border-radius: 50px;
-    padding: 8px 18px;
-    font-size: 0.8rem;
+    padding: 6px 14px;
+    font-size: 0.64rem;
     color: var(--primary);
-    margin-bottom: 32px;
+    margin-bottom: 25px;
 }
 
 .title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
 }
 
@@ -107,7 +108,8 @@
 .waveContainer {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 320px;
+    margin-top: -15px; /* Backed off slightly to give it perfect breathing room */
     /* Reduced for smaller cards */
     display: flex;
     align-items: center;
@@ -119,13 +121,13 @@
 /* Wave Card */
 .waveCard {
     position: absolute;
-    width: 260px;
-    height: 360px;
-    padding: 20px;
+    width: 208px;
+    height: 288px;
+    padding: 16px;
     /* Reduced internal padding */
     background: linear-gradient(145deg, rgba(16, 16, 22, 0.98), rgba(8, 8, 12, 0.99));
     border: 2px solid;
-    border-radius: 20px;
+    border-radius: 16px;
     text-decoration: none;
     color: inherit;
     cursor: pointer;
@@ -140,7 +142,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    border-radius: 20px;
+    border-radius: 16px;
 }
 
 .cardContent {
@@ -148,7 +150,7 @@
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
     /* Tighter spacing */
     height: 100%;
     justify-content: space-between;
@@ -161,44 +163,44 @@
 }
 
 .cardIcon {
-    width: 44px;
+    width: 35px;
     /* Slightly smaller icon container */
-    height: 44px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid;
-    border-radius: 14px;
+    border-radius: 11px;
     backdrop-filter: blur(8px);
 }
 
 .cardIcon svg {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
 }
 
 .cardDate {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.75rem;
+    gap: 5px;
+    font-size: 0.6rem;
     font-weight: 500;
     font-family: 'JetBrains Mono', monospace;
 }
 
 .cardRole {
-    font-size: 1.05rem;
+    font-size: 0.84rem;
     /* Reduced font size */
     font-weight: 600;
     color: #fff;
-    margin: 8px 0 4px;
+    margin: 6px 0 3px;
     /* Tighter margins */
     line-height: 1.35;
 }
 
 .cardCompany {
-    font-size: 0.9rem;
+    font-size: 0.72rem;
     /* Slightly smaller */
     color: #ffd700;
     margin: 0;
@@ -208,15 +210,15 @@
 .cardSkills {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 5px;
     /* Tighter gap */
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .skillTag {
-    padding: 5px 10px;
+    padding: 4px 8px;
     /* Compact padding */
-    font-size: 0.7rem;
+    font-size: 0.56rem;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid;
     border-radius: 50px;
@@ -227,19 +229,17 @@
 /* Completion Badge */
 .completionBadge {
     position: relative;
-    /* Flow smoothly after content */
     bottom: auto;
-    margin-top: 120px;
-    /* Added spacing to prevent overlap */
+    margin-top: 72px; /* Fine-tuned to add a slight gap below the scaled card */
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 24px;
+    gap: 6px; /* Scaled down */
+    padding: 6px 14px; /* Scaled down */
     background: rgba(0, 255, 136, 0.1);
     border: 1px solid rgba(0, 255, 136, 0.3);
     border-radius: 50px;
     color: var(--primary);
-    font-size: 0.8rem;
+    font-size: 0.55rem; /* Scaled down to match 80% aesthetic */
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -248,8 +248,8 @@
 }
 
 .completionBadge svg {
-    width: 16px;
-    height: 16px;
+    width: 11px; /* Scaled down */
+    height: 11px;
 }
 
 /* Responsive */
@@ -354,13 +354,13 @@
 
 .closeBtn {
     position: absolute;
-    top: -50px;
+    top: -40px;
     right: 0;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
+    width: 35px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;

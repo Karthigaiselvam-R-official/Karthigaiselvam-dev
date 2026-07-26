@@ -101,7 +101,7 @@ const experiences = [
 ]
 
 // --- WAVE PHYSICS CONSTANTS ---
-const WAVE_AMPLITUDE_X = 450      // Horizontal swing width
+const WAVE_AMPLITUDE_X = 360      // Horizontal swing width
 const ROTATION_INTENSITY_Y = 50   // Y-axis rotation degrees
 const ROTATION_INTENSITY_Z = 8    // Z-axis tilt degrees
 const SPACING_FACTOR = 1.2        // Spacing between cards in scroll units
@@ -124,8 +124,8 @@ const WaveCard = ({ exp, index, totalItems, scrollYProgress, onCardClick }) => {
 
     // Y position: vertical climb with oscillating dip
     const y = useTransform(phase, (p) => {
-        const climb = p * 120
-        const dip = Math.abs(Math.sin(p)) * 80
+        const climb = p * 96
+        const dip = Math.abs(Math.sin(p)) * 64
         return -(climb - dip)
     })
 
@@ -335,7 +335,7 @@ const Experience = () => {
                 {/* Completion Indicator */}
                 <motion.div
                     className={styles.completionBadge}
-                    style={{ opacity: useTransform(smoothProgress, [0.98, 1], [0, 1]) }}
+                    style={{ opacity: useTransform(scrollYProgress, [0.88, 0.92, 0.97, 1], [0, 1, 1, 0]) }}
                 >
                     <Shield /> All Experience Viewed
                 </motion.div>
