@@ -1,0 +1,96 @@
+/* Hide native cursor globally when this component is mounted */
+:global(*) {
+    cursor: none !important;
+}
+
+/* The Rotating ASCII Ring Container */
+.asciiRing {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99998;
+    will-change: transform;
+}
+
+.asciiInner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation: spin 10s linear infinite;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+}
+
+.asciiInner span {
+    position: absolute;
+    top: -16px;
+    left: -4px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    font-family: var(--font-mono, monospace);
+    color: var(--primary);
+    transform-origin: 4px 16px;
+    /* Exact radius pivot to center on 0,0 */
+    text-shadow: 0 0 5px var(--primary);
+    opacity: 0.8;
+}
+
+.hoveringRing .asciiInner {
+    transform: scale(1.3);
+}
+
+.hoveringRing .asciiInner span {
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px var(--primary);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Snake Dots Containers (Handle positioning) */
+.dotContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* The actual dot elements (Handle sizing/scaling/hover) */
+.snakeDot {
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    /* Center */
+    margin-top: -4px;
+    /* Center */
+    background-color: var(--primary);
+    border-radius: 50%;
+    opacity: 0.6;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        opacity 0.3s ease,
+        border 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.leadDot {
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    margin-top: -2px;
+    opacity: 1;
+    box-shadow: 0 0 15px var(--primary);
+}
+
+/* Minimal Hover States for Dots - keep them visible */
+.snakeDot.hoveringDot {
+    /* Slight glow on hover */
+    box-shadow: 0 0 15px var(--primary);
+}
