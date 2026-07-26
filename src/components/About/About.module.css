@@ -6,9 +6,9 @@
 .aboutGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: 64px;
     align-items: flex-start;
-    margin-bottom: 80px;
+    margin-bottom: 64px;
 }
 
 /* Terminal Side */
@@ -33,29 +33,29 @@
 /* Experience Badge */
 .expBadge {
     position: absolute;
-    bottom: -20px;
+    bottom: -16px;
     right: 0;
     /* Flush right */
     background: var(--bg-card);
     border: 1px solid var(--primary);
-    padding: 20px;
+    padding: 16px;
     border-radius: var(--border-radius);
     text-align: center;
-    box-shadow: var(--shadow-md), 0 0 20px rgba(0, 255, 136, 0.2);
+    box-shadow: var(--shadow-md), 0 0 16px rgba(0, 255, 136, 0.2);
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
 .expNumber {
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: var(--primary);
     line-height: 1;
 }
 
 .expLabel {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
     color: var(--text-secondary);
     text-transform: uppercase;
     font-weight: 600;
@@ -68,9 +68,9 @@
 }
 
 .bio {
-    margin-bottom: 16px;
-    max-width: 600px;
-    font-size: 0.92rem;
+    margin-bottom: 12px;
+    max-width: 480px;
+    font-size: 0.74rem;
     line-height: 1.7;
 }
 
@@ -84,9 +84,9 @@
    ============================================= */
 .bioFloatingCard {
     position: relative;
-    margin-bottom: 8px;
-    padding: 3px;
-    border-radius: 16px;
+    margin-bottom: 6px;
+    padding: 2px;
+    border-radius: 12px;
     background: linear-gradient(135deg, #00ff88, #00d4ff, #bd00ff, #00ff88);
     background-size: 400% 400%;
     animation: borderGlow 6s ease infinite, floatCard 4s ease-in-out infinite;
@@ -115,9 +115,10 @@
     position: relative;
     background: rgba(10, 15, 25, 0.95);
     backdrop-filter: blur(20px);
-    border-radius: 14px;
-    padding: 24px;
+    border-radius: 10px;
+    padding: 19px;
     margin: 0;
+    max-width: none;
     color: #ffd700;
     text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
     text-align: justify;
@@ -155,21 +156,21 @@
 .highlightsGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin: 12px 0;
+    gap: 12px;
+    margin: 10px 0;
 }
 
 /* Center last item if alone in row */
 .highlightsGrid>*:last-child:nth-child(odd) {
     grid-column: 1 / -1;
-    max-width: 50%;
+    width: calc(50% - 6px);
     justify-self: center;
 }
 
 .highlightCard {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-color);
-    padding: 12px 14px;
+    padding: 10px 11px;
     border-radius: var(--border-radius);
     transition: var(--transition-normal);
     display: flex;
@@ -201,7 +202,7 @@
 
 .highlightContent h3,
 .highlightContent h4 {
-    font-size: 0.85rem;
+    font-size: 0.68rem;
     margin-bottom: 2px;
     color: var(--text-primary);
     white-space: nowrap;
@@ -209,7 +210,7 @@
 }
 
 .highlightContent p {
-    font-size: 0.85rem;
+    font-size: 0.68rem;
     line-height: 1.5;
     margin: 0;
 }
@@ -223,8 +224,8 @@
 
 .achievementsTitle {
     text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 40px;
+    font-size: 1.2rem;
+    margin-bottom: 32px;
     background: var(--gradient-cyber);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -238,7 +239,7 @@
 .achievementsGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 24px;
 }
 
 .achievementCard {
@@ -250,14 +251,14 @@
     text-align: center;
     overflow: hidden;
     transition: all 0.4s ease;
-    min-height: 320px;
+    min-height: 256px;
     display: flex;
     flex-direction: column;
 }
 
 .achievementCard:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     border-color: var(--primary);
 }
 
@@ -265,7 +266,7 @@
 .cardImageWrapper {
     position: relative;
     width: 100%;
-    height: 180px;
+    height: 144px;
     overflow: hidden;
     background: #000;
     border-bottom: 1px solid var(--border-color);
@@ -293,49 +294,49 @@
 }
 
 .achievementIcon {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: var(--bg-card);
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 155px;
+    top: 124px;
     /* Overlap image boundary */
     left: 50%;
     transform: translateX(-50%);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
     border: 1px solid var(--border-color);
     z-index: 10;
     color: var(--text-primary);
 }
 
 .achievementInfo {
-    padding: 40px 20px 20px;
+    padding: 32px 16px 16px;
     width: 100%;
 }
 
 .achievementInfo h4 {
-    font-size: 1.1rem;
-    margin-bottom: 8px;
+    font-size: 0.88rem;
+    margin-bottom: 6px;
     color: var(--text-primary);
 }
 
 
 .place {
     display: block;
-    font-size: 0.95rem;
+    font-size: 0.76rem;
     color: var(--text-secondary);
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     font-weight: 500;
 }
 
 .prize {
     display: inline-block;
-    font-size: 0.85rem;
-    padding: 4px 12px;
-    border-radius: 20px;
+    font-size: 0.68rem;
+    padding: 3px 10px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.05);
     color: var(--primary);
     font-family: 'JetBrains Mono', monospace;
