@@ -121,19 +121,19 @@ const AchievementCarousel = () => {
             }
         } else if (normalizedDiff === 1) {
             return {
-                transform: 'translateX(55%) translateZ(-120px) rotateY(-25deg) scale(0.8)',
+                transform: 'translateX(55%) translateZ(-96px) rotateY(-25deg) scale(0.8)',
                 opacity: 0.5,
                 zIndex: 5
             }
         } else if (normalizedDiff === totalImages - 1) {
             return {
-                transform: 'translateX(-55%) translateZ(-120px) rotateY(25deg) scale(0.8)',
+                transform: 'translateX(-55%) translateZ(-96px) rotateY(25deg) scale(0.8)',
                 opacity: 0.5,
                 zIndex: 5
             }
         } else {
             return {
-                transform: 'translateZ(-200px) scale(0.6)',
+                transform: 'translateZ(-160px) scale(0.6)',
                 opacity: 0,
                 zIndex: 0
             }
