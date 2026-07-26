@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react'
 import Intro from './components/Intro/Intro'
 import Navbar from './components/Navbar/Navbar'
 import Hero from './components/Hero/Hero'
+import CustomCursor from './components/CustomCursor/CustomCursor'
 import styles from './App.module.css'
 
 // Lazy Load heavy components below the fold
@@ -33,6 +34,9 @@ function App() {
 
     return (
         <div className={styles.app}>
+            {/* Global Custom Cursor */}
+            <CustomCursor />
+
             {/* Full-Screen Intro Animation */}
             {!introComplete && <Intro onComplete={() => setIntroComplete(true)} />}
 
