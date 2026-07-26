@@ -86,7 +86,10 @@ const getLanguageColor = (language) => {
 function Projects() {
     const containerRef = useRef(null)
     const sliderRef = useRef(null)
-    const { scrollYProgress } = useScroll({ target: containerRef })
+    const { scrollYProgress } = useScroll({ 
+        target: containerRef,
+        offset: ["start start", "end end"]
+    })
 
     const [repos, setRepos] = useState([])
     const [loading, setLoading] = useState(true)
@@ -292,9 +295,9 @@ function Projects() {
         if (sliderRef.current) {
             const updateScrollRange = () => {
                 const totalWidth = sliderRef.current.scrollWidth
-                const visibleWidth = sliderRef.current.clientWidth
-                // Add buffer to ensure last item is fully cleared
-                const buffer = 100
+                const visibleWidth = window.innerWidth
+                // Minimal buffer so the last card perfectly aligns with the right padding
+                const buffer = 0
                 setScrollRange(Math.max(0, totalWidth - visibleWidth + buffer))
             }
 
