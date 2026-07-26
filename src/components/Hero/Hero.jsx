@@ -316,12 +316,12 @@ function Hero() {
         const fetchGitHubStats = async () => {
             try {
                 // Use Token if available to avoid Rate Limits (60 vs 5000 req/hr)
-                const token = import.meta.env.VITE_GITHUB_TOKEN
+                const token = (import.meta.env.VITE_GITHUB_PAT || '').trim()
                 const headers = {
                     'Accept': 'application/vnd.github.v3+json'
                 }
                 if (token) {
-                    headers['Authorization'] = `token ${token}`
+                    headers['Authorization'] = `Bearer ${token}`
                 }
 
                 const response = await fetch('https://api.github.com/users/Karthigaiselvam-R-official', { headers })
@@ -475,7 +475,7 @@ function Hero() {
                         transition={{ delay: 1.2 }}
                     >
                         <div className={styles.stat}>
-                            <span className={styles.statNumber}>9.05</span>
+                            <span className={styles.statNumber}>9.08</span>
                             <span className={styles.statLabel}>CGPA</span>
                         </div>
                         <div className={styles.statDivider}></div>
@@ -498,8 +498,7 @@ function Hero() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.5, duration: 0.8, type: 'spring' }}
                 >
-                    {/* Background radar effect */}
-                    <NetworkRadar />
+                    {/* Background radar effect removed as requested */}
 
                     {/* Data streams */}
                     <DataStream />
@@ -559,20 +558,19 @@ function Hero() {
                     </motion.div>
 
                     {/* Circuit Lines */}
-                    <svg className={styles.circuitLines} viewBox="0 0 100 100">
-
+                    <svg className={styles.circuitLines} viewBox="0 0 40 20">
                         <motion.circle
-                            cx="180"
-                            cy="-5"
-                            r="3"
+                            cx="15"
+                            cy="10"
+                            r="1"
                             fill="#00ff88"
                             animate={{ opacity: [0, 1, 0] }}
                             transition={{ duration: 1, repeat: Infinity, delay: 0.5 }}
                         />
                         <motion.circle
-                            cx="200"
-                            cy="-5"
-                            r="3"
+                            cx="25"
+                            cy="10"
+                            r="1"
                             fill="#00d4ff"
                             animate={{ opacity: [0, 1, 0] }}
                             transition={{ duration: 1, repeat: Infinity, delay: 1 }}
