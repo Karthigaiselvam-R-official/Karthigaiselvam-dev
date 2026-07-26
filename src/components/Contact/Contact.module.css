@@ -6,14 +6,17 @@
 .contactGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: 64px;
+    /* 80px × 0.8 */
     align-items: start;
 }
 
 .description {
-    font-size: 1.05rem;
-    line-height: 1.9;
-    margin-bottom: 24px;
+    font-size: 0.84rem;
+    /* 1.05rem × 0.8 */
+    line-height: 1.75;
+    margin-bottom: 19px;
+    /* 24px × 0.8 */
     color: var(--text-secondary);
 }
 
@@ -49,16 +52,22 @@
 /* Social Links */
 .socialLinks {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* Side-by-side on desktop */
-    gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4-col single row on desktop */
+    gap: 8px;
+    /* Reduced to fit 4 items */
 }
 
 .socialLink {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
+    justify-content: center;
+    gap: 8px;
+    /* Reduced gap */
+    padding: 10px 12px;
+    /* Reduced padding */
+    font-size: 0.85rem;
+    /* Slightly smaller text for 4-col */
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -166,11 +175,13 @@
 }
 
 .formBody {
-    padding: 32px;
+    padding: 26px;
+    /* 32px × 0.8 */
 }
 
 .formGroup {
-    margin-bottom: 24px;
+    margin-bottom: 19px;
+    /* 24px × 0.8 */
 }
 
 .formGroup label {
@@ -188,13 +199,15 @@
 .formGroup input,
 .formGroup textarea {
     width: 100%;
-    padding: 14px 18px;
+    padding: 11px 14px;
+    /* 14px 18px × 0.8 */
     background: var(--bg-darker);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     color: var(--text-primary);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
+    /* 0.95rem × 0.8 */
     transition: var(--transition-fast);
 }
 
@@ -212,7 +225,8 @@
 
 .formGroup textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 96px;
+    /* 120px × 0.8 */
 }
 
 /* Button Alignment (Desktop Default) */
@@ -317,14 +331,6 @@
         font-size: 0.8rem;
     }
 
-    /* Fix: Center the 3rd item (Email) since it's an orphan in 2-col grid */
-    .socialLink:nth-child(3) {
-        grid-column: span 2;
-        width: 48%;
-        /* Match 2-col grid item width */
-        margin: 0 auto;
-        justify-self: center;
-    }
 }
 
 /* Very small screens */

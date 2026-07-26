@@ -43,6 +43,26 @@ const MessageCircle = () => (
     </svg>
 )
 
+const MapPin = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+)
+
+const TerminalIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="4 17 10 11 4 5"></polyline>
+        <line x1="12" y1="19" x2="20" y2="19"></line>
+    </svg>
+)
+
+const Youtube = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+)
+
 const socialLinks = [
     {
         name: 'GitHub',
@@ -62,6 +82,12 @@ const socialLinks = [
         icon: <Mail />,
         color: 'accent'
     },
+    {
+        name: 'YouTube',
+        url: 'https://www.youtube.com/@L2U-Local2Ulagam',
+        icon: <Youtube />,
+        color: 'warning'
+    }
 ]
 
 const languages = [
@@ -202,10 +228,12 @@ function Contact() {
 
                         <div className={styles.contactDetails}>
                             <div className={styles.detailItem}>
-                                <Mail />
-                                <a href="mailto:karthigaiselvamr.cs2022@gmail.com">
-                                    karthigaiselvamr.cs2022@gmail.com
-                                </a>
+                                <MapPin />
+                                <span>Tamil Nadu, India</span>
+                            </div>
+                            <div className={styles.detailItem}>
+                                <TerminalIcon />
+                                <span>Status: Open to Opportunities</span>
                             </div>
                         </div>
 
