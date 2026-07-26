@@ -113,7 +113,7 @@
 
 /* Name - Will be scaled via Framer Motion */
 .name {
-    font-size: clamp(3rem, 10vw, 9rem);
+    font-size: clamp(2.4rem, 8vw, 7.2rem);
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -0.03em;
@@ -158,7 +158,7 @@
 /* Role */
 .role {
     margin-top: 30px;
-    font-size: clamp(0.6rem, 1vw, 0.85rem);
+    font-size: clamp(0.5rem, 0.8vw, 0.7rem);
     color: var(--primary, #00ff88);
     text-transform: uppercase;
     letter-spacing: 4px;
@@ -169,10 +169,7 @@
 
 /* Loading dot */
 .dot {
-    position: absolute;
-    left: 50%;
-    bottom: 30%;
-    transform: translateX(-50%);
+    margin-top: 30px;
     width: 8px;
     height: 8px;
     background: var(--primary, #00ff88);
@@ -201,12 +198,12 @@
     0%,
     100% {
         opacity: 1;
-        transform: translateX(-50%) scale(1);
+        transform: scale(1);
     }
 
     50% {
         opacity: 0.4;
-        transform: translateX(-50%) scale(1.8);
+        transform: scale(1.8);
     }
 }
 
@@ -256,9 +253,5 @@
         font-size: 0.42rem;
         letter-spacing: 0.8px;
         padding: 0 10px;
-    }
-
-    .dot {
-        bottom: 25%;
     }
 }
