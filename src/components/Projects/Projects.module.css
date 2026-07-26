@@ -1,9 +1,8 @@
-/* Horizontal Scroll Wrapper - Large height for scroll-driven animation */
+/* Horizontal Scroll Wrapper - Height is set dynamically via inline style based on content */
 .projectsWrapper {
     position: relative;
     background: var(--bg-dark);
-    height: 1500vh;
-    /* Very large to prevent skipping cards during fast scroll */
+    /* height is set inline via JS: 100vh + scrollRange */
 }
 
 .stickyContainer {
@@ -13,14 +12,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* Vertically center the cards to remove the huge empty bottom gap */
+    padding-top: 0;
     overflow: hidden;
 }
 
 .sliderContainer {
     width: 100%;
-    margin-top: 40px;
+    margin-top: 0;
+    /* Removed to save vertical space */
     overflow: visible;
-    padding: 60px 0;
+    padding: 10px 0;
+    /* Reduced to save vertical space */
     /* 3D Perspective for carousel effect */
     perspective: 1500px;
     perspective-origin: center center;
@@ -33,6 +36,8 @@
     padding-right: 10vw;
     /* Preserve 3D space for child transforms */
     transform-style: preserve-3d;
+    align-items: stretch;
+    /* Forces all cards to match the height of the tallest card */
 }
 
 /* Project Card - 3D Carousel Item */
@@ -47,9 +52,9 @@
     display: flex;
     flex-direction: column;
     transition: all 0.4s ease-out;
-    /* 3D Transform support */
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
+    /* NOTE: transform-style: preserve-3d removed — it disables overflow:hidden in browsers */
+    isolation: isolate;
+    /* Creates a new stacking context for proper clipping */
 }
 
 .projectCard:hover {
@@ -164,7 +169,8 @@
 .cardHeader {
     display: flex;
     align-items: center;
-    padding: 14px 18px;
+    padding: 8px 12px;
+    /* Compressed */
     background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid var(--border-color);
 }
@@ -214,22 +220,28 @@
 
 /* Card Content */
 .cardContent {
-    padding: 24px;
-    /* Don't stretch - let content determine size */
+    padding: 16px 20px;
+    /* Restored padding */
+    flex: 1;
+    /* Pushes the footer to the absolute bottom */
+    display: flex;
+    flex-direction: column;
 }
 
 .projectTitle {
-    font-size: 1.05rem;
-    margin-bottom: 12px;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    /* Compressed */
     color: var(--text-primary);
     font-family: 'JetBrains Mono', monospace;
 }
 
 .projectDescription {
-    font-size: 0.85rem;
-    line-height: 1.7;
+    font-size: 0.75rem;
+    line-height: 1.5;
     color: var(--text-secondary);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    /* Compressed */
     display: -webkit-box;
     -webkit-line-clamp: 3;
     line-clamp: 3;
@@ -258,9 +270,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 24px;
+    gap: 12px;
+    padding: 14px 20px 14px 14px;
+    /* Less left padding shifts content left, arrow gets room */
     border-top: 1px solid var(--border-color);
     background: rgba(0, 0, 0, 0.1);
+    margin-top: auto;
+    overflow: hidden;
 }
 
 .projectMeta {
@@ -303,10 +319,12 @@
 .viewProject {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 3px;
     font-size: 0.8rem;
     color: var(--primary);
     font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: var(--transition-fast);
 }
 
@@ -319,9 +337,9 @@
 
     /* Disable scroll-jack, enable native swipe */
     .projectsWrapper {
-        height: auto;
-        min-height: 100vh;
-        overflow: visible;
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
     }
 
     .stickyContainer {
@@ -387,6 +405,32 @@
     /* Standard hover/active for touch */
     .projectCard:active {
         transform: scale(0.98) !important;
+    }
+}
+
+/* Height-based media query for small laptops (prevents bottom clipping) */
+@media (max-height: 750px) {
+    .stickyContainer {
+        padding-top: 30px;
+        /* Compress top space */
+    }
+
+    .projectImageWrapper {
+        height: 110px;
+        /* Compress image height */
+    }
+
+    .projectCard {
+        min-width: 290px;
+        width: 290px;
+    }
+
+    .cardContent {
+        padding: 10px 14px;
+    }
+
+    .projectTitle {
+        margin-bottom: 6px;
     }
 }
 

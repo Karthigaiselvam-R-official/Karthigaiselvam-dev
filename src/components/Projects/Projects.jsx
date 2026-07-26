@@ -45,8 +45,8 @@ const Loader = () => (
 
 // GitHub Config
 const GITHUB_USERNAME = 'Karthigaiselvam-R-official'
-// GitHub Token for 5000 requests/hour (set in .env.local as VITE_GITHUB_TOKEN)
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN || ''
+// Get GitHub PAT from environment variables (added trim to remove any accidental newlines/spaces)
+const GITHUB_TOKEN = (import.meta.env.VITE_GITHUB_PAT || '').trim()
 
 // Custom descriptions for known projects
 const projectDescriptions = {
@@ -151,22 +151,42 @@ function Projects() {
             try {
                 setLoading(true)
 
-                // Build headers with optional token for higher rate limits
-                const headers = { 'Accept': 'application/vnd.github.v3+json' }
-                if (GITHUB_TOKEN) {
-                    headers['Authorization'] = `token ${GITHUB_TOKEN}`
+                // Cache: valid for 30 minutes. Clear cache if previously stored an error.
+                const CACHE_KEY = 'github_repos_cache'
+                const CACHE_TIME = 'github_repos_cache_time'
+                const cachedData = sessionStorage.getItem(CACHE_KEY)
+                const cacheTimestamp = sessionStorage.getItem(CACHE_TIME)
+
+                if (cachedData && cacheTimestamp && (Date.now() - parseInt(cacheTimestamp)) < 30 * 60 * 1000) {
+                    setRepos(JSON.parse(cachedData))
+                    setLoading(false)
+                    return
                 }
 
+                // Always use the token — NEVER fall back to anonymous (anonymous limit is 60/hr and burns fast)
+                const headers = {
+                    'Accept': 'application/vnd.github.v3+json',
+                    ...(GITHUB_TOKEN ? { 'Authorization': `Bearer ${GITHUB_TOKEN}` } : {})
+                }
+
+                console.log('[Projects] Token loaded:', GITHUB_TOKEN ? `${GITHUB_TOKEN.substring(0, 8)}...` : 'MISSING')
+
+                // cache-busting timestamp prevents browser from serving a stale 403/401 response
                 const response = await fetch(
-                    `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`,
-                    { headers }
+                    `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated&_=${Date.now()}`,
+                    { headers, cache: 'no-store' }
                 )
+
+                console.log('[Projects] GitHub API status:', response.status)
 
                 if (!response.ok) {
                     if (response.status === 403) {
-                        throw new Error('Rate limit exceeded. Add VITE_GITHUB_TOKEN to .env.local')
+                        throw new Error('API Rate Limit Exceeded. Wait ~1 hour or generate a fresh token.')
                     }
-                    throw new Error(`Failed to fetch repos (${response.status})`)
+                    if (response.status === 401) {
+                        throw new Error(`401 Unauthorized — token may be wrong. Check VITE_GITHUB_PAT in .env.local`)
+                    }
+                    throw new Error(`GitHub API error: ${response.status}`)
                 }
 
                 const allRepos = await response.json()
@@ -187,10 +207,18 @@ function Projects() {
                                 readmeHeaders['Authorization'] = `token ${GITHUB_TOKEN}`
                             }
 
-                            const readmeResponse = await fetch(
+                            let readmeResponse = await fetch(
                                 `https://api.github.com/repos/${repo.full_name}/readme`,
                                 { headers: readmeHeaders }
                             )
+
+                            if (readmeResponse.status === 401 && GITHUB_TOKEN) {
+                                delete readmeHeaders['Authorization']
+                                readmeResponse = await fetch(
+                                    `https://api.github.com/repos/${repo.full_name}/readme`,
+                                    { headers: readmeHeaders }
+                                )
+                            }
                             if (readmeResponse.ok) {
                                 const readmeData = await readmeResponse.json()
                                 images = extractAllImagesFromReadme(
@@ -219,6 +247,10 @@ function Projects() {
                     }
                     return new Date(b.updated_at) - new Date(a.updated_at)
                 })
+
+                // Save to cache
+                sessionStorage.setItem(CACHE_KEY, JSON.stringify(sortedRepos))
+                sessionStorage.setItem(CACHE_TIME, Date.now().toString())
 
                 setRepos(sortedRepos)
                 setError(null)
@@ -277,8 +309,11 @@ function Projects() {
 
     const x = useTransform(scrollYProgress, [0, 1], ['0px', `-${scrollRange}px`])
 
+    // Dynamic height = viewport height (for sticky) + exact scroll distance needed
+    const wrapperHeight = scrollRange > 0 ? `calc(100vh + ${scrollRange}px)` : '100vh'
+
     return (
-        <section id="projects" className={styles.projectsWrapper} ref={containerRef}>
+        <section id="projects" className={styles.projectsWrapper} ref={containerRef} style={{ height: wrapperHeight }}>
             <div className={styles.stickyContainer}>
                 <div className="container">
                     <motion.div
@@ -316,11 +351,11 @@ function Projects() {
                                     key={repo.id || repo.name}
                                     className={`${styles.projectCard} ${isActive ? styles.activeCard : ''}`}
                                     animate={{
-                                        scale: isActive ? 1.1 : 0.9,
+                                        scale: isActive ? 1.02 : 0.85,
                                         zIndex: isActive ? 20 : 1,
                                         opacity: isActive ? 1 : 0.7
                                     }}
-                                    whileHover={{ scale: isActive ? 1.12 : 0.95, y: -10 }}
+                                    whileHover={{ scale: isActive ? 1.05 : 0.9, y: -10 }}
                                     transition={{ duration: 0.3 }}
                                 >
                                     {/* Project Images - 3D Carousel if multiple */}
