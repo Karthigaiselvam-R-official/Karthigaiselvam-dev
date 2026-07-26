@@ -12,7 +12,7 @@
     background: rgba(10, 10, 15, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 0 0 var(--border-color), 0 4px 20px rgba(0, 0, 0, 0.3);
     padding: 15px 0;
 }
 
@@ -92,7 +92,7 @@
     border: none;
     cursor: pointer;
     padding: 5px;
-    z-index: 1001;
+    z-index: 10001; /* Must be higher than .mobileMenu (10000) */
 }
 
 .mobileMenuBtn span {

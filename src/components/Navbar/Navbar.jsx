@@ -102,8 +102,12 @@ function Navbar() {
                 className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}
                 initial={false}
                 animate={isMobileMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: '100%' }}
+                onClick={() => setIsMobileMenuOpen(false)}
             >
-                <ul className={styles.mobileLinks}>
+                <ul 
+                    className={styles.mobileLinks}
+                    onClick={(e) => e.stopPropagation()}
+                >
                     {navLinks.map((link, index) => (
                         <li key={link.name}>
                             <a
