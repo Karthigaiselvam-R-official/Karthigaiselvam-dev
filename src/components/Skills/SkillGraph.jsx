@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react'
 import styles from './Skills.module.css'
 
 const Fingerprint = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.8 }} aria-hidden="true">
+    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.8 }} aria-hidden="true">
         <path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10v.8c0 1.25-.97 2.2-2.12 2.2-1.03 0-1.88-.84-1.88-1.88V12c0-3.31-2.69-6-6-6s-6 2.69-6 6v2.5c0 1.5 1.13 2.7 2.63 2.7h.37c2.2 0 4-1.8 4-4 0-1.1-.9-2-2-2s-2 .9-2 2v2" />
     </svg>
 )
@@ -72,14 +72,14 @@ const SkillGraph = () => {
         const edgesList = []
 
         // Center
-        nodeList.push({ ...skillData, x: 50, y: 50, level: 0 })
+        nodeList.push({ ...skillData, x: 51.5, y: 50, level: 0 })
 
         // Categories (Level 1)
         const catCount = skillData.children.length
         skillData.children.forEach((cat, i) => {
             const angle = (i / catCount) * 2 * Math.PI - Math.PI / 2
-            const radius = 25 // 25% from center
-            const x = 50 + Math.cos(angle) * radius * 1.5 // Aspect ratio correction
+            const radius = 26 // 26% from center
+            const x = 51.5 + Math.cos(angle) * radius * 1.33 // Aspect ratio correction
             const y = 50 + Math.sin(angle) * radius
 
             nodeList.push({ ...cat, x, y, level: 1, parentId: 'core' })
@@ -107,8 +107,8 @@ const SkillGraph = () => {
                 }
 
                 const skillAngle = startAngle + (j / (skillCount - 1)) * angleSpan * spreadFactor + (angleSpan * startOffset)
-                const skillRadius = 45 // 45% from center
-                const sx = 50 + Math.cos(skillAngle) * skillRadius * 1.5
+                const skillRadius = 46 // 46% from center
+                const sx = 51.5 + Math.cos(skillAngle) * skillRadius * 1.33
                 const sy = 50 + Math.sin(skillAngle) * skillRadius
 
                 nodeList.push({ ...skill, x: sx, y: sy, level: 2, parentId: cat.id, color: cat.color })
