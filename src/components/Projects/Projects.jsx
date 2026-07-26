@@ -296,8 +296,8 @@ function Projects() {
             const updateScrollRange = () => {
                 const totalWidth = sliderRef.current.scrollWidth
                 const visibleWidth = window.innerWidth
-                // Minimal buffer so the last card perfectly aligns with the right padding
-                const buffer = 0
+                // Use a 5vw buffer to ensure the last card has a visual gap on the right mirroring the left padding
+                const buffer = window.innerWidth * 0.05
                 setScrollRange(Math.max(0, totalWidth - visibleWidth + buffer))
             }
 
