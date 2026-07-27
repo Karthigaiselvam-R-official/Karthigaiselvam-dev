@@ -1,6 +1,21 @@
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion'
-import { useRef, useMemo, useState } from 'react'
+import { useRef, useMemo, useState, useEffect } from 'react'
 import styles from './Experience.module.css'
+
+// Detect if we are on a "real" desktop/laptop (> 768px)
+const useIsDesktop = () => {
+    const [isDesktop, setIsDesktop] = useState(() => {
+        if (typeof window === 'undefined') return true
+        return window.innerWidth > 768
+    })
+    useEffect(() => {
+        const mq = window.matchMedia('(min-width: 769px)')
+        const handler = (e) => setIsDesktop(e.matches)
+        mq.addEventListener('change', handler)
+        return () => mq.removeEventListener('change', handler)
+    }, [])
+    return isDesktop
+}
 
 // Icons
 const Briefcase = () => (
@@ -110,7 +125,7 @@ const SPACING_FACTOR = 1.2        // Spacing between cards in scroll units
  * WAVE CARD COMPONENT
  * Physics-based animation with vertical climb, horizontal oscillation
  */
-const WaveCard = ({ exp, index, totalItems, scrollYProgress, onCardClick }) => {
+const WaveCard = ({ exp, index, totalItems, scrollYProgress, onCardClick, isDesktop }) => {
     const Icon = exp.icon?.type || Shield
     const lastIndex = totalItems - 1
     const totalTravelDistance = lastIndex * SPACING_FACTOR
@@ -150,6 +165,11 @@ const WaveCard = ({ exp, index, totalItems, scrollYProgress, onCardClick }) => {
         return Math.sin(p) * -ROTATION_INTENSITY_Z
     })
 
+    // Z-Index: layering
+    const zIndex = useTransform(phase, (p) => {
+        return 100 - Math.round(Math.abs(p) * 10)
+    })
+
     // Opacity: fade distant cards
     const opacity = useTransform(phase, (p) => {
         const dist = Math.abs(p)
@@ -164,11 +184,6 @@ const WaveCard = ({ exp, index, totalItems, scrollYProgress, onCardClick }) => {
         return `blur(${(dist - 0.35) * 6}px)`
     })
 
-    // Z-Index: layering
-    const zIndex = useTransform(phase, (p) => {
-        return 100 - Math.round(Math.abs(p) * 10)
-    })
-
     // Spring configs for smooth motion
     const springConfig = { damping: 18, stiffness: 80, mass: 0.3 }
     const springY = useSpring(y, springConfig)
@@ -176,22 +191,46 @@ const WaveCard = ({ exp, index, totalItems, scrollYProgress, onCardClick }) => {
     const springScale = useSpring(scale, springConfig)
     const springRotateY = useSpring(rotateY, springConfig)
 
+    // MOBILE PHYSICS (Native Scroll for Flat List)
+    // We use a local scroll tracker so each card unblurs smoothly exactly like the Vercel physics!
+    const cardRef = useRef(null)
+    const { scrollYProgress: cardProgress } = useScroll({
+        target: cardRef,
+        offset: ["start 90%", "end 10%"]
+    })
+
+    // Map scroll progress smoothly exactly like the Vercel physics!
+    // 0 = bottom of screen (blurred), 0.35 = center (clear), 0.65 = center (clear), 1 = top of screen (blurred)
+    const mobileOpacity = useTransform(cardProgress, [0, 0.35, 0.65, 1], [0.2, 1, 1, 0.2])
+    const mobileBlur = useTransform(cardProgress, [0, 0.35, 0.65, 1], ['blur(15px)', 'blur(0px)', 'blur(0px)', 'blur(15px)'])
+    const mobileScale = useTransform(cardProgress, [0, 0.35, 0.65, 1], [0.9, 1, 1, 0.9])
+
+    // Apply 3D wave on desktop, local scroll physics on mobile
+    const animatedStyle = isDesktop ? {
+        y: springY,
+        x: springX,
+        scale: springScale,
+        rotateY: springRotateY,
+        rotateZ: rotateZ,
+        opacity: opacity,
+        filter: blur,
+        zIndex: zIndex,
+        borderColor: exp.color,
+        boxShadow: `0 30px 60px rgba(0,0,0,0.6), 0 0 50px ${exp.color}30`
+    } : {
+        opacity: mobileOpacity,
+        filter: mobileBlur,
+        scale: mobileScale,
+        borderColor: exp.color,
+        boxShadow: `0 8px 32px rgba(0,0,0,0.4), 0 0 30px ${exp.color}20`
+    }
+
     return (
         <motion.div
+            ref={cardRef}
             onClick={() => onCardClick(exp)}
             className={styles.waveCard}
-            style={{
-                y: springY,
-                x: springX,
-                scale: springScale,
-                rotateY: springRotateY,
-                rotateZ: rotateZ,
-                opacity: opacity,
-                filter: blur,
-                zIndex: zIndex,
-                borderColor: exp.color,
-                boxShadow: `0 30px 60px rgba(0,0,0,0.6), 0 0 50px ${exp.color}30`
-            }}
+            style={animatedStyle}
             whileHover={{
                 boxShadow: `0 40px 80px rgba(0,0,0,0.7), 0 0 80px ${exp.color}50`,
                 borderColor: exp.color
@@ -276,22 +315,62 @@ const ParticleSystem = () => {
 const Experience = () => {
     const containerRef = useRef(null)
     const [selectedImage, setSelectedImage] = useState(null)
+    
+    // Time-based popup logic
+    const [showBadge, setShowBadge] = useState(false)
+    const showBadgeRef = useRef(false)
+    const badgeTimeoutRef = useRef(null)
+    const prevProgressRef = useRef(0) // Track scroll direction
+    
+    const isDesktop = useIsDesktop()
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ['start start', 'end end']
     })
 
-    // Clamp and smooth the scroll progress
-    const clampedProgress = useTransform(scrollYProgress, [0, 0.9], [0, 1])
-    const smoothProgress = useSpring(clampedProgress, {
+    // Smooth the scroll progress across the entire container
+    const smoothProgress = useSpring(scrollYProgress, {
         damping: 15,
         stiffness: 90,
         mass: 0.2
     })
 
+    // Sync ref with state to avoid re-subscribing
+    useEffect(() => {
+        showBadgeRef.current = showBadge
+    }, [showBadge])
+
+    // Robust, crash-proof listener for older framer-motion versions
+    useEffect(() => {
+        const unsubscribe = smoothProgress.onChange((latest) => {
+            const isScrollingDown = latest > prevProgressRef.current
+
+            // Trigger at 0.98 ONLY if scrolling DOWN (prevents showing when scrolling up from next section)
+            if (latest > 0.98 && !showBadgeRef.current && isScrollingDown) {
+                setShowBadge(true)
+                // Auto-hide after 3 seconds for perfect reading time
+                if (badgeTimeoutRef.current) clearTimeout(badgeTimeoutRef.current)
+                badgeTimeoutRef.current = setTimeout(() => setShowBadge(false), 3000)
+            } 
+            // Hide immediately if they scroll back up
+            else if (latest < 0.95 && showBadgeRef.current) {
+                setShowBadge(false)
+                if (badgeTimeoutRef.current) clearTimeout(badgeTimeoutRef.current)
+            }
+
+            prevProgressRef.current = latest
+        })
+        return () => unsubscribe()
+    }, [smoothProgress])
+
     return (
-        <section id="experience" className={styles.experienceWrapper} ref={containerRef}>
+        <section
+            id="experience"
+            className={styles.experienceWrapper}
+            ref={containerRef}
+            style={isDesktop ? { height: '500vh' } : {}}
+        >
             <div className={styles.stickyContainer}>
                 {/* Background Effects */}
                 <div className={styles.backgroundEffects}>
@@ -316,11 +395,12 @@ const Experience = () => {
                 <div className={styles.waveContainer}>
                     {experiences.map((exp, index) => (
                         <WaveCard
-                            key={exp.id}
+                            key={`${isDesktop ? 'desktop' : 'mobile'}-${exp.id}`}
                             exp={exp}
                             index={index}
                             totalItems={experiences.length}
                             scrollYProgress={smoothProgress}
+                            isDesktop={isDesktop}
                             onCardClick={(e) => {
                                 if (e.image) {
                                     setSelectedImage(e.image)
@@ -332,13 +412,20 @@ const Experience = () => {
                     ))}
                 </div>
 
-                {/* Completion Indicator */}
-                <motion.div
-                    className={styles.completionBadge}
-                    style={{ opacity: useTransform(scrollYProgress, [0.88, 0.92, 0.97, 1], [0, 1, 1, 0]) }}
-                >
-                    <Shield /> All Experience Viewed
-                </motion.div>
+                {/* Completion Indicator (Notification Popup) */}
+                <AnimatePresence>
+                    {showBadge && (
+                        <motion.div
+                            className={styles.completionBadge}
+                            initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.5, y: 20 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        >
+                            <Shield /> All Experience Viewed
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Lightbox Modal */}
                 <AnimatePresence>
