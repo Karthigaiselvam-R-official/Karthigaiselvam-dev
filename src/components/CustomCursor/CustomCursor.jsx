@@ -8,6 +8,7 @@ const CustomCursor = () => {
     const ringRef = useRef(null);
 
     const [isHovering, setIsHovering] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Track mouse position directly
     const mouse = useRef({ x: -100, y: -100 });
@@ -15,6 +16,14 @@ const CustomCursor = () => {
     const dotsPos = useRef(Array(NUM_DOTS).fill(0).map(() => ({ x: -100, y: -100 })));
 
     useEffect(() => {
+        const checkDevice = () => {
+            setIsMobile(window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768);
+        };
+        checkDevice();
+        window.addEventListener('resize', checkDevice);
+
+        if (isMobile) return;
+
         const onMouseMove = (e) => {
             mouse.current.x = e.clientX;
             mouse.current.y = e.clientY;
@@ -66,11 +75,14 @@ const CustomCursor = () => {
         render();
 
         return () => {
+            window.removeEventListener('resize', checkDevice);
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseover', handleMouseOver);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [isMobile]);
+
+    if (isMobile) return null;
 
     // Create a uniform circular ASCII pattern so it looks like a perfect circle
     const asciiText = "+ + + + + + + + ";
