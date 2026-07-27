@@ -2,7 +2,7 @@
 .experienceWrapper {
     position: relative;
     background: var(--bg-darker);
-    height: 700vh;
+    height: 500vh;
 }
 
 /* Sticky Container - Stays in view during scroll */
@@ -18,7 +18,8 @@
     padding-top: 96px;
     /* Push down as requested */
     perspective: 1200px;
-    overflow: hidden; /* Prevent badge from bleeding */
+    overflow: hidden;
+    /* Prevent badge from bleeding */
 }
 
 /* Background Effects */
@@ -109,7 +110,8 @@
     position: relative;
     width: 100%;
     height: 320px;
-    margin-top: -15px; /* Backed off slightly to give it perfect breathing room */
+    margin-top: -15px;
+    /* Backed off slightly to give it perfect breathing room */
     /* Reduced for smaller cards */
     display: flex;
     align-items: center;
@@ -230,16 +232,20 @@
 .completionBadge {
     position: relative;
     bottom: auto;
-    margin-top: 72px; /* Fine-tuned to add a slight gap below the scaled card */
+    margin-top: 72px;
+    /* Fine-tuned to add a slight gap below the scaled card */
     display: flex;
     align-items: center;
-    gap: 6px; /* Scaled down */
-    padding: 6px 14px; /* Scaled down */
+    gap: 6px;
+    /* Scaled down */
+    padding: 6px 14px;
+    /* Scaled down */
     background: rgba(0, 255, 136, 0.1);
     border: 1px solid rgba(0, 255, 136, 0.3);
     border-radius: 50px;
     color: var(--primary);
-    font-size: 0.55rem; /* Scaled down to match 80% aesthetic */
+    font-size: 0.55rem;
+    /* Scaled down to match 80% aesthetic */
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -248,12 +254,14 @@
 }
 
 .completionBadge svg {
-    width: 11px; /* Scaled down */
+    width: 11px;
+    /* Scaled down */
     height: 11px;
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+/* Medium laptops and tablets — disable scroll-jacking */
+@media (max-width: 768px) {
     .completionBadge {
         position: relative !important;
         bottom: auto !important;
@@ -280,11 +288,9 @@
         flex-direction: column;
         align-items: center;
         padding-top: 20px !important;
-        /* Reduced from 50px */
         justify-content: flex-start;
     }
 
-    /* Override Global Section Header Bottom Margin */
     .sectionHeader {
         margin-bottom: 10px !important;
     }
@@ -296,7 +302,6 @@
         flex-direction: column;
         align-items: center;
         gap: 50px;
-        /* Consistent gap between cards */
         padding: 30px 0;
         transform-style: flat !important;
     }
@@ -309,12 +314,9 @@
         width: 90%;
         max-width: 350px;
         margin: 0 auto !important;
-        /* Center cards, let gap handle spacing */
         height: auto !important;
         min-height: 380px;
     }
-
-
 
     .cardRole {
         font-size: 1rem;
