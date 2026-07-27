@@ -1,6 +1,8 @@
-/* Hide native cursor globally when this component is mounted */
-:global(*) {
-    cursor: none !important;
+/* Hide native cursor globally when this component is mounted (Desktop only) */
+@media (pointer: fine) and (min-width: 769px) {
+    :global(*) {
+        cursor: none !important;
+    }
 }
 
 /* The Rotating ASCII Ring Container */
