@@ -52,10 +52,17 @@
 /* Social Links */
 .socialLinks {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    /* 4-col single row on desktop */
-    gap: 8px;
-    /* Reduced to fit 4 items */
+    grid-template-columns: repeat(2, 1fr);
+    /* 2x2 grid to save horizontal space and prevent crushing the right column */
+    gap: 12px;
+}
+
+@media (min-width: 1200px) {
+    .socialLinks {
+        grid-template-columns: repeat(4, 1fr);
+        /* 4-col single row only on large desktop */
+        gap: 8px;
+    }
 }
 
 .socialLink {
