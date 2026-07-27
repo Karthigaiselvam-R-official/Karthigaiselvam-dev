@@ -210,9 +210,11 @@ a {
   color: var(--bg-dark);
   box-shadow: none;
 }
+
 .btn-primary:active::before {
   left: 0;
 }
+
 .btn-secondary:active {
   border-color: var(--secondary);
   color: var(--secondary);
