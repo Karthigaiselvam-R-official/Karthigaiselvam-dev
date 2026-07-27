@@ -92,7 +92,8 @@
     border: none;
     cursor: pointer;
     padding: 5px;
-    z-index: 10001; /* Must be higher than .mobileMenu (10000) */
+    z-index: 10001;
+    /* Must be higher than .mobileMenu (10000) */
 }
 
 .mobileMenuBtn span {
@@ -256,6 +257,31 @@
     /* Slightly stronger hover pop */
     box-shadow: 0 8px 25px rgba(255, 77, 77, 0.6) !important;
     filter: brightness(1.1);
+}
+
+/* Aggressively squish desktop navbar on laptops so it fits without clipping */
+@media (max-width: 1150px) {
+    .navLinks {
+        gap: 6px;
+    }
+
+    .navLink {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+
+    .linkNumber {
+        font-size: 0.65rem;
+    }
+
+    .ctaBtn {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+    }
+
+    .logo {
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 768px) {
