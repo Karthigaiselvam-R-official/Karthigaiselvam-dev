@@ -1060,7 +1060,47 @@
 }
 
 /* Responsive */
-@media (max-width: 1280px) {
+/* Large Laptops (HP EliteBook 1366px, etc.) */
+@media (max-width: 1400px) {
+    .heroContainer {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .nameWrapper {
+        white-space: normal;
+        width: 100%;
+    }
+
+    .name {
+        font-size: clamp(1.4rem, 3vw, 2.5rem);
+        flex-wrap: wrap;
+    }
+
+    .heroVisual {
+        /* Scale for large laptops */
+        transform: scale(0.95) translateX(-40px) !important;
+        transform-origin: right center !important;
+        padding: 20px 0;
+        justify-content: flex-end;
+    }
+}
+
+/* Medium Laptops */
+@media (max-width: 1150px) {
+    .heroVisual {
+        transform: scale(0.88) translateX(-60px) !important;
+    }
+}
+
+/* Small Laptops / Tablets Landscape */
+@media (max-width: 950px) {
+    .heroVisual {
+        transform: scale(0.75) translateX(-60px) !important;
+    }
+}
+
+@media (max-width: 768px) {
     .heroContainer {
         grid-template-columns: 1fr;
         text-align: center;
@@ -1111,8 +1151,15 @@
         flex-wrap: wrap;
     }
 
-    .codeBlock {
-        transform: none;
+    .heroVisual {
+        justify-content: center;
+        padding: 20px 0;
+        margin-top: 0;
+        min-height: unset;
+        height: auto;
+        transform: scale(0.9) !important;
+        /* Slight scale down for tablet */
+        transform-origin: center center !important;
     }
 }
 
