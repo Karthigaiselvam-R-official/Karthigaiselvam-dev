@@ -9,10 +9,11 @@
 
 .graphContainer {
     position: relative;
-    width: 100%;
-    height: 720px;
-    /* Large canvas for the graph */
-    margin: 0 auto;
+    width: 1200px;
+    height: 600px;
+    /* Center it perfectly even if parent is smaller */
+    left: 50%;
+    transform: translateX(-50%);
     max-width: 1200px;
 }
 
@@ -197,11 +198,29 @@
     display: none;
 }
 
-/* Responsive - Tablet */
+/* Responsive - Medium Laptops */
+@media (max-width: 1250px) {
+    .graphContainer {
+        transform: translateX(-50%) scale(0.82);
+        transform-origin: center center;
+    }
+}
+
+/* Responsive - Small Laptops */
 @media (max-width: 1024px) {
     .graphContainer {
-        height: 500px;
-        transform: scale(0.7);
+        /* Keep internal layout fixed so nodes don't squash vertically */
+        height: 600px;
+        transform: translateX(-50%) scale(0.72);
+        transform-origin: center center;
+    }
+}
+
+/* Responsive - Tablets */
+@media (max-width: 900px) {
+    .graphContainer {
+        height: 600px;
+        transform: translateX(-50%) scale(0.6);
         transform-origin: center center;
     }
 }
