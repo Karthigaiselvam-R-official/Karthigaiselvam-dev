@@ -84,6 +84,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap;
+    gap: 20px;
     padding-top: 30px;
     border-top: 1px solid var(--border-color);
 }
@@ -184,6 +186,7 @@
         gentleFloat 4s ease-in-out infinite;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 1;
+    white-space: nowrap;
 }
 
 /* ROTATING CONIC GRADIENT BORDER - The signature effect */
@@ -265,11 +268,28 @@
     text-transform: uppercase;
     opacity: 1;
     word-break: keep-all;
-    /* Prevent breaking words like "செயல்படுவோம்" */
+    white-space: nowrap;
+    /* Prevent breaking words */
 }
 
 .madeWith svg {
     display: none;
+}
+
+/* Responsive Scaling to maintain 2-column layout on laptops without clipping */
+@media (max-width: 1100px) {
+    .copyright {
+        padding: 8px 12px;
+        font-size: 0.65rem !important;
+        letter-spacing: 0px;
+    }
+    .madeWith {
+        font-size: 0.75rem;
+        letter-spacing: 0px;
+    }
+    .footerBottom {
+        gap: 5px;
+    }
 }
 
 /* Responsive */
