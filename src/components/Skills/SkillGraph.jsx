@@ -77,9 +77,17 @@ const SkillGraph = () => {
         // Categories (Level 1)
         const catCount = skillData.children.length
         skillData.children.forEach((cat, i) => {
-            const angle = (i / catCount) * 2 * Math.PI - Math.PI / 2
-            const radius = 26 // 26% from center
-            const x = 51.5 + Math.cos(angle) * radius * 1.33 // Aspect ratio correction
+            let angle = (i / catCount) * 2 * Math.PI - Math.PI / 2
+            
+            // Shift bottom clusters down to make room for the wide Cyber Security fan at the top
+            if (cat.id === 'dev') {
+                angle += 0.2 // Shift Dev clockwise (towards bottom center)
+            } else if (cat.id === 'ops') {
+                angle -= 0.2 // Shift Ops counter-clockwise (towards bottom center)
+            }
+
+            const radius = 30 // Increased from 26% to 30% to make the line from Core to Categories longer
+            const x = 51.5 + Math.cos(angle) * radius 
             const y = 50 + Math.sin(angle) * radius
 
             nodeList.push({ ...cat, x, y, level: 1, parentId: 'core' })
@@ -95,20 +103,20 @@ const SkillGraph = () => {
                 const isSecurity = cat.id === 'security'
                 const isOps = cat.id === 'ops'
 
-                let spreadFactor = 0.7 // Default (Dev)
+                let spreadFactor = 0.65 // Default (Dev) - Reduced slightly to avoid bottom collision
                 let startOffset = 0.15 // Default offset
 
                 if (isSecurity) {
-                    spreadFactor = 1.03 // Wide for Security
-                    startOffset = -0.01
+                    spreadFactor = 1.25 // Wide for Security
+                    startOffset = -0.12 
                 } else if (isOps) {
-                    spreadFactor = 0.65 // Reduce gap for Ops (User request)
-                    startOffset = 0.17 // Center the tighter cluster
+                    spreadFactor = 0.6 // Reduce gap for Ops 
+                    startOffset = 0.2 // Shifted slightly towards top to clear bottom
                 }
 
                 const skillAngle = startAngle + (j / (skillCount - 1)) * angleSpan * spreadFactor + (angleSpan * startOffset)
                 const skillRadius = 46 // 46% from center
-                const sx = 51.5 + Math.cos(skillAngle) * skillRadius * 1.33
+                const sx = 51.5 + Math.cos(skillAngle) * skillRadius 
                 const sy = 50 + Math.sin(skillAngle) * skillRadius
 
                 nodeList.push({ ...skill, x: sx, y: sy, level: 2, parentId: cat.id, color: cat.color })
