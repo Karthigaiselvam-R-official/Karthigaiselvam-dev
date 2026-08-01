@@ -27,37 +27,46 @@ const Counter = ({ onReady }) => {
         //     ? 'https://api.counterapi.dev/v1/karthigaiselvam-dev-portfolio/visits/'
         //     : 'https://api.counterapi.dev/v1/karthigaiselvam-dev-portfolio/visits/up'
         
-        // Use total visits (increment on every load)
-        const endpoint = 'https://api.counterapi.dev/v1/karthigaiselvam-dev-portfolio/visits/up'
+        // Use proxy endpoint in production (Vercel) to bypass adblockers
+        // Use direct API locally since Vite dev server doesn't host /api routes by default
+        const endpoint = import.meta.env.DEV 
+            ? 'https://api.counterapi.dev/v1/karthigaiselvam-dev-portfolio/visits/up'
+            : '/api/visits'
 
         fetch(endpoint)
             .then(res => res.json())
             .then(data => {
-                if (data && data.count) {
+                if (data && typeof data.count === 'number') {
                     targetLenRef.current = Math.max(6, data.count.toString().length)
-                    // if (!hasVisited) {
-                    //     localStorage.setItem('has_visited_portfolio', 'true')
-                    // }
                     setTimeout(() => {
                         clearInterval(glitchInterval)
                         setFinalCount(data.count)
                         const anim = animate(count, data.count, { duration: 0.4, ease: "easeOut" })
-                        // Wait for the number to finish spinning up, then signal ready
                         anim.then(() => {
                             if (onReady) onReady()
                         })
                     }, 1400)
+                } else {
+                    throw new Error("Invalid count data")
                 }
             })
             .catch(err => {
-                clearInterval(glitchInterval)
-                if (onReady) onReady()
+                // Ensure the glitch animation runs for at least 1.4s before failing gracefully
+                setTimeout(() => {
+                    clearInterval(glitchInterval)
+                    setFinalCount(0) // Fallback to 0
+                    const anim = animate(count, 0, { duration: 0.4, ease: "easeOut" })
+                    anim.then(() => {
+                        if (onReady) onReady()
+                    })
+                }, 1400)
             })
 
         return () => {
             clearInterval(glitchInterval)
         }
-    }, [count, onReady])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div style={{ 

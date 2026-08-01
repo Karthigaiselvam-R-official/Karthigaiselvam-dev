@@ -319,4 +319,16 @@
         gap: 16px;
         text-align: center;
     }
+
+    .copyright {
+        white-space: nowrap;
+        font-size: clamp(0.55rem, 2.9vw, 0.75rem) !important;
+        padding: 10px 14px;
+        letter-spacing: 0px;
+    }
+
+    .copyright:hover {
+        transform: scale(1.04) translateY(-2px);
+        letter-spacing: 0.3px;
+    }
 }
