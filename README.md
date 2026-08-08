@@ -153,7 +153,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 </p>
 
 <p align="center">
-  <strong>🔐 Engineered for Security. Crafted with Precision.</strong>
+  <em>Not a template. Not a clone. Built from scratch — where code meets identity.</em><br/>
+  <em>I am <a href="https://github.com/Karthigaiselvam-R-official"><strong>Karthigaiselvam R</strong></a> — this is my <strong>Digital Identity</strong>.</em>
 </p>
 
 <p align="center">
