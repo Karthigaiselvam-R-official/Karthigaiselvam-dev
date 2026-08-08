@@ -153,5 +153,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 </p>
 
 <p align="center">
-  <em>Built with 💚 and 💻 by <a href="https://github.com/Karthigaiselvam-R-official">Karthigaiselvam R</a></em>
+  <strong>🔐 Engineered for Security. Crafted with Precision.</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Karthigaiselvam-R-official">
+    <img src="https://img.shields.io/badge/GitHub-Karthigaiselvam--R-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+  <a href="https://www.linkedin.com/in/karthigaiselvam-r-7b9197258">
+    <img src="https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+  </a>
+</p>
+
+<p align="center">
+  <sub>If this project helped or inspired you — drop a ⭐ It means a lot.</sub>
 </p>
