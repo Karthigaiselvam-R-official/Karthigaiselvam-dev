@@ -147,9 +147,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=00ff88&labelColor=0d1117&logo=github" alt="Stars"/>
-  <img src="https://img.shields.io/github/forks/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=00ff88&labelColor=0d1117&logo=github" alt="Forks"/>
-  <img src="https://img.shields.io/github/issues/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=00ff88&labelColor=0d1117&logo=github" alt="Issues"/>
+  <img src="https://img.shields.io/github/stars/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=e6a817&labelColor=0d1117&logo=github" alt="Stars"/>
+  <img src="https://img.shields.io/github/forks/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=e6a817&labelColor=0d1117&logo=github" alt="Forks"/>
+  <img src="https://img.shields.io/github/issues/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=e6a817&labelColor=0d1117&logo=github" alt="Issues"/>
 </p>
 
 <p align="center">
