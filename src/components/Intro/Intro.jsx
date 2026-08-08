@@ -26,15 +26,16 @@ const Counter = ({ onReady }) => {
         // const endpoint = hasVisited 
         //     ? 'https://api.counterapi.dev/v1/karthigaiselvam-dev-portfolio/visits/'
         //     : 'https://api.counterapi.dev/v1/karthigaiselvam-dev-portfolio/visits/up'
-        
-        // Use proxy endpoint in production (Vercel) to bypass adblockers
-        // Use direct API locally since Vite dev server doesn't host /api routes by default
-        const endpoint = import.meta.env.DEV 
-            ? 'https://api.counterapi.dev/v1/karthigaiselvam-dev-portfolio/visits/up'
-            : '/api/visits'
 
-        fetch(endpoint)
-            .then(res => res.json())
+        // In production (Vercel): /api/visits hits our self-owned GitHub Gist counter.
+        // In local dev: vercel dev serves /api routes alongside the Vite frontend.
+        // 5s hard timeout — if the API hangs, abort and fall back gracefully
+        // so the intro never freezes on the name screen.
+        const controller = new AbortController()
+        const fetchTimeout = setTimeout(() => controller.abort(), 5000)
+
+        fetch('/api/visits', { signal: controller.signal })
+            .then(res => { clearTimeout(fetchTimeout); return res.json() })
             .then(data => {
                 if (data && typeof data.count === 'number') {
                     targetLenRef.current = Math.max(6, data.count.toString().length)
@@ -50,11 +51,12 @@ const Counter = ({ onReady }) => {
                     throw new Error("Invalid count data")
                 }
             })
-            .catch(err => {
-                // Ensure the glitch animation runs for at least 1.4s before failing gracefully
+            .catch(() => {
+                clearTimeout(fetchTimeout)
+                // Glitch runs for at least 1.4s then exits gracefully
                 setTimeout(() => {
                     clearInterval(glitchInterval)
-                    setFinalCount(0) // Fallback to 0
+                    setFinalCount(0)
                     const anim = animate(count, 0, { duration: 0.4, ease: "easeOut" })
                     anim.then(() => {
                         if (onReady) onReady()
@@ -63,6 +65,8 @@ const Counter = ({ onReady }) => {
             })
 
         return () => {
+            clearTimeout(fetchTimeout)
+            controller.abort()
             clearInterval(glitchInterval)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

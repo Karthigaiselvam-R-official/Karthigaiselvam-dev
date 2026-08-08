@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { useState, useEffect, lazy, Suspense, useCallback } from 'react'
 import Intro from './components/Intro/Intro'
 import Navbar from './components/Navbar/Navbar'
 import Hero from './components/Hero/Hero'
@@ -32,13 +32,16 @@ function App() {
         }
     }, [introComplete])
 
+    // Stable reference — inline arrow would reset Intro's exit timer on every render
+    const handleIntroComplete = useCallback(() => setIntroComplete(true), [])
+
     return (
         <div className={styles.app}>
             {/* Global Custom Cursor */}
             <CustomCursor />
 
             {/* Full-Screen Intro Animation */}
-            {!introComplete && <Intro onComplete={() => setIntroComplete(true)} />}
+            {!introComplete && <Intro onComplete={handleIntroComplete} />}
 
             <div className="bg-glow"></div>
             <Navbar />
