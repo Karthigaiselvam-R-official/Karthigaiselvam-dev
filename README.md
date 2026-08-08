@@ -46,6 +46,10 @@ A highly interactive, cyber-security themed portfolio website built to showcase 
     - **Experience Timeline**: Vertical interactive timeline connecting internships to LinkedIn posts.
     - **Achievement Carousel**: Auto-playing image gallery for hackathon wins and certifications.
     - **Project Hub**: GitHub API integration to fetch and display live repository statistics.
+- **👁️ Self-Owned Visitor Counter**:
+    - Counts total visitors with a glitch-effect animation on the intro screen.
+    - Backed by a **private GitHub Gist** — zero third-party dependency, no service can shut it down.
+    - Served via a Vercel Serverless Function to keep the GitHub token off the browser.
 
 ## 🛠️ Tech Stack
 
@@ -69,12 +73,25 @@ A highly interactive, cyber-security themed portfolio website built to showcase 
    npm install
    ```
 
-3. **Start local server**
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   # Fill in your values — see .env.example for instructions
+   ```
+
+4. **Start local server**
+
+   **Option A** — Full dev (frontend + visitor counter API):
+   ```bash
+   npx vercel dev
+   ```
+
+   **Option B** — Frontend only (counter shows `000000`, intro still exits normally):
    ```bash
    npm run dev
    ```
 
-4. **Build for production**
+5. **Build for production**
    ```bash
    npm run build
    ```
@@ -82,10 +99,13 @@ A highly interactive, cyber-security themed portfolio website built to showcase 
 ## 📁 Project Structure
 
 ```bash
+api/
+└── visits.js         # Serverless function — self-owned visitor counter via GitHub Gist
 src/
 ├── components/
 │   ├── Navbar/       # Responsive navigation with 'terminal' style
 │   ├── Hero/         # 3D interactive landing section
+│   ├── Intro/        # Animated intro screen with live visitor counter
 │   ├── About/        # Profile & Achievements with Carousel
 │   ├── Experience/   # Vertical Professional Timeline
 │   ├── Projects/     # GitHub API integrated project cards
@@ -95,6 +115,22 @@ src/
 │   └── global.css    # Cyber-theme variables & animations
 └── main.jsx          # Entry point
 ```
+
+## 🔑 Environment Variables
+
+Copy `.env.example` to `.env.local` and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+| Variable | Description |
+|---|---|
+| `GITHUB_GIST_TOKEN` | GitHub PAT with `gist` scope — used by the visitor counter |
+| `GITHUB_GIST_ID` | ID of your private Gist (`visitor-count.json`) |
+| `VITE_GITHUB_TOKEN` | GitHub PAT for fetching live repo stats in the Projects section |
+
+See `.env.example` for full setup instructions. For production, add these to **Vercel → Settings → Environment Variables**.
 
 ## 📧 Contact Configuration
 
@@ -109,4 +145,13 @@ To make the contact form work in your own fork:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-*Built with 💚 and 💻 by [Karthigaiselvam R](https://github.com/Karthigaiselvam-R-official)*
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=00ff88&labelColor=0d1117&logo=github" alt="Stars"/>
+  <img src="https://img.shields.io/github/forks/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=00ff88&labelColor=0d1117&logo=github" alt="Forks"/>
+  <img src="https://img.shields.io/github/issues/Karthigaiselvam-R-official/Karthigaiselvam-dev?style=for-the-badge&color=00ff88&labelColor=0d1117&logo=github" alt="Issues"/>
+</p>
+
+<p align="center">
+  <em>Built with 💚 and 💻 by <a href="https://github.com/Karthigaiselvam-R-official">Karthigaiselvam R</a></em>
+</p>
