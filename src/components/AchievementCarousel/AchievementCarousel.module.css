@@ -61,7 +61,7 @@
 .achievementDescription {
     font-size: 0.76rem;
     line-height: 1.7;
-    color: #ffd700;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 /* 3D Carousel */
@@ -115,7 +115,7 @@
 
 .place {
     font-size: 0.88rem;
-    color: #ffd700;
+    color: rgba(255, 255, 255, 0.65);
     font-weight: 600;
 }
 
