@@ -28,21 +28,22 @@ const achievements = [
         prize: '₹5,00,000 Cash Prize',
         description: "Secured 1st place at PSB's Cybersecurity Hackathon 2026 — a national-level initiative by Punjab National Bank in collaboration with IIT Kanpur, powered by the Department of Financial Services (Ministry of Finance) and Indian Bank Association (IBA). Built Resilience-Q Guard, an enterprise-wide software scanner that validates deployment of quantum-proof ciphers and generates a cryptographic bill of materials inventory for public-facing banking applications — defending the financial sector against the emerging quantum threat.",
         images: [
-            '/images/Pnb1.jpeg',
-            '/images/Pnb2.jpeg',
-            '/images/Pnb3.jpeg',
-            '/images/Pnb4.jpeg',
-            '/images/Pnb5.jpeg',
-            '/images/Pnb6.jpeg',
-            '/images/Pnb7.jpeg',
-            '/images/Pnb8.jpeg',
-            '/images/Pnb9.jpeg',
+            '/images/Pnb01.jpeg',
+            '/images/Pnb02.jpeg',
+            '/images/Pnb03.jpeg',
+            '/images/Pnb04.jpeg',
+            '/images/Pnb05.jpeg',
+            '/images/Pnb06.jpeg',
+            '/images/Pnb07.jpeg',
+            '/images/Pnb08.jpeg',
+            '/images/Pnb09.jpeg',
             '/images/Pnb10.jpeg',
             '/images/Pnb11.jpeg',
             '/images/Pnb12.jpeg',
         ],
         link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_cybersecurity-softwareengineering-resilienceqguard-activity-7502039527826526208-cXm6',
-        color: '#FFD700'
+        color: '#FFD700',
+        secondaryColor: '#00ff88' // Green to contrast with Yellow
     },
     {
         title: 'Hack4Purpose 2024',
@@ -56,7 +57,8 @@ const achievements = [
             '/images/hack4purpose_4.png'
         ],
         link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_hello-everyone-i-am-thrilled-to-activity-7240367648004300802-xcs7',
-        color: '#00ff88'
+        color: '#00ff88',
+        secondaryColor: '#ffd700' // Yellow (original behavior)
     },
     {
         title: 'IIIT-Delhi Pitch-Cafe 7.0',
@@ -69,7 +71,8 @@ const achievements = [
             '/images/pitchcafe_3.png'
         ],
         link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_im-pleased-to-announce-that-our-team-achieved-activity-7240364228069441537-H7Wm',
-        color: '#00d4ff'
+        color: '#00d4ff',
+        secondaryColor: '#ffd700' // Yellow
     },
     {
         title: 'Y2E Ideathon',
@@ -83,7 +86,8 @@ const achievements = [
             '/images/y2e_4.png'
         ],
         link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_entrepreneurship-cybersecurity-innovation-activity-7240362391954186240--oqp',
-        color: '#bd00ff'
+        color: '#bd00ff',
+        secondaryColor: '#ffd700' // Yellow
     }
 ]
 
@@ -96,21 +100,20 @@ const AchievementCarousel = () => {
     const currentAchievement = achievements[activeAchievement]
     const currentImages = currentAchievement.images
 
-    // Auto-rotate achievements every 6 seconds (pause when lightbox open)
+    // Unified timer: Auto-rotate images every 2s, and move to next achievement when images run out
     useEffect(() => {
         if (lightboxOpen) return
         const interval = setInterval(() => {
-            setActiveAchievement((prev) => (prev + 1) % achievements.length)
-            setImageIndex(0)
-        }, 6000)
-        return () => clearInterval(interval)
-    }, [lightboxOpen])
-
-    // Auto-rotate images within current achievement every 2 seconds
-    useEffect(() => {
-        if (lightboxOpen) return
-        const interval = setInterval(() => {
-            setImageIndex((prev) => (prev + 1) % currentImages.length)
+            setImageIndex((prevIndex) => {
+                // If we reached the last image in the current achievement
+                if (prevIndex + 1 >= currentImages.length) {
+                    // Move to next achievement
+                    setActiveAchievement((prevAch) => (prevAch + 1) % achievements.length)
+                    return 0 // Reset image index for the new achievement
+                }
+                // Otherwise just move to next image
+                return prevIndex + 1
+            })
         }, 2000)
         return () => clearInterval(interval)
     }, [activeAchievement, currentImages.length, lightboxOpen])
@@ -186,7 +189,7 @@ const AchievementCarousel = () => {
                                 <Trophy />
                                 <h3 style={{ color: currentAchievement.color }}>{currentAchievement.title}</h3>
                             </div>
-                            <p className={styles.achievementDescription}>
+                            <p className={styles.achievementDescription} style={{ color: currentAchievement.secondaryColor }}>
                                 {currentAchievement.description}
                             </p>
                         </motion.div>
@@ -263,7 +266,7 @@ const AchievementCarousel = () => {
                             transition={{ duration: 0.4 }}
                         >
                             <div className={styles.achievementStats}>
-                                <span className={styles.place}>{currentAchievement.place}</span>
+                                <span className={styles.place} style={{ color: currentAchievement.secondaryColor }}>{currentAchievement.place}</span>
                                 <span className={styles.prize} style={{ color: currentAchievement.color }}>
                                     {currentAchievement.prize}
                                 </span>
