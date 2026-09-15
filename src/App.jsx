@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense, useCallback } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import Intro from './components/Intro/Intro'
 import Navbar from './components/Navbar/Navbar'
 import Hero from './components/Hero/Hero'
@@ -39,6 +40,9 @@ function App() {
         <div className={styles.app}>
             {/* Global Custom Cursor */}
             <CustomCursor />
+
+            {/* Vercel Analytics — page view tracking */}
+            <Analytics />
 
             {/* Full-Screen Intro Animation */}
             {!introComplete && <Intro onComplete={handleIntroComplete} />}
