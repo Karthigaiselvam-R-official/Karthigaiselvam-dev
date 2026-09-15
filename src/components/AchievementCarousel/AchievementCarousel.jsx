@@ -23,7 +23,28 @@ const CloseIcon = () => (
 // Achievements Data
 const achievements = [
     {
-        id: 0,
+        title: "PSB's Cybersecurity Hackathon 2026",
+        place: 'National Champions (1st Prize)',
+        prize: '₹5,00,000 Cash Prize',
+        description: "Secured 1st place at PSB's Cybersecurity Hackathon 2026 — a national-level initiative by Punjab National Bank in collaboration with IIT Kanpur, powered by the Department of Financial Services (Ministry of Finance) and Indian Bank Association (IBA). Built Resilience-Q Guard, an enterprise-wide software scanner that validates deployment of quantum-proof ciphers and generates a cryptographic bill of materials inventory for public-facing banking applications — defending the financial sector against the emerging quantum threat.",
+        images: [
+            '/images/Pnb1.jpeg',
+            '/images/Pnb2.jpeg',
+            '/images/Pnb3.jpeg',
+            '/images/Pnb4.jpeg',
+            '/images/Pnb5.jpeg',
+            '/images/Pnb6.jpeg',
+            '/images/Pnb7.jpeg',
+            '/images/Pnb8.jpeg',
+            '/images/Pnb9.jpeg',
+            '/images/Pnb10.jpeg',
+            '/images/Pnb11.jpeg',
+            '/images/Pnb12.jpeg',
+        ],
+        link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_cybersecurity-softwareengineering-resilienceqguard-activity-7502039527826526208-cXm6',
+        color: '#FFD700'
+    },
+    {
         title: 'Hack4Purpose 2024',
         place: 'Top 100 Winning Teams',
         prize: 'National Level Recognition',
@@ -38,7 +59,6 @@ const achievements = [
         color: '#00ff88'
     },
     {
-        id: 1,
         title: 'IIIT-Delhi Pitch-Cafe 7.0',
         place: 'First Runner-up (2nd)',
         prize: '₹20,000 Cash Prize',
@@ -52,7 +72,6 @@ const achievements = [
         color: '#00d4ff'
     },
     {
-        id: 2,
         title: 'Y2E Ideathon',
         place: 'First Runner-up (2nd)',
         prize: '₹10,000 Cash Prize',
