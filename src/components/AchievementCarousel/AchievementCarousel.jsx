@@ -42,8 +42,8 @@ const achievements = [
             '/images/Pnb12.jpeg',
         ],
         link: 'https://www.linkedin.com/posts/karthigaiselvam-r-7b9197258_cybersecurity-softwareengineering-resilienceqguard-activity-7502039527826526208-cXm6',
-        color: '#FFD700',
-        secondaryColor: '#00ff88' // Green to contrast with Yellow
+        color: '#4d96ff', // Cyber/Security Blue - Perfect for a banking cybersecurity hackathon
+        secondaryColor: '#FFD700' // Gold for Description & Place
     },
     {
         title: 'Hack4Purpose 2024',

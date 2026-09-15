@@ -56,6 +56,7 @@
     font-size: 1.12rem;
     font-weight: 700;
     margin: 0;
+    white-space: nowrap;
 }
 
 .achievementDescription {
@@ -236,6 +237,10 @@
 
     .achievementHeader {
         justify-content: center;
+    }
+
+    .achievementHeader h3 {
+        white-space: normal;
     }
 
     .carousel3D {
